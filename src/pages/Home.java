@@ -5,6 +5,7 @@
 package pages;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import javax.swing.JFrame;
 
 /**
@@ -12,8 +13,14 @@ import javax.swing.JFrame;
  * @author lugas
  */
 public class Home extends javax.swing.JFrame {
-
-                Registrasi reg = new Registrasi();
+    Pemeriksaan pemeriksaan = new Pemeriksaan();
+    Registrasi registrasi = new Registrasi();
+    Welcome welcome = new Welcome();
+    Anamnesa anamnesa = new Anamnesa();
+    Resep resep = new Resep();
+    Pasien pasien = new Pasien();
+    Dokter dokter = new Dokter();
+    
     /**
      * Creates new form Home
      */
@@ -21,9 +28,9 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        body.add(reg);
-//        body.setVisible(true);
-           reg.setVisible(true);
+        body.add(welcome, "card2");
+        body.setVisible(true);
+        welcome.setVisible(true);        
     }
 
     /**
@@ -38,12 +45,12 @@ public class Home extends javax.swing.JFrame {
         header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         mainMenu = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        regBtn = new javax.swing.JButton();
+        anamnesaBtn = new javax.swing.JButton();
+        pmrBtn = new javax.swing.JButton();
+        obatBtn = new javax.swing.JButton();
+        psnBtn = new javax.swing.JButton();
+        dokBtn = new javax.swing.JButton();
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,16 +68,14 @@ public class Home extends javax.swing.JFrame {
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(576, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1211, Short.MAX_VALUE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
@@ -79,34 +84,69 @@ public class Home extends javax.swing.JFrame {
         mainMenu.setPreferredSize(new java.awt.Dimension(200, 469));
         mainMenu.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
 
-        jButton3.setText("Registrasi Pasien");
-        jButton3.setPreferredSize(new java.awt.Dimension(150, 23));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        regBtn.setText("Registrasi Pasien");
+        regBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        regBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                regBtnActionPerformed(evt);
             }
         });
-        mainMenu.add(jButton3);
+        mainMenu.add(regBtn);
 
-        jButton2.setText("Anamnesa");
-        jButton2.setPreferredSize(new java.awt.Dimension(150, 23));
-        mainMenu.add(jButton2);
+        anamnesaBtn.setText("Anamnesa");
+        anamnesaBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        anamnesaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                anamnesaBtnMouseClicked(evt);
+            }
+        });
+        anamnesaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anamnesaBtnActionPerformed(evt);
+            }
+        });
+        mainMenu.add(anamnesaBtn);
 
-        jButton4.setText("Pemeriksaan");
-        jButton4.setPreferredSize(new java.awt.Dimension(150, 23));
-        mainMenu.add(jButton4);
+        pmrBtn.setText("Pemeriksaan");
+        pmrBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        pmrBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pmrBtnMouseClicked(evt);
+            }
+        });
+        pmrBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pmrBtnActionPerformed(evt);
+            }
+        });
+        mainMenu.add(pmrBtn);
 
-        jButton5.setText("Resep Obat");
-        jButton5.setPreferredSize(new java.awt.Dimension(150, 23));
-        mainMenu.add(jButton5);
+        obatBtn.setText("Resep Obat");
+        obatBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        obatBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                obatBtnActionPerformed(evt);
+            }
+        });
+        mainMenu.add(obatBtn);
 
-        jButton6.setText("Daftar Pasien");
-        jButton6.setPreferredSize(new java.awt.Dimension(150, 23));
-        mainMenu.add(jButton6);
+        psnBtn.setText("Daftar Pasien");
+        psnBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        psnBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                psnBtnActionPerformed(evt);
+            }
+        });
+        mainMenu.add(psnBtn);
 
-        jButton7.setText("Daftar Dokter");
-        jButton7.setPreferredSize(new java.awt.Dimension(150, 23));
-        mainMenu.add(jButton7);
+        dokBtn.setText("Daftar Dokter");
+        dokBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        dokBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dokBtnActionPerformed(evt);
+            }
+        });
+        mainMenu.add(dokBtn);
 
         getContentPane().add(mainMenu, java.awt.BorderLayout.LINE_START);
 
@@ -116,9 +156,74 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void clearAllPanel() {
+        pemeriksaan.setVisible(false);      
+        registrasi.setVisible(false);      
+        welcome.setVisible(false);      
+        anamnesa.setVisible(false);
+        resep.setVisible(false);
+        pasien.setVisible(false);
+        dokter.setVisible(false);
+    }
+    
+    private void regBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBtnActionPerformed
+        this.clearAllPanel();
+        pemeriksaan.setVisible(false);      
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+        body.add(registrasi, "card2");
+        body.setVisible(true);
+        registrasi.setVisible(true);
+    }//GEN-LAST:event_regBtnActionPerformed
+
+    private void pmrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pmrBtnActionPerformed
+        this.clearAllPanel();
+                
+        body.add(pemeriksaan, "card2");
+        body.setVisible(true);
+        pemeriksaan.setVisible(true);        
+    }//GEN-LAST:event_pmrBtnActionPerformed
+
+    private void pmrBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pmrBtnMouseClicked
+    }//GEN-LAST:event_pmrBtnMouseClicked
+
+    private void anamnesaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anamnesaBtnMouseClicked
+        this.clearAllPanel();
+        
+        body.add(anamnesa, "card2");
+        body.setVisible(true);
+        anamnesa.setVisible(true);
+    }//GEN-LAST:event_anamnesaBtnMouseClicked
+
+    private void anamnesaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anamnesaBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_anamnesaBtnActionPerformed
+
+    private void obatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obatBtnActionPerformed
+        // TODO add your handling code here:
+        this.clearAllPanel();
+        
+        body.add(resep, "card2");
+        body.setVisible(true);
+        resep.setVisible(true);
+    }//GEN-LAST:event_obatBtnActionPerformed
+
+    private void psnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psnBtnActionPerformed
+        // TODO add your handling code here:
+        this.clearAllPanel();
+        
+        body.add(pasien, "card2");
+        body.setVisible(true);
+        pasien.setVisible(true);
+    }//GEN-LAST:event_psnBtnActionPerformed
+
+    private void dokBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dokBtnActionPerformed
+        // TODO add your handling code here:
+        this.clearAllPanel();
+        
+        body.add(dokter, "card2");
+        body.setVisible(true);
+        dokter.setVisible(true);
+    }//GEN-LAST:event_dokBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,15 +261,15 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton anamnesaBtn;
     private javax.swing.JPanel body;
+    private javax.swing.JButton dokBtn;
     private javax.swing.JPanel header;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel mainMenu;
+    private javax.swing.JButton obatBtn;
+    private javax.swing.JButton pmrBtn;
+    private javax.swing.JButton psnBtn;
+    private javax.swing.JButton regBtn;
     // End of variables declaration//GEN-END:variables
 }
