@@ -229,7 +229,7 @@ public class Dokter extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, e.getMessage());                                   
         }
         
-        updateTable();
+        resetFormToCreate();
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked

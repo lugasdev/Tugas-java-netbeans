@@ -98,4 +98,37 @@ public class Doctor {
             throw new Exception(e);
         }
     }
+    
+    
+    
+    public ResultSet getActiveDoctor() throws Exception {
+        String query = "select * from doctors where stat = 1";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }    
+    
+    public int getCountActiveDoctor() throws Exception {
+        int count = 0;
+        String query = "select count(*) as c from doctors where stat = 1";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                count = rs.getInt("c");
+            }
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+        
+        return count;
+    }
 }

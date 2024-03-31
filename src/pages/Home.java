@@ -168,8 +168,7 @@ public class Home extends javax.swing.JFrame {
     
     private void regBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBtnActionPerformed
         this.clearAllPanel();
-        pemeriksaan.setVisible(false);      
-
+        
         body.add(registrasi, "card2");
         body.setVisible(true);
         registrasi.setVisible(true);
