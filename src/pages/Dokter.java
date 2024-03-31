@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Dokter extends javax.swing.JPanel {
     
+    private int doctorId = 0;
     private models.Doctor doctorModel = new models.Doctor();
 
     /**
@@ -24,6 +25,9 @@ public class Dokter extends javax.swing.JPanel {
         initComponents();
         
         updateTable();
+        
+        updateBtn.setEnabled(false);
+        deleteBtn.setEnabled(false);
     }
     
     private void updateTable() {
@@ -34,7 +38,6 @@ public class Dokter extends javax.swing.JPanel {
             ResultSet doctors = doctorModel.get();
 
             while (doctors.next()) {
-                System.out.println(doctors.getString("stat"));
                 String stat = "Tidak Aktif";
                 if ("1".equals(doctors.getString("stat"))) {
                     stat = "Aktif";                    
@@ -48,6 +51,7 @@ public class Dokter extends javax.swing.JPanel {
                 RecordTable.addRow(column);
             }            
         } catch (Exception e) {
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
@@ -69,11 +73,13 @@ public class Dokter extends javax.swing.JPanel {
         inputName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         inputStat = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        addBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         inputClinic = new javax.swing.JComboBox<>();
+        updateBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -94,10 +100,10 @@ public class Dokter extends javax.swing.JPanel {
 
         inputStat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tidak Aktif", "Aktif" }));
 
-        jButton1.setText("Simpan");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addBtn.setText("Add");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addBtnActionPerformed(evt);
             }
         });
 
@@ -108,12 +114,46 @@ public class Dokter extends javax.swing.JPanel {
             new String [] {
                 "#", "Nama", "Clinic", "Status"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel4.setText("Poli");
 
         inputClinic.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Poli Umum", "Poli Gigi", "Poli Anak", "Poli Kebidanan & Kandungan" }));
+
+        updateBtn.setText("Update");
+        updateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateBtnActionPerformed(evt);
+            }
+        });
+
+        deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -135,7 +175,12 @@ public class Dokter extends javax.swing.JPanel {
                                 .addGap(51, 51, 51)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(inputClinic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(addBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(updateBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteBtn))
                             .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(inputStat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
@@ -156,7 +201,10 @@ public class Dokter extends javax.swing.JPanel {
                     .addComponent(inputStat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addBtn)
+                    .addComponent(updateBtn)
+                    .addComponent(deleteBtn))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(32, Short.MAX_VALUE))
@@ -165,8 +213,7 @@ public class Dokter extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         String name = inputName.getText();
         String clinic = String.valueOf(inputClinic.getSelectedItem());
         int stat = inputStat.getSelectedIndex();
@@ -183,14 +230,115 @@ public class Dokter extends javax.swing.JPanel {
         }
         
         updateTable();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_addBtnActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+            System.out.println("jTable1MouseClicked");
+            int row = jTable1.rowAtPoint(evt.getPoint());
+            int col = jTable1.columnAtPoint(evt.getPoint());
+
+            System.out.println(row);
+            System.out.println(col);        
+            
+            String id = jTable1.getValueAt(row, 0).toString();
+            
+            System.out.println(id);
+            updateFormToUpdate(id);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void updateFormToUpdate(String id) {
+        
+        try {
+            ResultSet doctor = doctorModel.get(Integer.parseInt(id));
+            
+            while (doctor.next()) {
+                System.out.println(doctor.getString("id"));
+                System.out.println(doctor.getString("name"));                            
+                System.out.println(doctor.getString("clinic"));                            
+                System.out.println(doctor.getString("stat"));                            
+                
+                doctorId = Integer.parseInt(doctor.getString("id"));
+                inputName.setText(doctor.getString("name"));
+                
+                int clinicSelectCount = inputClinic.getItemCount();
+                for (int i = 0; i < clinicSelectCount; i++) {
+                    if (doctor.getString("clinic").equals(inputClinic.getItemAt(i))) {
+                        System.out.println(inputClinic.getItemAt(i));  
+                        inputClinic.setSelectedIndex(i);
+                    }
+                }
+                
+                inputStat.setSelectedIndex(0);
+                if (doctor.getString("stat").equals("1")) {
+                    inputStat.setSelectedIndex(1);
+                } 
+            }
+            
+            addBtn.setEnabled(false);
+            updateBtn.setEnabled(true);
+            deleteBtn.setEnabled(true);
+        } catch (Exception e) {
+            System.out.println(e);
+            
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
+        String name = inputName.getText();
+        String clinic = String.valueOf(inputClinic.getSelectedItem());
+        int stat = inputStat.getSelectedIndex();
+        
+        try {
+            doctorModel.update(doctorId, name, clinic, stat);
+            
+            JOptionPane.showMessageDialog(null, "Dokter diupdate");                       
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+        }
+        
+        resetFormToCreate();
+    }//GEN-LAST:event_updateBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(null, "Hapus Dokter?");
+            
+        System.out.println("showConfirmDialog");
+        System.out.println(confirm);
+        if (confirm == 0) {
+            try {
+                doctorModel.delete(doctorId);
+
+                JOptionPane.showMessageDialog(null, "Dokter dihapus");                       
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, e.getMessage());                                   
+            }            
+            resetFormToCreate();
+        }
+
+    }//GEN-LAST:event_deleteBtnActionPerformed
+    
+    private void resetFormToCreate() {
+        updateTable();
+        
+        inputName.setText("");
+        addBtn.setEnabled(true);
+        updateBtn.setEnabled(false);
+        deleteBtn.setEnabled(false);
+        doctorId = 0; 
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addBtn;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JComboBox<String> inputClinic;
     private javax.swing.JTextField inputName;
     private javax.swing.JComboBox<String> inputStat;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -199,5 +347,6 @@ public class Dokter extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
 }

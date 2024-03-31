@@ -40,7 +40,17 @@ public class User {
             System.out.println(e);
             
             errMessage = "Mysql Connection Failed: " + e;
+        } finally {
+//            try {
+//                if (conn != null) {
+//                    System.out.println("Connection closed");
+//                    conn.close();
+//                }
+//            } catch (SQLException e) {
+//                System.out.println(e);
+//            }            
         }
+        
 
         if (errMessage != "") {
             throw new Exception(errMessage);

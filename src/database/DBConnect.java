@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package database;
+import java.nio.file.Paths;
 import java.sql.*;
 
 /**
@@ -10,7 +11,9 @@ import java.sql.*;
  * @author lugas
  */
 public class DBConnect {
+    
     private Connection conn;
+    
     public Connection connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -33,4 +36,26 @@ public class DBConnect {
         return conn;
     }
 
+//    public Connection connect() {
+//        String path = System.getProperty("user.dir");
+//        try {
+//            String url = "jdbc:sqlite:"+ path +"/src/database/clinic.db";
+//            
+//            conn = DriverManager.getConnection(url);
+//            
+//            System.out.println("Connection to sqlite OK");
+//        } catch (SQLException e) {
+//            System.out.println(e);
+//        } finally {
+////            try {
+////                if (conn != null) {
+////                    conn.close();
+////                }
+////            } catch (SQLException e) {
+////                System.out.println(e);
+////            }
+//        }
+//        
+//        return conn;
+//    }
 }

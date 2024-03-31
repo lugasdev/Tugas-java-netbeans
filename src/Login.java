@@ -158,6 +158,7 @@ public class Login extends javax.swing.JFrame {
             this.dispose();       
             new Home().setVisible(true);
         } catch (Exception e) {
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
             new Home().setVisible(false);
             

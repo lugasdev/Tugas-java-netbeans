@@ -38,22 +38,62 @@ public class Doctor {
         return id;
     }
     
-    public ResultSet get() throws Exception {
+    public boolean update (int id, String name, String clinic, int stat) throws Exception {
+        String query = "update doctors set name = ?, clinic = ?, stat = ? where id = ? ";
         
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, name);
+            stmt.setString(2, clinic);
+            stmt.setInt(3, stat);
+            stmt.setInt(4, id);
+            
+            stmt.executeUpdate();            
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+        
+        return true;
+    }
+    
+    public boolean delete (int id) throws Exception {
+        String query = "delete from doctors where id = ?";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);            
+            stmt.setInt(1, id);
+            
+            stmt.execute();
+        } catch (Exception e) {
+            throw new Exception(e);            
+        }
+        
+        return true;
+    }
+    
+    public ResultSet get() throws Exception {
         String query = "select * from doctors";
         
         try {
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
-//            ResultSetMetaData meta = rs.getMetaData();
+
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+    
+    public ResultSet get(int id) throws Exception {
+        String query = "select * from doctors where id = ?";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, String.valueOf(id));
+            
+            ResultSet rs = stmt.executeQuery();
             
             return rs;
-            
-//            int count = meta.getColumnCount();
-//
-//            String[] resData = new String[count];
-           
-            
         } catch (Exception e) {
             throw new Exception(e);
         }
