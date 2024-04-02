@@ -102,7 +102,7 @@ public class Doctor {
     
     
     public ResultSet getActiveDoctor() throws Exception {
-        String query = "select * from doctors where stat = 1";
+        String query = "select * from doctors where stat = 1 order by name";
         
         try {
             PreparedStatement stmt = conn.prepareStatement(query);

@@ -4,6 +4,9 @@
  */
 package pages;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,6 +14,8 @@ import java.sql.*;
  */
 public class Registrasi extends javax.swing.JPanel {
     private models.Doctor doctorModel = new models.Doctor();
+    private models.Patient patientModel = new models.Patient();
+    private models.Registration registrationModel = new models.Registration();
 
     /**
      * Creates new form Registrasi
@@ -20,6 +25,15 @@ public class Registrasi extends javax.swing.JPanel {
         
         updateDoctorList();
         
+        LocalDateTime dateNowObj = LocalDateTime.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        
+        String dateNow = dateNowObj.format(dateFormatter);
+        String timeNow = dateNowObj.format(timeFormatter);
+        
+        inputRegDate.setText(dateNow);
+        inputRegTime.setText(timeNow);
     }
     
     private void updateDoctorList() {
@@ -31,20 +45,15 @@ public class Registrasi extends javax.swing.JPanel {
             int i = 0;            
             while(doctors.next()) {
                 System.out.println(doctors.getString("name"));
-                activeDoctorName[i] = doctors.getString("name") + " - " + doctors.getString("clinic");
+                activeDoctorName[i] = doctors.getString("name") + " - " + doctors.getString("clinic") + " - " + doctors.getString("id");
                 
                 i++;
             }
             
-
             inputDoctor.setModel(new javax.swing.DefaultComboBoxModel<>(activeDoctorName));        
-            
         } catch (Exception e) {
             System.out.println(e);
         }
-        
-        
-        
     }
 
     /**
@@ -81,6 +90,9 @@ public class Registrasi extends javax.swing.JPanel {
         inputDoctor = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         inputNIK = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -106,9 +118,9 @@ public class Registrasi extends javax.swing.JPanel {
 
         jLabel10.setText("Tanggal Lahir");
 
-        inputGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laki-laki", "Perempuan" }));
+        inputGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laki-Laki", "Perempuan" }));
 
-        inputDOB.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("d/M/yyyy"))));
+        inputDOB.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         inputAddress.setColumns(20);
         inputAddress.setRows(5);
@@ -121,13 +133,13 @@ public class Registrasi extends javax.swing.JPanel {
             }
         });
 
-        inputRegDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("d/M/yyyy"))));
+        inputRegDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         jLabel11.setText("Tanggal Pemeriksaan");
 
         jLabel2.setText("Waktu Pemeriksaan");
 
-        inputRegTime.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        inputRegTime.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("HH:mm"))));
 
         jLabel3.setText("Gol. Darah");
 
@@ -136,6 +148,18 @@ public class Registrasi extends javax.swing.JPanel {
         jLabel12.setText("Dokter");
 
         jLabel4.setText("Nomor Identitas");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setText("format: dd/mm/yyyy | contoh: 30/04/1990");
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel13.setText("format: dd/mm/yyyy | contoh: 30/04/1990");
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel14.setText("format: hh:ii | contoh: 23:02");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -155,20 +179,29 @@ public class Registrasi extends javax.swing.JPanel {
                         .addComponent(jLabel12)
                         .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(jLabel4))
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(inputRegTime, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(inputRegTime, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel14))
                     .addComponent(inputBloodType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(inputDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5))
                     .addComponent(inputGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputRegDate, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(inputRegDate, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13))
                     .addComponent(inputNIK, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(98, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel10, jLabel6, jLabel7, jLabel8, jLabel9});
@@ -191,7 +224,8 @@ public class Registrasi extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(inputDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
@@ -210,11 +244,15 @@ public class Registrasi extends javax.swing.JPanel {
                     .addComponent(inputDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inputRegDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(inputRegDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel13))
                     .addComponent(jLabel11))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inputRegTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(inputRegTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel14))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
@@ -225,9 +263,47 @@ public class Registrasi extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String nik = inputNIK.getText();
+        String name = inputName.getText();
+        String genderString = inputGender.getSelectedItem().toString();
+        String gender = genderString == "Perempuan" ? "2" : "1";
+        String dob = inputDOB.getText();
+        String[] dobSplit = dob.split("/");
+        String address = inputAddress.getText();
+        String phone = inputPhone.getText();
+        String bloodType = inputBloodType.getSelectedItem().toString();
+        
+        String doctor = inputDoctor.getSelectedItem().toString();
+        String[] doctorSplit = doctor.split("-");
+        String regDateInput = inputRegDate.getText();
+        String[] regDateSplit = regDateInput.split("/");
+        String regTime = inputRegTime.getText();
+        
+        String regDate = regDateSplit[2] +"-"+ regDateSplit[1] +"-"+ regDateSplit[0] + " " + regTime + ":00";
+        String doctorId = doctorSplit[2].trim();
+        
+        try {
+            int patientId = patientModel.create(nik, name, Integer.parseInt(gender), dobSplit[2] +"-"+ dobSplit[1] +"-"+ dobSplit[0], address, phone, bloodType);            
+            System.out.println("patient id: " + patientId);
+                        
+            int registrationId = registrationModel.create(Integer.parseInt(doctorId), patientId, regDate);
+            System.out.println("registrationId: " + registrationId);
+            
+            JOptionPane.showMessageDialog(null, "Registrasi berhasil");    
+            resetForm();
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void resetForm() {
+        inputNIK.setText("");
+        inputName.setText("");
+        inputDOB.setText("");        
+        inputAddress.setText("");        
+        inputPhone.setText("");        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea inputAddress;
@@ -245,9 +321,12 @@ public class Registrasi extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
