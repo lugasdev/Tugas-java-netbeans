@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package database;
+import java.io.FileInputStream;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.Properties;
 
 /**
  *
@@ -15,6 +13,26 @@ public class DBConnect {
     private Connection conn;
     
     public Connection connect() {
+        String url = "";
+        String user = "";
+        String password = "";
+        try {
+            String configFilePath = "src/config.properties";
+            FileInputStream propsInput = new FileInputStream(configFilePath);
+            Properties prop = new Properties();
+            prop.load(propsInput);
+
+            System.out.println(prop.getProperty("DB_URL"));            
+            System.out.println(prop.getProperty("DB_USERNAME"));            
+            System.out.println(prop.getProperty("DB_PASSWORD"));            
+            
+            url = prop.getProperty("DB_URL");
+            user = prop.getProperty("DB_USERNAME");
+            password = prop.getProperty("DB_PASSWORD");
+        } catch (Exception e) {
+            System.out.println("Properties Failed: " + e);            
+        }
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("OK");
@@ -22,13 +40,9 @@ public class DBConnect {
             System.out.println("Gagal " + e);
         }
 
-        String url = "jdbc:mysql://localhost:3306/tugas_poliklinik";
-        String user = "root";
-        String password = "root";
-
         try {
             conn = DriverManager.getConnection(url, user, password);
-            System.out.println("conn OK");
+            System.out.println("DB connected");
         } catch (Exception e) {
             System.out.println("gagal conn " + e);
         }
