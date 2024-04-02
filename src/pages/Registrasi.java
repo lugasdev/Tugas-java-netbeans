@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package pages;
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -16,6 +12,9 @@ public class Registrasi extends javax.swing.JPanel {
     private models.Doctor doctorModel = new models.Doctor();
     private models.Patient patientModel = new models.Patient();
     private models.Registration registrationModel = new models.Registration();
+    Pasien pasien = new Pasien();
+
+    private boolean isPatientExist = false;
 
     /**
      * Creates new form Registrasi
@@ -148,6 +147,12 @@ public class Registrasi extends javax.swing.JPanel {
         jLabel12.setText("Dokter");
 
         jLabel4.setText("Nomor Identitas");
+
+        inputNIK.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputNIKFocusLost(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
@@ -291,11 +296,22 @@ public class Registrasi extends javax.swing.JPanel {
             
             JOptionPane.showMessageDialog(null, "Registrasi berhasil");    
             resetForm();
+            this.setVisible(false);
+            
+            new Home().show("pasien");
+            
+//            pasien.setVisible(true);
+            
+            
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());                                   
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void inputNIKFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNIKFocusLost
+        System.out.println("check nik pasien");
+    }//GEN-LAST:event_inputNIKFocusLost
 
     private void resetForm() {
         inputNIK.setText("");

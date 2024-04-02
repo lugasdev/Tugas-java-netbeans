@@ -38,7 +38,7 @@ public class Doctor {
         return id;
     }
     
-    public boolean update (int id, String name, String clinic, int stat) throws Exception {
+    public boolean update(int id, String name, String clinic, int stat) throws Exception {
         String query = "update doctors set name = ?, clinic = ?, stat = ? where id = ? ";
         
         try {
@@ -56,7 +56,7 @@ public class Doctor {
         return true;
     }
     
-    public boolean delete (int id) throws Exception {
+    public boolean delete(int id) throws Exception {
         String query = "delete from doctors where id = ?";
         
         try {

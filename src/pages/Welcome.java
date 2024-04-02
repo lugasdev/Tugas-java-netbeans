@@ -28,10 +28,8 @@ public class Welcome extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
 
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setText("jLabel1");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 96, -1, -1));
+        jLabel1.setText("Selamat Datang");
+        add(jLabel1);
     }// </editor-fold>//GEN-END:initComponents
 
 

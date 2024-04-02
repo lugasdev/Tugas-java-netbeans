@@ -4,8 +4,6 @@
  */
 package pages;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import javax.swing.JFrame;
 
 /**
@@ -31,6 +29,20 @@ public class Home extends javax.swing.JFrame {
         body.add(welcome, "card2");
         body.setVisible(true);
         welcome.setVisible(true);        
+    }
+    
+    public void show(String panelName) {
+        this.clearAllPanel();
+        System.out.println("show "+ panelName);
+        switch (panelName) {
+            case "pasien":        
+                body.add(pasien, "card2");
+                body.setVisible(true);
+                pasien.setVisible(true);
+                break;
+            default:
+                System.out.println("no default");
+        }
     }
 
     /**
@@ -207,7 +219,6 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_obatBtnActionPerformed
 
     private void psnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psnBtnActionPerformed
-        // TODO add your handling code here:
         this.clearAllPanel();
         
         body.add(pasien, "card2");

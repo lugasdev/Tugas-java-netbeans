@@ -40,4 +40,32 @@ public class Registration {
         return id;
     }
     
+    public ResultSet getRegistrantByDate(String date) throws Exception {
+        try {
+            String[] dateSplit = date.split("/");
+
+            String query = "select r.*, d.*, p.* "
+                    + "from registrations r "
+                    + "join doctors d on d.id = r.doctor_id "
+                    + "join patients p on p.id = r.patient_id "
+                    + "where YEAR(registration_at) = ? " 
+                    + "and MONTH(registration_at) = ? "
+                    + "and DAY(registration_at) = ? ";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, dateSplit[2]);
+            stmt.setString(2, dateSplit[1]);
+            stmt.setString(3, dateSplit[0]);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            System.out.println(rs.getStatement());
+            
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+    
 }
