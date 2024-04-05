@@ -26,23 +26,32 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        body.add(welcome, "card2");
+        body.add(welcome, "welcome");
         body.setVisible(true);
         welcome.setVisible(true);        
     }
     
-    public void show(String panelName) {
+    public Home(String page) {
+        initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         this.clearAllPanel();
-        System.out.println("show "+ panelName);
-        switch (panelName) {
+        System.out.println("show "+ page);
+        switch (page) {
             case "pasien":        
-                body.add(pasien, "card2");
+                System.out.println("show patient page");
+                body.add(pasien, "pasien");
                 body.setVisible(true);
                 pasien.setVisible(true);
                 break;
             default:
+                System.out.println("show default page");
+                body.add(welcome, "welcome");
+                body.setVisible(true);
+                welcome.setVisible(true);        
                 System.out.println("no default");
         }
+        
     }
 
     /**
@@ -169,9 +178,9 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearAllPanel() {
+        welcome.setVisible(false);      
         pemeriksaan.setVisible(false);      
         registrasi.setVisible(false);      
-        welcome.setVisible(false);      
         anamnesa.setVisible(false);
         resep.setVisible(false);
         pasien.setVisible(false);
