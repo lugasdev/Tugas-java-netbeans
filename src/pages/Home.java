@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package pages;
 
 import javax.swing.JFrame;
@@ -12,11 +8,11 @@ import javax.swing.JFrame;
  */
 public class Home extends javax.swing.JFrame {
     Pemeriksaan pemeriksaan = new Pemeriksaan();
-    Registrasi registrasi = new Registrasi();
+    Registrasi registrasi = new Registrasi(this);
     Welcome welcome = new Welcome();
-    Anamnesa anamnesa = new Anamnesa();
+    Anamnesa anamnesa = new Anamnesa(this);
     Resep resep = new Resep();
-    Pasien pasien = new Pasien();
+    Pasien pasien = new Pasien(this);
     Dokter dokter = new Dokter();
     
     /**
@@ -26,32 +22,113 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        body.add(welcome, "welcome");
-        body.setVisible(true);
-        welcome.setVisible(true);        
+        changePage("welcome");
     }
     
-    public Home(String page) {
-        initComponents();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+    public void changePage(String page) {
         this.clearAllPanel();
-        System.out.println("show "+ page);
+        System.out.println("change show "+ page);
         switch (page) {
-            case "pasien":        
-                System.out.println("show patient page");
-                body.add(pasien, "pasien");
+            case "dokter":
+                System.out.println("show dokter page");
+                body.add(dokter, "card2");
                 body.setVisible(true);
-                pasien.setVisible(true);
+                dokter.setVisible(true);                
+                break;
+            case "pasien":
+                System.out.println("show pasien page");
+                body.add(pasien, "card2");
+                body.setVisible(true);
+                pasien.setVisible(true);                
+                break;
+            case "resep":
+                System.out.println("show resep page");
+                body.add(resep, "card2");
+                body.setVisible(true);
+                resep.setVisible(true);                
+                break;
+            case "anamnesa":
+                System.out.println("show anamnesa page");
+                body.add(anamnesa, "card2");
+                body.setVisible(true);
+                anamnesa.setVisible(true);                
+                break;
+            case "pemeriksaan":
+                System.out.println("show pemeriksaan page");
+                body.add(pemeriksaan, "card2");
+                body.setVisible(true);
+                pemeriksaan.setVisible(true);                
+                break;
+            case "registrasi":        
+                System.out.println("show patient page");
+                body.add(registrasi, "card2");
+                body.setVisible(true);
+                registrasi.setVisible(true);                
                 break;
             default:
                 System.out.println("show default page");
-                body.add(welcome, "welcome");
+                body.add(welcome, "card2");
                 body.setVisible(true);
                 welcome.setVisible(true);        
                 System.out.println("no default");
-        }
+        }        
         
+        body.validate();
+        body.repaint();
+    }
+    
+    public void changePage(String page, int id) {
+        this.clearAllPanel();
+        System.out.println("change page with id "+ page + " " + id);
+        switch (page) {
+            case "dokter":
+                System.out.println("show dokter page");
+                body.add(dokter, "card2");
+                body.setVisible(true);
+                dokter.setVisible(true);                
+                break;
+            case "pasien":
+                System.out.println("show pasien page");
+                body.add(pasien, "card2");
+                body.setVisible(true);
+                pasien.setVisible(true);                
+                break;
+            case "resep":
+                System.out.println("show resep page");
+                body.add(resep, "card2");
+                body.setVisible(true);
+                resep.setVisible(true);                
+                break;
+            case "anamnesa":
+                anamnesa = new Anamnesa(this, id);
+
+                System.out.println("show anamnesa page");
+                body.add(anamnesa, "card2");
+                body.setVisible(true);
+                anamnesa.setVisible(true);                
+                break;
+            case "pemeriksaan":
+                System.out.println("show pemeriksaan page");
+                body.add(pemeriksaan, "card2");
+                body.setVisible(true);
+                pemeriksaan.setVisible(true);                
+                break;
+            case "registrasi":        
+                System.out.println("show patient page");
+                body.add(registrasi, "card2");
+                body.setVisible(true);
+                registrasi.setVisible(true);                
+                break;
+            default:
+                System.out.println("show default page");
+                body.add(welcome, "card2");
+                body.setVisible(true);
+                welcome.setVisible(true);        
+                System.out.println("no default");
+        }        
+        
+        body.validate();
+        body.repaint();
     }
 
     /**

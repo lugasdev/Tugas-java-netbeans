@@ -105,6 +105,11 @@ public class Login extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
+        loginButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loginButtonKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -167,6 +172,20 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
 
+    private void loginButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loginButtonKeyPressed
+        try {
+            user.login(username.getText(), String.valueOf(password.getPassword()));            
+            this.dispose();       
+            new Home().setVisible(true);
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            new Home().setVisible(false);
+            
+            password.setText("");
+        }
+    }//GEN-LAST:event_loginButtonKeyPressed
+    
     /**
      * @param args the command line arguments
      */

@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
  * @author lugas
  */
 public class Registrasi extends javax.swing.JPanel {
+    private Home parent; 
     private models.Doctor doctorModel = new models.Doctor();
     private models.Patient patientModel = new models.Patient();
     private models.Registration registrationModel = new models.Registration();
@@ -18,12 +19,25 @@ public class Registrasi extends javax.swing.JPanel {
 
     /**
      * Creates new form Registrasi
+     * @param parent Home
      */
+    public Registrasi(Home parent) {
+        initComponents();
+        
+        this.parent = parent;
+        
+        updateDoctorList();       
+        initDate();
+    }    
+    
     public Registrasi() {
         initComponents();
         
-        updateDoctorList();
-        
+        updateDoctorList();       
+        initDate();
+    }
+    
+    private void initDate(){
         LocalDateTime dateNowObj = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -64,6 +78,7 @@ public class Registrasi extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -92,9 +107,8 @@ public class Registrasi extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
 
-        setLayout(new java.awt.BorderLayout());
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 50));
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -104,7 +118,7 @@ public class Registrasi extends javax.swing.JPanel {
         jLabel1.setText("Registrasi Pasien");
         jPanel1.add(jLabel1, new java.awt.GridBagConstraints());
 
-        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        jPanel3.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -167,13 +181,6 @@ public class Registrasi extends javax.swing.JPanel {
         jLabel14.setForeground(new java.awt.Color(102, 102, 102));
         jLabel14.setText("format: hh:ii | contoh: 23:02");
 
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -204,20 +211,17 @@ public class Registrasi extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5))
                     .addComponent(inputGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(inputRegDate, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel13))
-                    .addComponent(inputNIK, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputNIK, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel10, jLabel6, jLabel7, jLabel8, jLabel9});
@@ -271,13 +275,28 @@ public class Registrasi extends javax.swing.JPanel {
                         .addComponent(jLabel14))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addComponent(jButton1)
                 .addGap(67, 67, 67))
         );
 
-        add(jPanel2, java.awt.BorderLayout.CENTER);
+        jPanel3.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -310,11 +329,7 @@ public class Registrasi extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Registrasi berhasil");    
             resetForm();
 
-            new Home("pasien");
-            
-//            pasien.setVisible(true);
-            
-            
+            this.parent.changePage("pasien");
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());                                   
@@ -324,16 +339,6 @@ public class Registrasi extends javax.swing.JPanel {
     private void inputNIKFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNIKFocusLost
         System.out.println("check nik pasien");
     }//GEN-LAST:event_inputNIKFocusLost
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Home frame = new Home();
-        
-        frame.add(pasien);
-        
-//        this.setVisible(false);
-//        new Home("pasien");
-
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void resetForm() {
         inputNIK.setText("");
@@ -355,7 +360,6 @@ public class Registrasi extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField inputRegDate;
     private javax.swing.JFormattedTextField inputRegTime;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -372,6 +376,7 @@ public class Registrasi extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

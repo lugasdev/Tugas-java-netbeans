@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
 import database.DBConnect;
@@ -66,6 +62,22 @@ public class Registration {
             throw new Exception(e);
         }
     }
+    
+    public ResultSet get(int Id) throws Exception {
+        try {
+            String query = "select * from registrations where id = ?";
+            
+            PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_FORWARD_ONLY);
+            stmt.setInt(1, Id);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+    
 
     
 }

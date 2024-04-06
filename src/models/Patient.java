@@ -42,4 +42,22 @@ public class Patient {
         
         return id;
     }
+    
+    public ResultSet get(int id) throws Exception {
+        String query = "delete from patients where id = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+            
+            stmt.executeQuery();
+            
+            System.out.println("get by id done");
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
 }
