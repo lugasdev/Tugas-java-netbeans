@@ -273,7 +273,7 @@ public class Dokter extends javax.swing.JPanel {
                 inputStat.setSelectedIndex(0);
                 if (doctor.getString("stat").equals("1")) {
                     inputStat.setSelectedIndex(1);
-                } 
+                }
             }
             
             addBtn.setEnabled(false);

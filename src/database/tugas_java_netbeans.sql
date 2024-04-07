@@ -1,32 +1,13 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: localhost:3306
--- Generation Time: Apr 06, 2024 at 02:38 AM
--- Server version: 8.0.30
--- PHP Version: 8.1.10
-
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `tugas_java_netbeans`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `anamnesa`
---
 
 CREATE TABLE `anamnesa` (
   `id` int NOT NULL,
@@ -42,11 +23,8 @@ CREATE TABLE `anamnesa` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `doctors`
---
+INSERT INTO `anamnesa` (`id`, `registation_id`, `height`, `weight`, `blood_pressure`, `temperature`, `is_smoking`, `is_alcohol`, `disease_history`, `complaint`, `created_at`) VALUES
+(1, 6, 170, 69, '110/80', 34, 1, 0, 'sadaswqeqwe', 'wqeqweqw', '2024-04-06 10:35:37');
 
 CREATE TABLE `doctors` (
   `id` int NOT NULL,
@@ -56,22 +34,12 @@ CREATE TABLE `doctors` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `doctors`
---
-
 INSERT INTO `doctors` (`id`, `name`, `clinic`, `stat`, `created_at`) VALUES
 (2, 'Maman Sumanarna', 'Poli Kebidanan & Kandungan', 0, '2024-03-31 06:01:33'),
 (3, 'Sugiman', 'Poli Umum', 0, '2024-03-31 06:03:57'),
 (4, 'Cendekia Mecca', 'Poli Anak', 1, '2024-03-31 06:49:04'),
 (5, 'Amalia Septianti', 'Poli Kebidanan & Kandungan', 1, '2024-03-31 06:53:41'),
 (6, 'Ibrahim Oke', 'Poli Kebidanan & Kandungan', 0, '2024-03-31 06:55:36');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `patients`
---
 
 CREATE TABLE `patients` (
   `id` int NOT NULL,
@@ -85,10 +53,6 @@ CREATE TABLE `patients` (
   `blood_type` char(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `patients`
---
-
 INSERT INTO `patients` (`id`, `identity_number`, `name`, `gender`, `date_of_birth`, `address`, `phone`, `created_at`, `blood_type`) VALUES
 (1, '345612436512', 'Varkhan Ajie', 1, '1996-07-25', 'sidommulto', '6347865427', '2024-04-05 06:31:22', 'B +'),
 (2, '321r612346', 'skdjaijsh', 2, '0200-01-30', 'd sadwqe', '67354322', '2024-04-05 07:11:38', 'AB +'),
@@ -96,12 +60,6 @@ INSERT INTO `patients` (`id`, `identity_number`, `name`, `gender`, `date_of_birt
 (4, '131231231', 'dasdasdas', 1, '1996-10-10', 'dsasdwqeqw', '442343242', '2024-04-05 07:12:57', 'A -'),
 (5, 'asd21312', 'wqeqwe', 1, '1995-10-10', 'asdw asdqweq', '0852712312', '2024-04-05 07:14:16', 'A -'),
 (6, '3124126', 'asdbasbd ', 1, '1990-05-20', 'nasjkd huwqheiuqw', '08572512111', '2024-04-06 05:16:17', 'AB +');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `registrations`
---
 
 CREATE TABLE `registrations` (
   `id` int NOT NULL,
@@ -112,23 +70,13 @@ CREATE TABLE `registrations` (
   `stat` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `registrations`
---
-
 INSERT INTO `registrations` (`id`, `doctor_id`, `patient_id`, `registration_at`, `created_at`, `stat`) VALUES
 (1, 4, 1, '2024-04-05 08:29:00', '2024-04-05 06:31:22', 0),
 (2, 5, 2, '2024-04-05 07:11:00', '2024-04-05 07:11:38', 0),
 (3, 5, 3, '2024-04-05 07:30:00', '2024-04-05 07:12:26', 0),
 (4, 4, 4, '2024-04-05 07:12:00', '2024-04-05 07:12:57', 0),
 (5, 5, 5, '2024-04-05 07:14:00', '2024-04-05 07:14:16', 0),
-(6, 4, 6, '2024-04-06 12:15:00', '2024-04-06 05:16:17', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
+(6, 4, 6, '2024-04-06 12:15:00', '2024-04-06 05:16:17', 1);
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
@@ -137,91 +85,45 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `users`
---
-
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
 (1, 'kia', '3a40ba938a827532b984662a0329ba618653', '2024-03-30 09:30:39');
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `anamnesa`
---
 ALTER TABLE `anamnesa`
   ADD PRIMARY KEY (`id`),
   ADD KEY `reg_foreign` (`registation_id`);
 
---
--- Indexes for table `doctors`
---
 ALTER TABLE `doctors`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `patients`
---
 ALTER TABLE `patients`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `registrations`
---
 ALTER TABLE `registrations`
   ADD PRIMARY KEY (`id`),
   ADD KEY `patient_id` (`patient_id`),
   ADD KEY `doctor_id` (`doctor_id`);
 
---
--- Indexes for table `users`
---
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT for table `anamnesa`
---
 ALTER TABLE `anamnesa`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `doctors`
---
 ALTER TABLE `doctors`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
---
--- AUTO_INCREMENT for table `patients`
---
 ALTER TABLE `patients`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
---
--- AUTO_INCREMENT for table `registrations`
---
 ALTER TABLE `registrations`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
---
--- AUTO_INCREMENT for table `users`
---
 ALTER TABLE `users`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `anamnesa`
---
 ALTER TABLE `anamnesa`
   ADD CONSTRAINT `reg_foreign` FOREIGN KEY (`registation_id`) REFERENCES `registrations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 SET FOREIGN_KEY_CHECKS=1;

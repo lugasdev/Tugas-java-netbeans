@@ -44,7 +44,7 @@ public class Patient {
     }
     
     public ResultSet get(int id) throws Exception {
-        String query = "delete from patients where id = ?";
+        String query = "select * from patients where id = ?";
         try {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, id);

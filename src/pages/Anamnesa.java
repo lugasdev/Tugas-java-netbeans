@@ -3,6 +3,7 @@ package pages;
 import models.Registration;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import models.Doctor;
 import models.Patient;
 
 /**
@@ -11,8 +12,10 @@ import models.Patient;
  */
 public class Anamnesa extends javax.swing.JPanel {
     private Home parent; 
-    Registration registration = new Registration();
+    Registration registrationModel = new Registration();
     Patient patientModel = new Patient();
+    Doctor doctorModel = new Doctor();
+    models.Anamnesa anamnesaModel = new models.Anamnesa();
     int RegistrationId;
     
     /**
@@ -33,7 +36,7 @@ public class Anamnesa extends javax.swing.JPanel {
 
         this.RegistrationId = RegistrationId;
         try {
-            ResultSet registrant = registration.get(RegistrationId);                        
+            ResultSet registrant = registrationModel.get(RegistrationId);                        
             registrant.next();
             
             System.out.println(registrant.getString("registration_at"));
@@ -41,6 +44,19 @@ public class Anamnesa extends javax.swing.JPanel {
             System.out.println(registrant.getString("doctor_id"));  
             
             ResultSet patient = patientModel.get(registrant.getInt("patient_id"));
+            patient.next();
+            System.out.println(patient.getString("name"));            
+            System.out.println(patient.getString("date_of_birth"));            
+            
+            inputPasienName.setText(patient.getString("name"));
+            labelDOB.setText(patient.getString("date_of_birth") + " / " + patient.getString("id"));
+            
+            ResultSet doctor = doctorModel.get(registrant.getInt("doctor_id"));
+            doctor.next();
+            
+            inputDokter.setText(doctor.getString("name") + " / " + doctor.getString("clinic"));
+            
+            inputTglPemeriksaan.setText(registrant.getString("registration_at"));
             
         } catch (Exception e) {
             System.out.println(e);
@@ -77,15 +93,16 @@ public class Anamnesa extends javax.swing.JPanel {
         inputKeluhan = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        inputIdPasien = new javax.swing.JTextField();
+        inputPasienName = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        inputTglPemeriksaan = new javax.swing.JFormattedTextField();
+        inputDokter = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
         inputRiwayat = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         inputSuhu = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        inputDokter = new javax.swing.JFormattedTextField();
+        inputTglPemeriksaan = new javax.swing.JFormattedTextField();
+        labelDOB = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -133,9 +150,9 @@ public class Anamnesa extends javax.swing.JPanel {
 
         jLabel8.setText("Keluhan/Keterangan");
 
-        inputTinggi.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        inputTinggi.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
-        inputBerat.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        inputBerat.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         inputTekananAtas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         inputTekananAtas.addActionListener(new java.awt.event.ActionListener() {
@@ -159,20 +176,27 @@ public class Anamnesa extends javax.swing.JPanel {
         jScrollPane1.setViewportView(inputKeluhan);
 
         jButton1.setText("Simpan");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Pasien");
 
-        jLabel11.setText("Tanggal Pemeriksaan");
+        jLabel11.setText("Dokter");
 
-        inputTglPemeriksaan.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("d/M/yyyy"))));
+        inputDokter.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("d/M/yyyy"))));
 
         jLabel2.setText("Riwayat Penyakit");
 
         jLabel12.setText("Suhu Tubuh (celcius)");
 
-        jLabel13.setText("Dokter");
+        jLabel13.setText("Waktu Pemeriksaan");
 
-        inputDokter.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("d/M/yyyy"))));
+        inputTglPemeriksaan.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("d/M/yyyy"))));
+
+        labelDOB.setText("-");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -193,7 +217,7 @@ public class Anamnesa extends javax.swing.JPanel {
                     .addComponent(jLabel12)
                     .addComponent(jLabel13))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputAlkohol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
@@ -203,17 +227,21 @@ public class Anamnesa extends javax.swing.JPanel {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(inputTekananBawah, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(inputRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(inputSuhu, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(inputMerokok, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(inputDokter, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(inputBerat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                        .addComponent(inputTinggi, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(inputIdPasien, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(inputTglPemeriksaan, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(164, Short.MAX_VALUE))
+                    .addComponent(inputRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(inputDokter, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(inputBerat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                                .addComponent(inputTinggi, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(inputPasienName, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(labelDOB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(inputTglPemeriksaan, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(174, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,15 +249,16 @@ public class Anamnesa extends javax.swing.JPanel {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(inputIdPasien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputPasienName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelDOB))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(inputTglPemeriksaan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputDokter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(inputDokter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputTglPemeriksaan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -269,21 +298,57 @@ public class Anamnesa extends javax.swing.JPanel {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        add(jPanel2, java.awt.BorderLayout.LINE_START);
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputTekananAtasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTekananAtasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputTekananAtasActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try {            
+            String bloodPressure = inputTekananAtas.getText() + "/" + inputTekananBawah.getText();
+            boolean isSmoking = false;
+            if (inputMerokok.getSelectedItem().equals("Ya")) {
+                isSmoking = true;
+            }
+            boolean isAlcohol = false;
+            if (inputAlkohol.getSelectedItem().equals("Ya")) {
+                isAlcohol = true;
+            }
+            
+            anamnesaModel.create(
+                RegistrationId, 
+                Integer.parseInt(inputTinggi.getText()), 
+                Integer.parseInt(inputBerat.getText()), 
+                bloodPressure, 
+                Integer.parseInt(inputSuhu.getText()), 
+                isSmoking, 
+                isAlcohol, 
+                inputRiwayat.getText(), 
+                inputKeluhan.getText()
+            );
+            
+            boolean updateStat = registrationModel.updateStat(RegistrationId, 1);
+
+            JOptionPane.showMessageDialog(null, "anamnesa disimpan");                                   
+            
+            this.parent.changePage("pasien");
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+        }                
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> inputAlkohol;
     private javax.swing.JFormattedTextField inputBerat;
     private javax.swing.JFormattedTextField inputDokter;
-    private javax.swing.JTextField inputIdPasien;
     private javax.swing.JTextArea inputKeluhan;
     private javax.swing.JComboBox<String> inputMerokok;
+    private javax.swing.JTextField inputPasienName;
     private javax.swing.JTextField inputRiwayat;
     private javax.swing.JTextField inputSuhu;
     private javax.swing.JFormattedTextField inputTekananAtas;
@@ -307,5 +372,6 @@ public class Anamnesa extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelDOB;
     // End of variables declaration//GEN-END:variables
 }

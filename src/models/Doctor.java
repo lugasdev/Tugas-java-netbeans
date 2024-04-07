@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
 import database.DBConnect;
@@ -98,8 +94,6 @@ public class Doctor {
             throw new Exception(e);
         }
     }
-    
-    
     
     public ResultSet getActiveDoctor() throws Exception {
         String query = "select * from doctors where stat = 1 order by name";

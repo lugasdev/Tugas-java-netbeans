@@ -78,6 +78,20 @@ public class Registration {
         }
     }
     
-
+    public boolean updateStat(int id, int stat) throws Exception {
+        String query = "update registrations set stat = ? where id = ? ";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, stat);
+            stmt.setInt(2, id);
+            
+            stmt.executeUpdate();            
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+        
+        return true;
+    }
     
 }
