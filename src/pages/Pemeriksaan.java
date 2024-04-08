@@ -12,11 +12,11 @@ import models.RegistrationModel;
  */
 public class Pemeriksaan extends javax.swing.JPanel {
     private Home parent; 
+    private int registrationId;
     RegistrationModel registrationModel = new RegistrationModel();
     PatientModel patientModel = new PatientModel();
     models.AnamnesaModel anamnesaModel = new models.AnamnesaModel();
     PemeriksaanModel pemeriksaanModel = new PemeriksaanModel();
-    int registrationId;
 
     /**
      * Creates new form Pemeriksaan
@@ -136,6 +136,7 @@ public class Pemeriksaan extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBackground(new java.awt.Color(239, 241, 237));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N

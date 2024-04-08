@@ -135,6 +135,7 @@ public class Pasien extends javax.swing.JPanel {
         });
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBackground(new java.awt.Color(239, 241, 237));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -145,24 +146,40 @@ public class Pasien extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
+        anamnesaBtn.setBackground(new java.awt.Color(4, 114, 77));
+        anamnesaBtn.setForeground(new java.awt.Color(255, 255, 255));
         anamnesaBtn.setText("Anamnesa");
-        anamnesaBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        anamnesaBtn.setBorder(null);
+        anamnesaBtn.setBorderPainted(false);
+        anamnesaBtn.setPreferredSize(new java.awt.Dimension(150, 35));
         anamnesaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 anamnesaBtnActionPerformed(evt);
             }
         });
 
+        pemeriksaanBtn.setBackground(new java.awt.Color(4, 114, 77));
+        pemeriksaanBtn.setForeground(new java.awt.Color(255, 255, 255));
         pemeriksaanBtn.setText("Pemeriksaan");
-        pemeriksaanBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        pemeriksaanBtn.setBorder(null);
+        pemeriksaanBtn.setBorderPainted(false);
+        pemeriksaanBtn.setPreferredSize(new java.awt.Dimension(150, 35));
         pemeriksaanBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pemeriksaanBtnActionPerformed(evt);
             }
         });
 
+        resepBtn.setBackground(new java.awt.Color(4, 114, 77));
+        resepBtn.setForeground(new java.awt.Color(255, 255, 255));
         resepBtn.setText("Resep Obat");
-        resepBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        resepBtn.setBorder(null);
+        resepBtn.setPreferredSize(new java.awt.Dimension(150, 35));
+        resepBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resepBtnActionPerformed(evt);
+            }
+        });
 
         registrationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -201,8 +218,12 @@ public class Pasien extends javax.swing.JPanel {
             }
         });
 
+        profilBtn.setBackground(new java.awt.Color(4, 114, 77));
+        profilBtn.setForeground(new java.awt.Color(255, 255, 255));
         profilBtn.setText("Profil Pasien");
-        profilBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        profilBtn.setBorder(null);
+        profilBtn.setBorderPainted(false);
+        profilBtn.setPreferredSize(new java.awt.Dimension(150, 35));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -278,6 +299,10 @@ public class Pasien extends javax.swing.JPanel {
     private void pemeriksaanBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pemeriksaanBtnActionPerformed
         this.parent.changePage("pemeriksaan", clickedRegistrationId);
     }//GEN-LAST:event_pemeriksaanBtnActionPerformed
+
+    private void resepBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resepBtnActionPerformed
+        this.parent.changePage("resep", clickedRegistrationId);
+    }//GEN-LAST:event_resepBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

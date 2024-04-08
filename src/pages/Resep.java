@@ -4,17 +4,76 @@
  */
 package pages;
 
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import models.PatientModel;
+import models.RegistrationModel;
+
 /**
  *
  * @author lugas
  */
 public class Resep extends javax.swing.JPanel {
-
+    private Home parent; 
+    private int registrationId;
+    RegistrationModel registrationModel = new RegistrationModel();
+    PatientModel patientModel = new PatientModel();
+    
     /**
      * Creates new form Resep
      */
     public Resep() {
         initComponents();
+    }
+    
+    public Resep(Home parent) {
+        initComponents();
+        
+        this.parent = parent;
+    }
+    
+    public Resep(Home parent, int registrationId) {
+        initComponents();
+        
+        System.out.println("resep open with id " + registrationId);
+        
+        this.parent = parent;
+
+        this.registrationId = registrationId;
+        try {
+            ResultSet registrant = registrationModel.get(registrationId);                        
+            registrant.next();
+            
+            System.out.println(registrant.getString("registration_at"));
+            System.out.println(registrant.getString("patient_id"));
+            System.out.println(registrant.getString("doctor_id"));  
+            
+            ResultSet patient = patientModel.get(registrant.getInt("patient_id"));
+            patient.next();
+            System.out.println(patient.getString("name"));            
+            System.out.println(patient.getString("date_of_birth"));   
+            
+            int genderId = patient.getInt("gender");
+            String gender = "Perempuan";
+            if (genderId == 1) {
+                gender = "Laki-laki";
+            } 
+            
+            labelPatientName.setText(patient.getString("name"));
+            labelPatientDob.setText(patient.getString("date_of_birth"));
+            labelPatientGender.setText(gender);
+//            
+//            ResultSet doctor = doctorModel.get(registrant.getInt("doctor_id"));
+//            doctor.next();
+//            
+//            inputDokter.setText(doctor.getString("name") + " / " + doctor.getString("clinic"));
+//            
+//            inputTglPemeriksaan.setText(registrant.getString("registration_at"));
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+        }
     }
 
     /**
@@ -51,6 +110,7 @@ public class Resep extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBackground(new java.awt.Color(239, 241, 237));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 50));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
@@ -127,7 +187,6 @@ public class Resep extends javax.swing.JPanel {
         labelPatientDob.setText("dob");
 
         jButton3.setText("Hapus");
-        jButton3.setActionCommand("Hapus");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -198,13 +257,13 @@ public class Resep extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addGap(12, 12, 12)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);

@@ -83,6 +83,7 @@ public class Dokter extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBackground(new java.awt.Color(239, 241, 237));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 50));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N

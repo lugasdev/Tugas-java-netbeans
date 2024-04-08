@@ -1,6 +1,10 @@
 package pages;
 
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 /**
  *
@@ -94,6 +98,7 @@ public class Home extends javax.swing.JFrame {
                 pasien.setVisible(true);                
                 break;
             case "resep":
+                resep = new Resep(this, id);
                 System.out.println("show resep page");
                 body.add(resep, "card2");
                 body.setVisible(true);
@@ -155,9 +160,8 @@ public class Home extends javax.swing.JFrame {
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
-        header.setBackground(new java.awt.Color(131, 188, 255));
+        header.setBackground(new java.awt.Color(193, 18, 31));
         header.setPreferredSize(new java.awt.Dimension(774, 50));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -182,9 +186,9 @@ public class Home extends javax.swing.JFrame {
 
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
 
-        mainMenu.setBackground(new java.awt.Color(255, 104, 107));
+        mainMenu.setBackground(new java.awt.Color(0, 41, 107));
         mainMenu.setPreferredSize(new java.awt.Dimension(200, 469));
-        mainMenu.setLayout(new java.awt.FlowLayout(1, 5, 10));
+        mainMenu.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
 
         regBtn.setBackground(new java.awt.Color(255, 255, 255));
         regBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958267_disease_epidemic_infection_patient_sufferer_icon.png"))); // NOI18N
@@ -271,7 +275,6 @@ public class Home extends javax.swing.JFrame {
         obatBtn1.setBackground(new java.awt.Color(255, 255, 255));
         obatBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/8956782_info_help_guide_about_customer service_icon.png"))); // NOI18N
         obatBtn1.setText("Tentang Aplikasi");
-        obatBtn1.setActionCommand("Tentang Aplikasi");
         obatBtn1.setBorder(null);
         obatBtn1.setPreferredSize(new java.awt.Dimension(150, 40));
         obatBtn1.addActionListener(new java.awt.event.ActionListener() {
@@ -363,30 +366,12 @@ public class Home extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    public static void main(String args[]) {        
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch (Exception e) {
         }
-        //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
