@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Pasien extends javax.swing.JPanel {
     private Home parent;
-    private models.Registration registrationModel = new models.Registration();
+    private models.RegistrationModel registrationModel = new models.RegistrationModel();
     private int clickedRegistrationId = 0;
     private String dateNow = "";
 
@@ -24,7 +24,6 @@ public class Pasien extends javax.swing.JPanel {
         
         LocalDateTime dateNowObj = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         dateNow = dateNowObj.format(dateFormatter);
         
         filterDate.setText(dateNow);
@@ -147,7 +146,7 @@ public class Pasien extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
         anamnesaBtn.setText("Anamnesa");
-        anamnesaBtn.setPreferredSize(new java.awt.Dimension(100, 23));
+        anamnesaBtn.setPreferredSize(new java.awt.Dimension(150, 23));
         anamnesaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 anamnesaBtnActionPerformed(evt);
@@ -155,10 +154,15 @@ public class Pasien extends javax.swing.JPanel {
         });
 
         pemeriksaanBtn.setText("Pemeriksaan");
-        pemeriksaanBtn.setPreferredSize(new java.awt.Dimension(100, 23));
+        pemeriksaanBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        pemeriksaanBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pemeriksaanBtnActionPerformed(evt);
+            }
+        });
 
         resepBtn.setText("Resep Obat");
-        resepBtn.setPreferredSize(new java.awt.Dimension(100, 23));
+        resepBtn.setPreferredSize(new java.awt.Dimension(150, 23));
 
         registrationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -198,7 +202,7 @@ public class Pasien extends javax.swing.JPanel {
         });
 
         profilBtn.setText("Profil Pasien");
-        profilBtn.setPreferredSize(new java.awt.Dimension(100, 23));
+        profilBtn.setPreferredSize(new java.awt.Dimension(150, 23));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -216,7 +220,7 @@ public class Pasien extends javax.swing.JPanel {
                         .addComponent(resepBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
                         .addComponent(profilBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
                         .addComponent(filterDate, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40))
         );
@@ -250,27 +254,30 @@ public class Pasien extends javax.swing.JPanel {
     }//GEN-LAST:event_filterDateKeyReleased
 
     private void registrationTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrationTableMouseClicked
-            System.out.println("registrationTableMouseClicked");
-            int row = registrationTable.rowAtPoint(evt.getPoint());
-            int col = registrationTable.columnAtPoint(evt.getPoint());
+        System.out.println("registrationTableMouseClicked");
+        int row = registrationTable.rowAtPoint(evt.getPoint());
+        int col = registrationTable.columnAtPoint(evt.getPoint());
 
-            System.out.println(row);
-            System.out.println(col);        
-            
-            clickedRegistrationId = (int) registrationTable.getValueAt(row, 0);
-            
-            System.out.println(clickedRegistrationId);
-//            updateFormToUpdate(id);
+        System.out.println(row);
+        System.out.println(col);        
 
-            anamnesaBtn.setEnabled(true);
-            pemeriksaanBtn.setEnabled(true);
-            resepBtn.setEnabled(true);
-            profilBtn.setEnabled(true);                
+        clickedRegistrationId = (int) registrationTable.getValueAt(row, 0);
+
+        System.out.println(clickedRegistrationId);
+
+        anamnesaBtn.setEnabled(true);
+        pemeriksaanBtn.setEnabled(true);
+        resepBtn.setEnabled(true);
+        profilBtn.setEnabled(true);                
     }//GEN-LAST:event_registrationTableMouseClicked
 
     private void anamnesaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anamnesaBtnActionPerformed
         this.parent.changePage("anamnesa", clickedRegistrationId);
     }//GEN-LAST:event_anamnesaBtnActionPerformed
+
+    private void pemeriksaanBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pemeriksaanBtnActionPerformed
+        this.parent.changePage("pemeriksaan", clickedRegistrationId);
+    }//GEN-LAST:event_pemeriksaanBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

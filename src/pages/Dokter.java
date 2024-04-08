@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 public class Dokter extends javax.swing.JPanel {
     
     private int doctorId = 0;
-    private models.Doctor doctorModel = new models.Doctor();
+    private models.DoctorModel doctorModel = new models.DoctorModel();
 
     /**
      * Creates new form Dokter

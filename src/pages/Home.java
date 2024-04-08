@@ -108,6 +108,8 @@ public class Home extends javax.swing.JFrame {
                 anamnesa.setVisible(true);                
                 break;
             case "pemeriksaan":
+                pemeriksaan = new Pemeriksaan(this, id);
+                
                 System.out.println("show pemeriksaan page");
                 body.add(pemeriksaan, "card2");
                 body.setVisible(true);
@@ -152,12 +154,13 @@ public class Home extends javax.swing.JFrame {
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         header.setBackground(new java.awt.Color(51, 102, 255));
         header.setPreferredSize(new java.awt.Dimension(774, 50));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/images/logo.png"))); // NOI18N
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
@@ -180,7 +183,7 @@ public class Home extends javax.swing.JFrame {
 
         mainMenu.setBackground(new java.awt.Color(153, 153, 153));
         mainMenu.setPreferredSize(new java.awt.Dimension(200, 469));
-        mainMenu.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
+        mainMenu.setLayout(new java.awt.FlowLayout(1, 5, 10));
 
         regBtn.setText("Registrasi Pasien");
         regBtn.setPreferredSize(new java.awt.Dimension(150, 23));

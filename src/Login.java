@@ -5,7 +5,7 @@ import pages.Home;
 import java.sql.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import models.User;
+import models.UserModel;
 
 /**
  *
@@ -13,7 +13,7 @@ import models.User;
  */
 public class Login extends javax.swing.JFrame {
     
-    private User user = new User();
+    private UserModel user = new UserModel();
 
     /**
      * Creates new form Login
@@ -51,14 +51,14 @@ public class Login extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(380, 70));
+        jPanel3.setPreferredSize(new java.awt.Dimension(380, 80));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Selamat Datang");
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/images/logo.png"))); // NOI18N
         jLabel1.setMaximumSize(new java.awt.Dimension(123, 50));
         jLabel1.setMinimumSize(new java.awt.Dimension(123, 50));
         jLabel1.setPreferredSize(new java.awt.Dimension(123, 50));
@@ -80,8 +80,8 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.PAGE_START);
@@ -98,7 +98,8 @@ public class Login extends javax.swing.JFrame {
 
         jLabel3.setText("Password");
 
-        loginButton.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
+        loginButton.setBackground(new java.awt.Color(0, 102, 204));
+        loginButton.setForeground(new java.awt.Color(255, 255, 255));
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,7 +149,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 70, 380, 220));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/login_background.jpg"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/images/login_background.jpg"))); // NOI18N
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
