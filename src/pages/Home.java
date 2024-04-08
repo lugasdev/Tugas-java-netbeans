@@ -146,17 +146,18 @@ public class Home extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         mainMenu = new javax.swing.JPanel();
         regBtn = new javax.swing.JButton();
+        psnBtn = new javax.swing.JButton();
+        dokBtn = new javax.swing.JButton();
         anamnesaBtn = new javax.swing.JButton();
         pmrBtn = new javax.swing.JButton();
         obatBtn = new javax.swing.JButton();
-        psnBtn = new javax.swing.JButton();
-        dokBtn = new javax.swing.JButton();
+        obatBtn1 = new javax.swing.JButton();
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.BorderLayout());
 
-        header.setBackground(new java.awt.Color(51, 102, 255));
+        header.setBackground(new java.awt.Color(131, 188, 255));
         header.setPreferredSize(new java.awt.Dimension(774, 50));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -181,21 +182,53 @@ public class Home extends javax.swing.JFrame {
 
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
 
-        mainMenu.setBackground(new java.awt.Color(153, 153, 153));
+        mainMenu.setBackground(new java.awt.Color(255, 104, 107));
         mainMenu.setPreferredSize(new java.awt.Dimension(200, 469));
         mainMenu.setLayout(new java.awt.FlowLayout(1, 5, 10));
 
+        regBtn.setBackground(new java.awt.Color(255, 255, 255));
+        regBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958267_disease_epidemic_infection_patient_sufferer_icon.png"))); // NOI18N
         regBtn.setText("Registrasi Pasien");
-        regBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        regBtn.setBorder(null);
+        regBtn.setBorderPainted(false);
+        regBtn.setPreferredSize(new java.awt.Dimension(150, 40));
         regBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 regBtnActionPerformed(evt);
             }
         });
+        regBtn.setBorderPainted(false);
+        regBtn.setBounds(0, 0, 0, 0);
         mainMenu.add(regBtn);
 
+        psnBtn.setBackground(new java.awt.Color(255, 255, 255));
+        psnBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958254_cold_disease_epidemic_fever_flu_icon.png"))); // NOI18N
+        psnBtn.setText("Daftar Pasien");
+        psnBtn.setBorder(null);
+        psnBtn.setPreferredSize(new java.awt.Dimension(150, 40));
+        psnBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                psnBtnActionPerformed(evt);
+            }
+        });
+        mainMenu.add(psnBtn);
+
+        dokBtn.setBackground(new java.awt.Color(255, 255, 255));
+        dokBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958251_disease_doctor_epidemic_hospital_infection_icon.png"))); // NOI18N
+        dokBtn.setText("Daftar Dokter");
+        dokBtn.setBorder(null);
+        dokBtn.setPreferredSize(new java.awt.Dimension(150, 40));
+        dokBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dokBtnActionPerformed(evt);
+            }
+        });
+        mainMenu.add(dokBtn);
+
+        anamnesaBtn.setBackground(new java.awt.Color(255, 255, 255));
         anamnesaBtn.setText("Anamnesa");
-        anamnesaBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        anamnesaBtn.setBorder(null);
+        anamnesaBtn.setPreferredSize(new java.awt.Dimension(150, 40));
         anamnesaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 anamnesaBtnMouseClicked(evt);
@@ -208,8 +241,10 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(anamnesaBtn);
 
+        pmrBtn.setBackground(new java.awt.Color(255, 255, 255));
         pmrBtn.setText("Pemeriksaan");
-        pmrBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        pmrBtn.setBorder(null);
+        pmrBtn.setPreferredSize(new java.awt.Dimension(150, 40));
         pmrBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pmrBtnMouseClicked(evt);
@@ -222,8 +257,10 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(pmrBtn);
 
+        obatBtn.setBackground(new java.awt.Color(255, 255, 255));
         obatBtn.setText("Resep Obat");
-        obatBtn.setPreferredSize(new java.awt.Dimension(150, 23));
+        obatBtn.setBorder(null);
+        obatBtn.setPreferredSize(new java.awt.Dimension(150, 40));
         obatBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 obatBtnActionPerformed(evt);
@@ -231,23 +268,18 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(obatBtn);
 
-        psnBtn.setText("Daftar Pasien");
-        psnBtn.setPreferredSize(new java.awt.Dimension(150, 23));
-        psnBtn.addActionListener(new java.awt.event.ActionListener() {
+        obatBtn1.setBackground(new java.awt.Color(255, 255, 255));
+        obatBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/8956782_info_help_guide_about_customer service_icon.png"))); // NOI18N
+        obatBtn1.setText("Tentang Aplikasi");
+        obatBtn1.setActionCommand("Tentang Aplikasi");
+        obatBtn1.setBorder(null);
+        obatBtn1.setPreferredSize(new java.awt.Dimension(150, 40));
+        obatBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                psnBtnActionPerformed(evt);
+                obatBtn1ActionPerformed(evt);
             }
         });
-        mainMenu.add(psnBtn);
-
-        dokBtn.setText("Daftar Dokter");
-        dokBtn.setPreferredSize(new java.awt.Dimension(150, 23));
-        dokBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dokBtnActionPerformed(evt);
-            }
-        });
-        mainMenu.add(dokBtn);
+        mainMenu.add(obatBtn1);
 
         getContentPane().add(mainMenu, java.awt.BorderLayout.LINE_START);
 
@@ -324,6 +356,10 @@ public class Home extends javax.swing.JFrame {
         dokter.setVisible(true);
     }//GEN-LAST:event_dokBtnActionPerformed
 
+    private void obatBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obatBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_obatBtn1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -367,6 +403,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel mainMenu;
     private javax.swing.JButton obatBtn;
+    private javax.swing.JButton obatBtn1;
     private javax.swing.JButton pmrBtn;
     private javax.swing.JButton psnBtn;
     private javax.swing.JButton regBtn;
