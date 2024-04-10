@@ -35,7 +35,7 @@ CREATE TABLE `doctors` (
   `stat` tinyint(1) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 INSERT INTO `doctors` (`id`, `name`, `clinic`, `stat`, `created_at`) VALUES
 (2,	'Maman Sumanarna',	'Poli Kebidanan & Kandungan',	0,	'2024-03-31 06:01:33'),
@@ -71,7 +71,7 @@ CREATE TABLE `patients` (
   `created_at` datetime NOT NULL,
   `blood_type` char(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 INSERT INTO `patients` (`id`, `identity_number`, `name`, `gender`, `date_of_birth`, `address`, `phone`, `created_at`, `blood_type`) VALUES
 (1,	'345612436512',	'Varkhan Ajie',	1,	'1996-07-25',	'sidommulto',	'6347865427',	'2024-04-05 06:31:22',	'B +'),
@@ -80,7 +80,24 @@ INSERT INTO `patients` (`id`, `identity_number`, `name`, `gender`, `date_of_birt
 (4,	'131231231',	'dasdasdas',	1,	'1996-10-10',	'dsasdwqeqw',	'442343242',	'2024-04-05 07:12:57',	'A -'),
 (5,	'asd21312',	'wqeqwe',	1,	'1995-10-10',	'asdw asdqweq',	'0852712312',	'2024-04-05 07:14:16',	'A -'),
 (6,	'3124126',	'asdbasbd ',	1,	'1990-05-20',	'nasjkd huwqheiuqw',	'08572512111',	'2024-04-06 05:16:17',	'AB +'),
-(7,	'2131231231',	'asddasdqw',	1,	'1967-07-25',	'asd asd as',	'1231231',	'2024-04-08 06:06:17',	'B +');
+(7,	'2131231231',	'asddasdqw',	1,	'1967-07-25',	'asd asd as',	'1231231',	'2024-04-08 06:06:17',	'B +'),
+(8,	'12321312312',	'sdasdasdas',	1,	'1997-06-19',	'asdas dsaedqweqw',	'12312312',	'2024-04-08 11:13:10',	'AB +');
+
+DROP TABLE IF EXISTS `prescriptions`;
+CREATE TABLE `prescriptions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `registration_id` int(11) NOT NULL,
+  `name` varchar(150) DEFAULT NULL,
+  `dose` varchar(100) DEFAULT NULL,
+  `note` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `registration_id` (`registration_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+INSERT INTO `prescriptions` (`id`, `registration_id`, `name`, `dose`, `note`, `created_at`) VALUES
+(1,	7,	'paracetamol',	'3x1 setelah makan',	'dikonsumsi 1 minggu',	'2024-04-09 10:46:01'),
+(5,	7,	'antibiotik',	'2x1',	'sebelum makan, dikonsumsi sampai habis',	'2024-04-09 10:51:01');
 
 DROP TABLE IF EXISTS `registrations`;
 CREATE TABLE `registrations` (
@@ -95,7 +112,7 @@ CREATE TABLE `registrations` (
   KEY `patient_id` (`patient_id`),
   CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`),
   CONSTRAINT `registrations_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 INSERT INTO `registrations` (`id`, `doctor_id`, `patient_id`, `registration_at`, `created_at`, `stat`) VALUES
 (1,	4,	1,	'2024-04-05 08:29:00',	'2024-04-05 06:31:22',	0),
@@ -104,7 +121,8 @@ INSERT INTO `registrations` (`id`, `doctor_id`, `patient_id`, `registration_at`,
 (4,	4,	4,	'2024-04-05 07:12:00',	'2024-04-05 07:12:57',	0),
 (5,	5,	5,	'2024-04-05 07:14:00',	'2024-04-05 07:14:16',	0),
 (6,	4,	6,	'2024-04-06 12:15:00',	'2024-04-06 05:16:17',	1),
-(7,	4,	7,	'2024-04-08 15:05:00',	'2024-04-08 06:06:17',	2);
+(7,	4,	7,	'2024-04-08 15:05:00',	'2024-04-08 06:06:17',	2),
+(8,	5,	8,	'2024-04-08 11:12:00',	'2024-04-08 11:13:10',	0);
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -118,4 +136,4 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
 (1,	'kia',	'3a40ba938a827532b984662a0329ba618653',	'2024-03-30 09:30:39');
 
--- 2024-04-08 03:11:47
+-- 2024-04-10 15:05:55
