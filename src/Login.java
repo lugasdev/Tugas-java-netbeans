@@ -1,10 +1,6 @@
 
 import com.formdev.flatlaf.FlatLightLaf;
-import database.DBConnect;
-import java.io.File;
 import pages.Home;
-import java.sql.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import models.UserModel;
 
@@ -13,14 +9,14 @@ import models.UserModel;
  * @author lugas
  */
 public class Login extends javax.swing.JFrame {
-    
+
     private UserModel user = new UserModel();
 
     /**
      * Creates new form Login
      */
     public Login() {
-        initComponents();       
+        initComponents();
     }
 
     /**
@@ -157,17 +153,17 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         try {
-            user.login(username.getText(), String.valueOf(password.getPassword()));            
-            this.dispose();       
+            user.login(username.getText(), String.valueOf(password.getPassword()));
+            this.dispose();
             new Home().setVisible(true);
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
             new Home().setVisible(false);
-            
+
             password.setText("");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
@@ -178,18 +174,18 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loginButtonKeyPressed
         try {
-            user.login(username.getText(), String.valueOf(password.getPassword()));            
-            this.dispose();       
+            user.login(username.getText(), String.valueOf(password.getPassword()));
+            this.dispose();
             new Home().setVisible(true);
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
             new Home().setVisible(false);
-            
+
             password.setText("");
         }
     }//GEN-LAST:event_loginButtonKeyPressed
-    
+
     /**
      * @param args the command line arguments
      */
@@ -198,7 +194,7 @@ public class Login extends javax.swing.JFrame {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (Exception e) {
         }
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

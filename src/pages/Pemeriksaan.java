@@ -11,7 +11,8 @@ import models.RegistrationModel;
  * @author lugas
  */
 public class Pemeriksaan extends javax.swing.JPanel {
-    private Home parent; 
+
+    private Home parent;
     private int registrationId;
     RegistrationModel registrationModel = new RegistrationModel();
     PatientModel patientModel = new PatientModel();
@@ -34,33 +35,33 @@ public class Pemeriksaan extends javax.swing.JPanel {
         initComponents();
         this.parent = parent;
         this.registrationId = registrationId;
-        
+
         try {
-            ResultSet registrant = registrationModel.get(registrationId);                        
+            ResultSet registrant = registrationModel.get(registrationId);
             registrant.next();
-            
+
             System.out.println(registrant.getString("registration_at"));
             System.out.println(registrant.getString("patient_id"));
-            System.out.println(registrant.getString("doctor_id"));  
-            
+            System.out.println(registrant.getString("doctor_id"));
+
             ResultSet patient = patientModel.get(registrant.getInt("patient_id"));
             patient.next();
-            System.out.println(patient.getString("name"));            
-            System.out.println(patient.getString("date_of_birth"));            
-            
+            System.out.println(patient.getString("name"));
+            System.out.println(patient.getString("date_of_birth"));
+
             int genderId = patient.getInt("gender");
             String gender = "Perempuan";
             if (genderId == 1) {
                 gender = "Laki-laki";
-            } 
-            
+            }
+
             labelPatientName.setText(patient.getString("name"));
             labelPatientGender.setText(gender);
             labelPatientDob.setText(patient.getString("date_of_birth"));
-            
+
             ResultSet anamnesa = anamnesaModel.GetByRegistrationId(registrationId);
             anamnesa.next();
-            
+
             inputTinggi.setText(anamnesa.getString("height"));
             inputBerat.setText(anamnesa.getString("weight"));
             inputSuhu.setText(anamnesa.getString("temperature"));
@@ -70,17 +71,16 @@ public class Pemeriksaan extends javax.swing.JPanel {
 
             for (int i = 0; i < inputBT.getItemCount(); i++) {
                 if (inputBT.getItemAt(i).equals(patient.getString("blood_type"))) {
-                    inputBT.setSelectedIndex(i);                    
+                    inputBT.setSelectedIndex(i);
                 }
             }
-            
+
             inputRiwayat.setText(anamnesa.getString("disease_history"));
             inputKeluhan.setText(anamnesa.getString("complaint"));
-                        
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
@@ -350,24 +350,23 @@ public class Pemeriksaan extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        try {            
+        try {
             String physical = inputPFisik.getText();
             String diagnosis = inputDiagnosis.getText();
             String therapy = inputTerapi.getText();
-            
+
             pemeriksaanModel.create(registrationId, physical, diagnosis, therapy);
 
             registrationModel.updateStat(registrationId, 2);
 
             JOptionPane.showMessageDialog(null, "Pemeriksaan Tersimpan");
-            
+
             this.parent.changePage("pasien");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             System.out.println(e);
         }
     }//GEN-LAST:event_saveButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> inputAlcohol;

@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
  * @author lugas
  */
 public class Pasien extends javax.swing.JPanel {
+
     private Home parent;
     private models.RegistrationModel registrationModel = new models.RegistrationModel();
     private int clickedRegistrationId = 0;
@@ -21,45 +22,45 @@ public class Pasien extends javax.swing.JPanel {
      */
     public Pasien() {
         initComponents();
-        
+
         LocalDateTime dateNowObj = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         dateNow = dateNowObj.format(dateFormatter);
-        
+
         filterDate.setText(dateNow);
-                
+
+        disableButtons();
+    }
+
+    private void disableButtons() {
         anamnesaBtn.setEnabled(false);
         pemeriksaanBtn.setEnabled(false);
         resepBtn.setEnabled(false);
-        profilBtn.setEnabled(false);                
+        profilBtn.setEnabled(false);
     }
-    
+
     public Pasien(Home parent) {
         initComponents();
         this.parent = parent;
- 
+
         LocalDateTime dateNowObj = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         dateNow = dateNowObj.format(dateFormatter);
-        
+
         filterDate.setText(dateNow);
-                
-        anamnesaBtn.setEnabled(false);
-        pemeriksaanBtn.setEnabled(false);
-        resepBtn.setEnabled(false);
-        profilBtn.setEnabled(false);                
-    }    
-    
+
+        disableButtons();
+    }
 
     private void viewPatient() {
         System.out.println("viewPatient");
-        DefaultTableModel RecordTable = (DefaultTableModel)registrationTable.getModel();
+        DefaultTableModel RecordTable = (DefaultTableModel) registrationTable.getModel();
         RecordTable.setRowCount(0);
-        
+
         try {
             ResultSet registrations = registrationModel.getRegistrantByDate(filterDate.getText());
-            
+
             while (registrations.next()) {
                 System.out.println(registrations.getString("r.id"));
                 System.out.println(registrations.getString("r.registration_at"));
@@ -69,28 +70,29 @@ public class Pasien extends javax.swing.JPanel {
                 System.out.println(registrations.getString("p.gender"));
                 System.out.println(registrations.getString("p.date_of_birth"));
                 System.out.println(registrations.getString("r.stat"));
-                
+
                 String stat = "";
-                
+
+                disableButtons();
                 switch (registrations.getInt("r.stat")) {
                     case 1:
-                        stat = "Anamnesa Selesai";
+                        stat = "Menunggu Pemeriksaan Dokter";
                         break;
                     case 2:
-                        stat = "Pemeriksaan Selesai";
-                        break;                        
+                        stat = "Menunggu Pemberian Obat";
+                        break;
                     case 3:
-                        stat = "Resep Obat Selesai";
-                        break;                        
+                        stat = "Selesai";
+                        break;
                     default:
                         stat = "Menunggu Anamnesa";
                 }
-                
+
                 String genderString = "Laki-Laki";
                 if (registrations.getInt("p.gender") == 2) {
                     genderString = "Perempuan";
                 }
-                
+
                 Vector column = new Vector();
                 column.add(registrations.getInt("r.id"));
                 column.add(registrations.getString("r.registration_at"));
@@ -100,14 +102,14 @@ public class Pasien extends javax.swing.JPanel {
                 column.add(genderString);
                 column.add(registrations.getString("p.date_of_birth"));
                 column.add(stat);
-                RecordTable.addRow(column);                
+                RecordTable.addRow(column);
 
             }
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -280,16 +282,36 @@ public class Pasien extends javax.swing.JPanel {
         int col = registrationTable.columnAtPoint(evt.getPoint());
 
         System.out.println(row);
-        System.out.println(col);        
+        System.out.println(col);
 
         clickedRegistrationId = (int) registrationTable.getValueAt(row, 0);
 
         System.out.println(clickedRegistrationId);
 
-        anamnesaBtn.setEnabled(true);
-        pemeriksaanBtn.setEnabled(true);
-        resepBtn.setEnabled(true);
-        profilBtn.setEnabled(true);                
+        disableButtons();
+
+        String stat = (String) registrationTable.getValueAt(row, 7);
+
+        switch (stat) {
+            case "Menunggu Anamnesa":
+                anamnesaBtn.setEnabled(true);
+                break;
+            case "Menunggu Pemeriksaan Dokter":
+                anamnesaBtn.setEnabled(true);
+                pemeriksaanBtn.setEnabled(true);
+                break;
+            case "Menunggu Pemberian Obat":
+                anamnesaBtn.setEnabled(true);
+                pemeriksaanBtn.setEnabled(true);
+                resepBtn.setEnabled(true);
+                break;
+            default:
+                anamnesaBtn.setEnabled(true);
+                pemeriksaanBtn.setEnabled(true);
+                resepBtn.setEnabled(true);
+        }
+        profilBtn.setEnabled(true);
+
     }//GEN-LAST:event_registrationTableMouseClicked
 
     private void anamnesaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anamnesaBtnActionPerformed
@@ -303,7 +325,6 @@ public class Pasien extends javax.swing.JPanel {
     private void resepBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resepBtnActionPerformed
         this.parent.changePage("resep", clickedRegistrationId);
     }//GEN-LAST:event_resepBtnActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anamnesaBtn;

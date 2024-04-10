@@ -12,56 +12,57 @@ import models.PatientModel;
  * @author lugas
  */
 public class Anamnesa extends javax.swing.JPanel {
-    private Home parent; 
+
+    private Home parent;
     RegistrationModel registrationModel = new RegistrationModel();
     PatientModel patientModel = new PatientModel();
     DoctorModel doctorModel = new DoctorModel();
     AnamnesaModel anamnesaModel = new AnamnesaModel();
     int RegistrationId;
-    
+
     /**
      * Creates new form Anamnesa
      */
     public Anamnesa() {
         initComponents();
     }
-    
+
     public Anamnesa(Home parent) {
         initComponents();
         this.parent = parent;
     }
-    
+
     public Anamnesa(Home parent, int RegistrationId) {
         initComponents();
         this.parent = parent;
 
         this.RegistrationId = RegistrationId;
         try {
-            ResultSet registrant = registrationModel.get(RegistrationId);                        
+            ResultSet registrant = registrationModel.get(RegistrationId);
             registrant.next();
-            
+
             System.out.println(registrant.getString("registration_at"));
             System.out.println(registrant.getString("patient_id"));
-            System.out.println(registrant.getString("doctor_id"));  
-            
+            System.out.println(registrant.getString("doctor_id"));
+
             ResultSet patient = patientModel.get(registrant.getInt("patient_id"));
             patient.next();
-            System.out.println(patient.getString("name"));            
-            System.out.println(patient.getString("date_of_birth"));            
-            
+            System.out.println(patient.getString("name"));
+            System.out.println(patient.getString("date_of_birth"));
+
             inputPasienName.setText(patient.getString("name"));
             labelDOB.setText(patient.getString("date_of_birth") + " / " + patient.getString("id"));
-            
+
             ResultSet doctor = doctorModel.get(registrant.getInt("doctor_id"));
             doctor.next();
-            
+
             inputDokter.setText(doctor.getString("name") + " / " + doctor.getString("clinic"));
-            
+
             inputTglPemeriksaan.setText(registrant.getString("registration_at"));
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
@@ -314,8 +315,8 @@ public class Anamnesa extends javax.swing.JPanel {
     }//GEN-LAST:event_inputTekananAtasActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        try {            
+
+        try {
             String bloodPressure = inputTekananAtas.getText() + "/" + inputTekananBawah.getText();
             boolean isSmoking = false;
             if (inputMerokok.getSelectedItem().equals("Ya")) {
@@ -325,30 +326,29 @@ public class Anamnesa extends javax.swing.JPanel {
             if (inputAlkohol.getSelectedItem().equals("Ya")) {
                 isAlcohol = true;
             }
-            
+
             anamnesaModel.create(
-                RegistrationId, 
-                Integer.parseInt(inputTinggi.getText()), 
-                Integer.parseInt(inputBerat.getText()), 
-                bloodPressure, 
-                Integer.parseInt(inputSuhu.getText()), 
-                isSmoking, 
-                isAlcohol, 
-                inputRiwayat.getText(), 
-                inputKeluhan.getText()
+                    RegistrationId,
+                    Integer.parseInt(inputTinggi.getText()),
+                    Integer.parseInt(inputBerat.getText()),
+                    bloodPressure,
+                    Integer.parseInt(inputSuhu.getText()),
+                    isSmoking,
+                    isAlcohol,
+                    inputRiwayat.getText(),
+                    inputKeluhan.getText()
             );
-            
+
             registrationModel.updateStat(RegistrationId, 1);
 
-            JOptionPane.showMessageDialog(null, "anamnesa disimpan");                                   
-            
+            JOptionPane.showMessageDialog(null, "anamnesa disimpan");
+
             this.parent.changePage("pasien");
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());                                   
-        }                
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> inputAlkohol;

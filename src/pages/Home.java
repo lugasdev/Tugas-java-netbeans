@@ -1,7 +1,5 @@
 package pages;
 
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -11,6 +9,7 @@ import javax.swing.UIManager;
  * @author lugas
  */
 public class Home extends javax.swing.JFrame {
+
     Pemeriksaan pemeriksaan = new Pemeriksaan();
     Registrasi registrasi = new Registrasi(this);
     Welcome welcome = new Welcome();
@@ -18,91 +17,91 @@ public class Home extends javax.swing.JFrame {
     Resep resep = new Resep();
     Pasien pasien = new Pasien(this);
     Dokter dokter = new Dokter();
-    
+
     /**
      * Creates new form Home
      */
     public Home() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
+
         changePage("welcome");
     }
-    
+
     public void changePage(String page) {
         this.clearAllPanel();
-        System.out.println("change show "+ page);
+        System.out.println("change show " + page);
         switch (page) {
             case "dokter":
                 System.out.println("show dokter page");
                 body.add(dokter, "card2");
                 body.setVisible(true);
-                dokter.setVisible(true);                
+                dokter.setVisible(true);
                 break;
             case "pasien":
                 System.out.println("show pasien page");
                 body.add(pasien, "card2");
                 body.setVisible(true);
-                pasien.setVisible(true);                
+                pasien.setVisible(true);
                 break;
             case "resep":
                 System.out.println("show resep page");
                 body.add(resep, "card2");
                 body.setVisible(true);
-                resep.setVisible(true);                
+                resep.setVisible(true);
                 break;
             case "anamnesa":
                 System.out.println("show anamnesa page");
                 body.add(anamnesa, "card2");
                 body.setVisible(true);
-                anamnesa.setVisible(true);                
+                anamnesa.setVisible(true);
                 break;
             case "pemeriksaan":
                 System.out.println("show pemeriksaan page");
                 body.add(pemeriksaan, "card2");
                 body.setVisible(true);
-                pemeriksaan.setVisible(true);                
+                pemeriksaan.setVisible(true);
                 break;
-            case "registrasi":        
+            case "registrasi":
                 System.out.println("show patient page");
                 body.add(registrasi, "card2");
                 body.setVisible(true);
-                registrasi.setVisible(true);                
+                registrasi.setVisible(true);
                 break;
             default:
                 System.out.println("show default page");
                 body.add(welcome, "card2");
                 body.setVisible(true);
-                welcome.setVisible(true);        
+                welcome.setVisible(true);
                 System.out.println("no default");
-        }        
-        
+        }
+
         body.validate();
         body.repaint();
     }
-    
+
     public void changePage(String page, int id) {
         this.clearAllPanel();
-        System.out.println("change page with id "+ page + " " + id);
+        System.out.println("change page with id " + page + " " + id);
         switch (page) {
             case "dokter":
                 System.out.println("show dokter page");
                 body.add(dokter, "card2");
                 body.setVisible(true);
-                dokter.setVisible(true);                
+                dokter.setVisible(true);
                 break;
             case "pasien":
                 System.out.println("show pasien page");
                 body.add(pasien, "card2");
                 body.setVisible(true);
-                pasien.setVisible(true);                
+                pasien.setVisible(true);
                 break;
             case "resep":
                 resep = new Resep(this, id);
                 System.out.println("show resep page");
                 body.add(resep, "card2");
                 body.setVisible(true);
-                resep.setVisible(true);                
+                resep.setVisible(true);
                 break;
             case "anamnesa":
                 anamnesa = new Anamnesa(this, id);
@@ -110,30 +109,30 @@ public class Home extends javax.swing.JFrame {
                 System.out.println("show anamnesa page");
                 body.add(anamnesa, "card2");
                 body.setVisible(true);
-                anamnesa.setVisible(true);                
+                anamnesa.setVisible(true);
                 break;
             case "pemeriksaan":
                 pemeriksaan = new Pemeriksaan(this, id);
-                
+
                 System.out.println("show pemeriksaan page");
                 body.add(pemeriksaan, "card2");
                 body.setVisible(true);
-                pemeriksaan.setVisible(true);                
+                pemeriksaan.setVisible(true);
                 break;
-            case "registrasi":        
+            case "registrasi":
                 System.out.println("show patient page");
                 body.add(registrasi, "card2");
                 body.setVisible(true);
-                registrasi.setVisible(true);                
+                registrasi.setVisible(true);
                 break;
             default:
                 System.out.println("show default page");
                 body.add(welcome, "card2");
                 body.setVisible(true);
-                welcome.setVisible(true);        
+                welcome.setVisible(true);
                 System.out.println("no default");
-        }        
-        
+        }
+
         body.validate();
         body.repaint();
     }
@@ -293,18 +292,18 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearAllPanel() {
-        welcome.setVisible(false);      
-        pemeriksaan.setVisible(false);      
-        registrasi.setVisible(false);      
+        welcome.setVisible(false);
+        pemeriksaan.setVisible(false);
+        registrasi.setVisible(false);
         anamnesa.setVisible(false);
         resep.setVisible(false);
         pasien.setVisible(false);
         dokter.setVisible(false);
     }
-    
+
     private void regBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBtnActionPerformed
         this.clearAllPanel();
-        
+
         body.add(registrasi, "card2");
         body.setVisible(true);
         registrasi.setVisible(true);
@@ -312,10 +311,10 @@ public class Home extends javax.swing.JFrame {
 
     private void pmrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pmrBtnActionPerformed
         this.clearAllPanel();
-                
+
         body.add(pemeriksaan, "card2");
         body.setVisible(true);
-        pemeriksaan.setVisible(true);        
+        pemeriksaan.setVisible(true);
     }//GEN-LAST:event_pmrBtnActionPerformed
 
     private void pmrBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pmrBtnMouseClicked
@@ -323,7 +322,7 @@ public class Home extends javax.swing.JFrame {
 
     private void anamnesaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anamnesaBtnMouseClicked
         this.clearAllPanel();
-        
+
         body.add(anamnesa, "card2");
         body.setVisible(true);
         anamnesa.setVisible(true);
@@ -336,7 +335,7 @@ public class Home extends javax.swing.JFrame {
     private void obatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obatBtnActionPerformed
         // TODO add your handling code here:
         this.clearAllPanel();
-        
+
         body.add(resep, "card2");
         body.setVisible(true);
         resep.setVisible(true);
@@ -344,7 +343,7 @@ public class Home extends javax.swing.JFrame {
 
     private void psnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psnBtnActionPerformed
         this.clearAllPanel();
-        
+
         body.add(pasien, "card2");
         body.setVisible(true);
         pasien.setVisible(true);
@@ -353,7 +352,7 @@ public class Home extends javax.swing.JFrame {
     private void dokBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dokBtnActionPerformed
         // TODO add your handling code here:
         this.clearAllPanel();
-        
+
         body.add(dokter, "card2");
         body.setVisible(true);
         dokter.setVisible(true);
@@ -366,12 +365,12 @@ public class Home extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {        
+    public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (Exception e) {
         }
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

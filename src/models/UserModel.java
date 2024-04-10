@@ -15,37 +15,38 @@ import java.sql.SQLException;
  * @author lugas
  */
 public class UserModel {
+
     private Connection conn = new DBConnect().connect();
     private utils.MD5 md5 = new utils.MD5();
-    
+
     public boolean login(String username, String password) throws Exception {
         String errMessage = "";
-        String query = "select * from users where username = ? and password = ?";        
+        String query = "select * from users where username = ? and password = ?";
         try {
             String passwordHashing = md5.getMD5(password);
-            
+
             System.out.println(passwordHashing);
-            
+
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
             stmt.setString(2, passwordHashing);
             ResultSet rs = stmt.executeQuery();
-            
+
             if (!rs.next()) {
                 errMessage = "User tidak ditemukan";
-            }                
+            }
 
         } catch (SQLException e) {
             System.out.println("mysql error: ");
             System.out.println(e);
-            
+
             errMessage = "Mysql Connection Failed: " + e;
         }
-        
+
         if (errMessage != "") {
             throw new Exception(errMessage);
         }
-        
+
         return true;
     }
 }
