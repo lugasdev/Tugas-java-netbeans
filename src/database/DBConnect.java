@@ -1,4 +1,5 @@
 package database;
+
 import java.io.FileInputStream;
 import java.sql.*;
 import java.util.Properties;
@@ -8,9 +9,9 @@ import java.util.Properties;
  * @author lugas
  */
 public class DBConnect {
-    
+
     private Connection conn;
-    
+
     public Connection connect() {
         String url = "";
         String user = "";
@@ -21,15 +22,15 @@ public class DBConnect {
             Properties prop = new Properties();
             prop.load(propsInput);
 
-            System.out.println(prop.getProperty("DB_URL"));            
-            System.out.println(prop.getProperty("DB_USERNAME"));            
-            System.out.println(prop.getProperty("DB_PASSWORD"));            
-            
+            System.out.println(prop.getProperty("DB_URL"));
+            System.out.println(prop.getProperty("DB_USERNAME"));
+            System.out.println(prop.getProperty("DB_PASSWORD"));
+
             url = prop.getProperty("DB_URL");
             user = prop.getProperty("DB_USERNAME");
             password = prop.getProperty("DB_PASSWORD");
         } catch (Exception e) {
-            System.out.println("Properties Failed: " + e);            
+            System.out.println("Properties Failed: " + e);
         }
 
         try {

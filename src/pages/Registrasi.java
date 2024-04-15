@@ -1,4 +1,5 @@
 package pages;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,47 +10,63 @@ import javax.swing.JOptionPane;
  * @author lugas
  */
 public class Registrasi extends javax.swing.JPanel {
-    private models.Doctor doctorModel = new models.Doctor();
-    private models.Patient patientModel = new models.Patient();
-    private models.Registration registrationModel = new models.Registration();
+
+    private Home parent;
+    private models.DoctorModel doctorModel = new models.DoctorModel();
+    private models.PatientModel patientModel = new models.PatientModel();
+    private models.RegistrationModel registrationModel = new models.RegistrationModel();
     Pasien pasien = new Pasien();
 
     private boolean isPatientExist = false;
 
     /**
      * Creates new form Registrasi
+     *
+     * @param parent Home
      */
+    public Registrasi(Home parent) {
+        initComponents();
+
+        this.parent = parent;
+
+        updateDoctorList();
+        initDate();
+    }
+
     public Registrasi() {
         initComponents();
-        
+
         updateDoctorList();
-        
+        initDate();
+    }
+
+    private void initDate() {
         LocalDateTime dateNowObj = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        
+
         String dateNow = dateNowObj.format(dateFormatter);
         String timeNow = dateNowObj.format(timeFormatter);
-        
+
         inputRegDate.setText(dateNow);
         inputRegTime.setText(timeNow);
     }
-    
+
     private void updateDoctorList() {
         try {
             ResultSet doctors = doctorModel.getActiveDoctor();
-            int rsCount = doctorModel.getCountActiveDoctor();           
+            int rsCount = doctorModel.getCountActiveDoctor();
             String[] activeDoctorName = new String[rsCount];
-               
-            int i = 0;            
-            while(doctors.next()) {
+
+            int i = 0;
+            while (doctors.next()) {
                 System.out.println(doctors.getString("name"));
                 activeDoctorName[i] = doctors.getString("name") + " - " + doctors.getString("clinic") + " - " + doctors.getString("id");
-                
+
                 i++;
             }
-            
-            inputDoctor.setModel(new javax.swing.DefaultComboBoxModel<>(activeDoctorName));        
+
+            inputDoctor.setModel(new javax.swing.DefaultComboBoxModel<>(activeDoctorName));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -93,8 +110,10 @@ public class Registrasi extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBackground(new java.awt.Color(239, 241, 237));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 50));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -125,7 +144,12 @@ public class Registrasi extends javax.swing.JPanel {
         inputAddress.setRows(5);
         jScrollPane1.setViewportView(inputAddress);
 
+        jButton1.setBackground(new java.awt.Color(0, 119, 182));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Simpan");
+        jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setPreferredSize(new java.awt.Dimension(50, 30));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -196,17 +220,18 @@ public class Registrasi extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5))
                     .addComponent(inputGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(inputRegDate, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel13))
+                    .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputNIK, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(inputDoctor, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(inputRegDate, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel13))))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel10, jLabel6, jLabel7, jLabel8, jLabel9});
@@ -260,7 +285,7 @@ public class Registrasi extends javax.swing.JPanel {
                         .addComponent(jLabel14))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(67, 67, 67))
         );
 
@@ -277,35 +302,30 @@ public class Registrasi extends javax.swing.JPanel {
         String address = inputAddress.getText();
         String phone = inputPhone.getText();
         String bloodType = inputBloodType.getSelectedItem().toString();
-        
+
         String doctor = inputDoctor.getSelectedItem().toString();
         String[] doctorSplit = doctor.split("-");
         String regDateInput = inputRegDate.getText();
         String[] regDateSplit = regDateInput.split("/");
         String regTime = inputRegTime.getText();
-        
-        String regDate = regDateSplit[2] +"-"+ regDateSplit[1] +"-"+ regDateSplit[0] + " " + regTime + ":00";
+
+        String regDate = regDateSplit[2] + "-" + regDateSplit[1] + "-" + regDateSplit[0] + " " + regTime + ":00";
         String doctorId = doctorSplit[2].trim();
-        
+
         try {
-            int patientId = patientModel.create(nik, name, Integer.parseInt(gender), dobSplit[2] +"-"+ dobSplit[1] +"-"+ dobSplit[0], address, phone, bloodType);            
+            int patientId = patientModel.create(nik, name, Integer.parseInt(gender), dobSplit[2] + "-" + dobSplit[1] + "-" + dobSplit[0], address, phone, bloodType);
             System.out.println("patient id: " + patientId);
-                        
+
             int registrationId = registrationModel.create(Integer.parseInt(doctorId), patientId, regDate);
             System.out.println("registrationId: " + registrationId);
-            
-            JOptionPane.showMessageDialog(null, "Registrasi berhasil");    
+
+            JOptionPane.showMessageDialog(null, "Registrasi berhasil");
             resetForm();
-            this.setVisible(false);
-            
-            new Home().show("pasien");
-            
-//            pasien.setVisible(true);
-            
-            
+
+            this.parent.changePage("pasien");
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -316,9 +336,9 @@ public class Registrasi extends javax.swing.JPanel {
     private void resetForm() {
         inputNIK.setText("");
         inputName.setText("");
-        inputDOB.setText("");        
-        inputAddress.setText("");        
-        inputPhone.setText("");        
+        inputDOB.setText("");
+        inputAddress.setText("");
+        inputPhone.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

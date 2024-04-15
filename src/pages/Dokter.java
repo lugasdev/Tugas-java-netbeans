@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package pages;
 
 import java.sql.ResultSet;
@@ -14,42 +10,42 @@ import javax.swing.table.DefaultTableModel;
  * @author lugas
  */
 public class Dokter extends javax.swing.JPanel {
-    
+
     private int doctorId = 0;
-    private models.Doctor doctorModel = new models.Doctor();
+    private models.DoctorModel doctorModel = new models.DoctorModel();
 
     /**
      * Creates new form Dokter
      */
     public Dokter() {
         initComponents();
-        
+
         updateTable();
-        
+
         updateBtn.setEnabled(false);
         deleteBtn.setEnabled(false);
     }
-    
+
     private void updateTable() {
-        DefaultTableModel RecordTable = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel RecordTable = (DefaultTableModel) jTable1.getModel();
         RecordTable.setRowCount(0);
-        
+
         try {
             ResultSet doctors = doctorModel.get();
 
             while (doctors.next()) {
                 String stat = "Tidak Aktif";
                 if ("1".equals(doctors.getString("stat"))) {
-                    stat = "Aktif";                    
+                    stat = "Aktif";
                 }
-                
+
                 Vector column = new Vector();
                 column.add(doctors.getString("id"));
                 column.add(doctors.getString("name"));
                 column.add(doctors.getString("clinic"));
                 column.add(stat);
                 RecordTable.addRow(column);
-            }            
+            }
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -83,6 +79,7 @@ public class Dokter extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBackground(new java.awt.Color(239, 241, 237));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 50));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
@@ -116,7 +113,7 @@ public class Dokter extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -136,6 +133,10 @@ public class Dokter extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(5);
+        }
 
         jLabel4.setText("Poli");
 
@@ -217,18 +218,18 @@ public class Dokter extends javax.swing.JPanel {
         String name = inputName.getText();
         String clinic = String.valueOf(inputClinic.getSelectedItem());
         int stat = inputStat.getSelectedIndex();
-        
+
         try {
             int id = doctorModel.create(name, clinic, stat);
-            
+
             System.out.println("inser id: " + id);
-            
-            JOptionPane.showMessageDialog(null, "Dokter ditambahkan");                       
+
+            JOptionPane.showMessageDialog(null, "Dokter ditambahkan");
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
+
         resetFormToCreate();
     }//GEN-LAST:event_addBtnActionPerformed
 
@@ -239,98 +240,98 @@ public class Dokter extends javax.swing.JPanel {
             int col = jTable1.columnAtPoint(evt.getPoint());
 
             System.out.println(row);
-            System.out.println(col);        
-            
+            System.out.println(col);
+
             String id = jTable1.getValueAt(row, 0).toString();
-            
+
             System.out.println(id);
             updateFormToUpdate(id);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void updateFormToUpdate(String id) {
-        
+
         try {
             ResultSet doctor = doctorModel.get(Integer.parseInt(id));
-            
+
             while (doctor.next()) {
                 System.out.println(doctor.getString("id"));
-                System.out.println(doctor.getString("name"));                            
-                System.out.println(doctor.getString("clinic"));                            
-                System.out.println(doctor.getString("stat"));                            
-                
+                System.out.println(doctor.getString("name"));
+                System.out.println(doctor.getString("clinic"));
+                System.out.println(doctor.getString("stat"));
+
                 doctorId = Integer.parseInt(doctor.getString("id"));
                 inputName.setText(doctor.getString("name"));
-                
+
                 int clinicSelectCount = inputClinic.getItemCount();
                 for (int i = 0; i < clinicSelectCount; i++) {
                     if (doctor.getString("clinic").equals(inputClinic.getItemAt(i))) {
-                        System.out.println(inputClinic.getItemAt(i));  
+                        System.out.println(inputClinic.getItemAt(i));
                         inputClinic.setSelectedIndex(i);
                     }
                 }
-                
+
                 inputStat.setSelectedIndex(0);
                 if (doctor.getString("stat").equals("1")) {
                     inputStat.setSelectedIndex(1);
-                } 
+                }
             }
-            
+
             addBtn.setEnabled(false);
             updateBtn.setEnabled(true);
             deleteBtn.setEnabled(true);
         } catch (Exception e) {
             System.out.println(e);
-            
+
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         String name = inputName.getText();
         String clinic = String.valueOf(inputClinic.getSelectedItem());
         int stat = inputStat.getSelectedIndex();
-        
+
         try {
             doctorModel.update(doctorId, name, clinic, stat);
-            
-            JOptionPane.showMessageDialog(null, "Dokter diupdate");                       
+
+            JOptionPane.showMessageDialog(null, "Dokter diupdate");
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());                                   
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
+
         resetFormToCreate();
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         int confirm = JOptionPane.showConfirmDialog(null, "Hapus Dokter?");
-            
+
         System.out.println("showConfirmDialog");
         System.out.println(confirm);
         if (confirm == 0) {
             try {
                 doctorModel.delete(doctorId);
 
-                JOptionPane.showMessageDialog(null, "Dokter dihapus");                       
+                JOptionPane.showMessageDialog(null, "Dokter dihapus");
             } catch (Exception e) {
                 System.out.println(e);
-                JOptionPane.showMessageDialog(null, e.getMessage());                                   
-            }            
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
             resetFormToCreate();
         }
 
     }//GEN-LAST:event_deleteBtnActionPerformed
-    
+
     private void resetFormToCreate() {
         updateTable();
-        
+
         inputName.setText("");
         addBtn.setEnabled(true);
         updateBtn.setEnabled(false);
         deleteBtn.setEnabled(false);
-        doctorId = 0; 
+        doctorId = 0;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
