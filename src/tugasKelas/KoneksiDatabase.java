@@ -1,37 +1,60 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package tugasKelas;
 
 import database.DBConnect;
-import java.sql.Connection;
+import java.sql.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author lugas
- */
 public class KoneksiDatabase extends javax.swing.JFrame {
     private Connection conn = new DBConnect().connect();
+    private DefaultTableModel tableModel;
 
     /**
      * Creates new form KoneksiDatabase
      */
     public KoneksiDatabase() {
         initComponents();
+        
+        viewData();
+        enableEditButton(false);
     }
     
-    private void viewData() {
-           
+    private void enableEditButton(boolean stat) {
+        btnEdit.setEnabled(false);
+        btnDelete.setEnabled(false);
+        if (stat) {
+            btnEdit.setEnabled(true);
+            btnDelete.setEnabled(true);            
+        }
+    }
+    
+    private void viewData() {           
         Object[] Columns = {"No. Identitas", "Nama Pasien", "Jenis Kelamin", "Alamat", "Gol. Darah"};
         
-        DefaultTableModel tableModel = new DefaultTableModel(null, Columns);
+        tableModel = new DefaultTableModel(null, Columns);
         table.setModel(tableModel);
         
         try {
             String sql = "select * from pasien_tugas;";
+            
+            Statement statement = conn.createStatement();
+            
+            ResultSet pasien = statement.executeQuery(sql);
+            
+            while(pasien.next()) {
+                String nama = pasien.getString("nama");
+                String id = pasien.getString("id");
+                String jnsKelamin = pasien.getString("jk");
+                String goldar = pasien.getString("goldar");
+                String alamat = pasien.getString("alamat");
+                
+                String[] row={id, nama, jnsKelamin, alamat, goldar};
+                
+                tableModel.addRow(row);
+            }
         } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         
     }
@@ -54,10 +77,10 @@ public class KoneksiDatabase extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         inputNoIdentitas = new javax.swing.JTextField();
         inputNama = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        inputLaki = new javax.swing.JRadioButton();
+        inputPerempuan = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        inputAlamat = new javax.swing.JTextArea();
         inputGolDarah = new javax.swing.JComboBox<>();
         btnSave = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
@@ -73,6 +96,7 @@ public class KoneksiDatabase extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("- Data Pasien -");
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setText("No. Identitas");
 
@@ -84,26 +108,51 @@ public class KoneksiDatabase extends javax.swing.JFrame {
 
         jLabel6.setText("Golongan Darah");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Laki-Laki");
+        buttonGroup1.add(inputLaki);
+        inputLaki.setText("Laki-Laki");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Perempuan");
+        buttonGroup1.add(inputPerempuan);
+        inputPerempuan.setText("Perempuan");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        inputAlamat.setColumns(20);
+        inputAlamat.setRows(5);
+        jScrollPane1.setViewportView(inputAlamat);
 
         inputGolDarah.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B", "AB", "O" }));
 
-        btnSave.setText("Save");
+        btnSave.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSave.setText("Create");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
+        btnEdit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
+        btnDelete.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
+        btnClear.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
+        btnExit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnExit.setText("Exit");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,6 +185,11 @@ public class KoneksiDatabase extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -155,7 +209,6 @@ public class KoneksiDatabase extends javax.swing.JFrame {
                         .addComponent(btnClear)
                         .addGap(18, 18, 18)
                         .addComponent(btnExit))
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -166,9 +219,9 @@ public class KoneksiDatabase extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
+                                .addComponent(inputLaki)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2))
+                                .addComponent(inputPerempuan))
                             .addComponent(inputNoIdentitas, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(inputNama)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
@@ -177,7 +230,8 @@ public class KoneksiDatabase extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(inputFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -196,8 +250,8 @@ public class KoneksiDatabase extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(inputLaki)
+                    .addComponent(inputPerempuan))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -219,16 +273,128 @@ public class KoneksiDatabase extends javax.swing.JFrame {
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        try {
+            String jnsKelamin = "Perempuan";
+            if (inputLaki.isSelected()) {
+                jnsKelamin = "Laki-laki";
+            }
+            String query = "insert into pasien_tugas (id, nama, alamat, goldar, jk) values(?,?,?,?,?)";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, inputNoIdentitas.getText());
+            statement.setString(2, inputNama.getText());
+            statement.setString(3, inputAlamat.getText());
+            statement.setString(4, inputGolDarah.getSelectedItem().toString());
+            statement.setString(5, jnsKelamin);
+            
+            statement.execute();
+            JOptionPane.showMessageDialog(null, "Data Tersimpan");
+            
+            clearInput();
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        viewData();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        int rowIndex = table.getSelectedRow();
+        String id = tableModel.getValueAt(rowIndex, 0).toString();
+        String nama = tableModel.getValueAt(rowIndex, 1).toString();
+        String jnsKelamin = tableModel.getValueAt(rowIndex, 2).toString();
+        String alamat = tableModel.getValueAt(rowIndex, 3).toString();
+        String goldar = tableModel.getValueAt(rowIndex, 4).toString();
+        
+        inputNoIdentitas.setText(id);
+        inputNama.setText(nama);
+        inputAlamat.setText(alamat);
+        
+        inputPerempuan.setSelected(false);
+        inputLaki.setSelected(false);
+        if (jnsKelamin.equals("Perempuan")) {
+            inputPerempuan.setSelected(true);
+        } else {
+            inputLaki.setSelected(true);
+        }
+        
+        inputGolDarah.setSelectedItem(goldar);
+        
+        enableEditButton(true);
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clearInput();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try {
+            String jnsKelamin = "Perempuan";
+            if (inputLaki.isSelected()) {
+                jnsKelamin = "Laki-laki";
+            }
+            String query = "update pasien_tugas set nama = ?, alamat = ?, goldar = ?, jk = ? where id = ?";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, inputNama.getText());
+            statement.setString(2, inputAlamat.getText());
+            statement.setString(3, inputGolDarah.getSelectedItem().toString());
+            statement.setString(4, jnsKelamin);
+            statement.setString(5, inputNoIdentitas.getText());
+            
+            statement.execute();
+            JOptionPane.showMessageDialog(null, "Data Tersimpan");
+            
+            clearInput();
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        viewData();
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int isDeleted = JOptionPane.showConfirmDialog(null, "Hapus data pasien?");        
+        System.out.println(isDeleted);
+        
+        if (isDeleted == 0) {
+            try {
+                String query = "delete from pasien_tugas where id = ?";
+
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, inputNoIdentitas.getText());
+
+                statement.execute();
+                JOptionPane.showMessageDialog(null, "Data Dihapus");
+
+                clearInput();
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        viewData();     
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void clearInput() {
+        inputNoIdentitas.setText("");
+        inputNama.setText("");
+        inputAlamat.setText("");
+        
+        enableEditButton(false);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -271,10 +437,13 @@ public class KoneksiDatabase extends javax.swing.JFrame {
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextArea inputAlamat;
     private javax.swing.JTextField inputFilter;
     private javax.swing.JComboBox<String> inputGolDarah;
+    private javax.swing.JRadioButton inputLaki;
     private javax.swing.JTextField inputNama;
     private javax.swing.JTextField inputNoIdentitas;
+    private javax.swing.JRadioButton inputPerempuan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -282,11 +451,8 @@ public class KoneksiDatabase extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

@@ -235,7 +235,6 @@ public class Dokter extends javax.swing.JPanel {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         if (evt.getClickCount() == 2 && !evt.isConsumed()) {
-            System.out.println("jTable1MouseClicked");
             int row = jTable1.rowAtPoint(evt.getPoint());
             int col = jTable1.columnAtPoint(evt.getPoint());
 
@@ -250,7 +249,6 @@ public class Dokter extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void updateFormToUpdate(String id) {
-
         try {
             ResultSet doctor = doctorModel.get(Integer.parseInt(id));
 

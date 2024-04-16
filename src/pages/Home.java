@@ -149,6 +149,7 @@ public class Home extends javax.swing.JFrame {
         header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         mainMenu = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         regBtn = new javax.swing.JButton();
         psnBtn = new javax.swing.JButton();
         dokBtn = new javax.swing.JButton();
@@ -188,6 +189,22 @@ public class Home extends javax.swing.JFrame {
         mainMenu.setBackground(new java.awt.Color(0, 41, 107));
         mainMenu.setPreferredSize(new java.awt.Dimension(200, 469));
         mainMenu.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
+
+        jPanel1.setBackground(new java.awt.Color(0, 41, 107));
+        jPanel1.setPreferredSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        mainMenu.add(jPanel1);
 
         regBtn.setBackground(new java.awt.Color(255, 255, 255));
         regBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958267_disease_epidemic_infection_patient_sufferer_icon.png"))); // NOI18N
@@ -385,6 +402,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton dokBtn;
     private javax.swing.JPanel header;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel mainMenu;
     private javax.swing.JButton obatBtn;
     private javax.swing.JButton obatBtn1;
