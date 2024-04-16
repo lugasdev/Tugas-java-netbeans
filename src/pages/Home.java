@@ -153,9 +153,6 @@ public class Home extends javax.swing.JFrame {
         regBtn = new javax.swing.JButton();
         psnBtn = new javax.swing.JButton();
         dokBtn = new javax.swing.JButton();
-        anamnesaBtn = new javax.swing.JButton();
-        pmrBtn = new javax.swing.JButton();
-        obatBtn = new javax.swing.JButton();
         obatBtn1 = new javax.swing.JButton();
         body = new javax.swing.JPanel();
 
@@ -245,49 +242,6 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(dokBtn);
 
-        anamnesaBtn.setBackground(new java.awt.Color(255, 255, 255));
-        anamnesaBtn.setText("Anamnesa");
-        anamnesaBtn.setBorder(null);
-        anamnesaBtn.setPreferredSize(new java.awt.Dimension(150, 40));
-        anamnesaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                anamnesaBtnMouseClicked(evt);
-            }
-        });
-        anamnesaBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                anamnesaBtnActionPerformed(evt);
-            }
-        });
-        mainMenu.add(anamnesaBtn);
-
-        pmrBtn.setBackground(new java.awt.Color(255, 255, 255));
-        pmrBtn.setText("Pemeriksaan");
-        pmrBtn.setBorder(null);
-        pmrBtn.setPreferredSize(new java.awt.Dimension(150, 40));
-        pmrBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pmrBtnMouseClicked(evt);
-            }
-        });
-        pmrBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pmrBtnActionPerformed(evt);
-            }
-        });
-        mainMenu.add(pmrBtn);
-
-        obatBtn.setBackground(new java.awt.Color(255, 255, 255));
-        obatBtn.setText("Resep Obat");
-        obatBtn.setBorder(null);
-        obatBtn.setPreferredSize(new java.awt.Dimension(150, 40));
-        obatBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                obatBtnActionPerformed(evt);
-            }
-        });
-        mainMenu.add(obatBtn);
-
         obatBtn1.setBackground(new java.awt.Color(255, 255, 255));
         obatBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/8956782_info_help_guide_about_customer service_icon.png"))); // NOI18N
         obatBtn1.setText("Tentang Aplikasi");
@@ -325,38 +279,6 @@ public class Home extends javax.swing.JFrame {
         body.setVisible(true);
         registrasi.setVisible(true);
     }//GEN-LAST:event_regBtnActionPerformed
-
-    private void pmrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pmrBtnActionPerformed
-        this.clearAllPanel();
-
-        body.add(pemeriksaan, "card2");
-        body.setVisible(true);
-        pemeriksaan.setVisible(true);
-    }//GEN-LAST:event_pmrBtnActionPerformed
-
-    private void pmrBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pmrBtnMouseClicked
-    }//GEN-LAST:event_pmrBtnMouseClicked
-
-    private void anamnesaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anamnesaBtnMouseClicked
-        this.clearAllPanel();
-
-        body.add(anamnesa, "card2");
-        body.setVisible(true);
-        anamnesa.setVisible(true);
-    }//GEN-LAST:event_anamnesaBtnMouseClicked
-
-    private void anamnesaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anamnesaBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_anamnesaBtnActionPerformed
-
-    private void obatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obatBtnActionPerformed
-        // TODO add your handling code here:
-        this.clearAllPanel();
-
-        body.add(resep, "card2");
-        body.setVisible(true);
-        resep.setVisible(true);
-    }//GEN-LAST:event_obatBtnActionPerformed
 
     private void psnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psnBtnActionPerformed
         this.clearAllPanel();
@@ -397,16 +319,13 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton anamnesaBtn;
     private javax.swing.JPanel body;
     private javax.swing.JButton dokBtn;
     private javax.swing.JPanel header;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel mainMenu;
-    private javax.swing.JButton obatBtn;
     private javax.swing.JButton obatBtn1;
-    private javax.swing.JButton pmrBtn;
     private javax.swing.JButton psnBtn;
     private javax.swing.JButton regBtn;
     // End of variables declaration//GEN-END:variables
