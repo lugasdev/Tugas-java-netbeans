@@ -8,6 +8,7 @@ START TRANSACTION;
 /*!40101 SET NAMES utf8mb4 */;
 
 
+DROP TABLE IF EXISTS `anamnesa`;
 CREATE TABLE `anamnesa` (
   `id` int NOT NULL,
   `registration_id` int NOT NULL,
@@ -26,6 +27,7 @@ INSERT INTO `anamnesa` (`id`, `registration_id`, `height`, `weight`, `blood_pres
 (1, 6, 170, 69, '110/80', 34, 1, 0, 'sadaswqeqwe', 'wqeqweqw', '2024-04-06 10:35:37'),
 (2, 7, 159, 65, '110/85', 36, 1, 0, 'oasdasbndiua riwa', 'asnjidohasiod askdhasjiod \nkelu', '2024-04-08 06:07:13');
 
+DROP TABLE IF EXISTS `doctors`;
 CREATE TABLE `doctors` (
   `id` int NOT NULL,
   `name` varchar(150) DEFAULT NULL,
@@ -41,6 +43,7 @@ INSERT INTO `doctors` (`id`, `name`, `clinic`, `stat`, `created_at`) VALUES
 (5, 'Amalia Septianti', 'Poli Kebidanan & Kandungan', 1, '2024-03-31 06:53:41'),
 (6, 'Ibrahim Oke', 'Poli Kebidanan & Kandungan', 0, '2024-03-31 06:55:36');
 
+DROP TABLE IF EXISTS `medical_records`;
 CREATE TABLE `medical_records` (
   `id` int NOT NULL,
   `registration_id` int NOT NULL,
@@ -53,6 +56,7 @@ CREATE TABLE `medical_records` (
 INSERT INTO `medical_records` (`id`, `registration_id`, `physical`, `diagnosis`, `therapy`, `created_at`) VALUES
 (1, 7, 'asdsad\nqweqweasd \nfisik', 'asd asdklqweb\nasdas\ndiagnosis', 'asdnjias daseiqwuge\n\nterapi', '2024-04-08 07:02:40');
 
+DROP TABLE IF EXISTS `pasien_tugas`;
 CREATE TABLE `pasien_tugas` (
   `id` char(50) NOT NULL,
   `nama` varchar(150) NOT NULL,
@@ -65,6 +69,7 @@ INSERT INTO `pasien_tugas` (`id`, `nama`, `alamat`, `goldar`, `jk`) VALUES
 ('2463252', 'Veronica Pokemon', 'asdas\n21312', 'O', 'Perempuan'),
 ('64783264726', 'Gigi Sugigi', 'asdas\nqweqweqw\n97483 update', 'A', 'Perempuan');
 
+DROP TABLE IF EXISTS `patients`;
 CREATE TABLE `patients` (
   `id` int NOT NULL,
   `identity_number` varchar(100) NOT NULL,
@@ -88,6 +93,7 @@ INSERT INTO `patients` (`id`, `identity_number`, `name`, `gender`, `date_of_birt
 (8, '12321312312', 'sdasdasdas', 1, '1997-06-19', 'asdas dsaedqweqw', '12312312', '2024-04-08 11:13:10', 'AB +'),
 (9, '624623647237', 'Eci Dita', 1, '1990-02-11', 'sad sadqwe\nasdas', '085725008001', '2024-04-16 14:31:00', 'A +');
 
+DROP TABLE IF EXISTS `prescriptions`;
 CREATE TABLE `prescriptions` (
   `id` int NOT NULL,
   `registration_id` int NOT NULL,
@@ -101,6 +107,7 @@ INSERT INTO `prescriptions` (`id`, `registration_id`, `name`, `dose`, `note`, `c
 (1, 7, 'paracetamol', '3x1 setelah makan', 'dikonsumsi 1 minggu', '2024-04-09 10:46:01'),
 (5, 7, 'antibiotik', '2x1', 'sebelum makan, dikonsumsi sampai habis', '2024-04-09 10:51:01');
 
+DROP TABLE IF EXISTS `registrations`;
 CREATE TABLE `registrations` (
   `id` int NOT NULL,
   `doctor_id` int NOT NULL,
@@ -121,6 +128,7 @@ INSERT INTO `registrations` (`id`, `doctor_id`, `patient_id`, `registration_at`,
 (8, 5, 8, '2024-04-08 11:12:00', '2024-04-08 11:13:10', 0),
 (9, 5, 9, '2024-04-16 16:30:00', '2024-04-16 14:31:00', 0);
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int NOT NULL,
   `username` varchar(150) NOT NULL,
