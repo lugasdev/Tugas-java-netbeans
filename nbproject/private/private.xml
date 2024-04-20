@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ameng/OneDrive/Dokumen/NetBeansProjects/Tugas-java-netbeans/src/tugasKelas/KoneksiDatabase.java</file>
-            <file>file:/C:/Users/ameng/OneDrive/Dokumen/NetBeansProjects/Tugas-java-netbeans/src/pages/Dokter.java</file>
-            <file>file:/C:/Users/ameng/OneDrive/Dokumen/NetBeansProjects/Tugas-java-netbeans/src/pages/Welcome.java</file>
-            <file>file:/C:/Users/ameng/OneDrive/Dokumen/NetBeansProjects/Tugas-java-netbeans/src/models/DoctorModel.java</file>
-            <file>file:/C:/Users/ameng/OneDrive/Dokumen/NetBeansProjects/Tugas-java-netbeans/src/tugasKelas/KeyPressed.java</file>
-            <file>file:/C:/Users/ameng/OneDrive/Dokumen/NetBeansProjects/Tugas-java-netbeans/src/Login.java</file>
-            <file>file:/C:/Users/ameng/OneDrive/Dokumen/NetBeansProjects/Tugas-java-netbeans/src/pages/Home.java</file>
+            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/config.properties</file>
+            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/pages/Home.java</file>
+            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/pages/Tentang.java</file>
+            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/database/tugas_java_netbeans.sql</file>
+            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/database/DBConnect.java</file>
+            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/Login.java</file>
+            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/models/UserModel.java</file>
         </group>
     </open-files>
 </project-private>

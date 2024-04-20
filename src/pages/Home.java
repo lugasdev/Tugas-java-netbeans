@@ -17,6 +17,7 @@ public class Home extends javax.swing.JFrame {
     Resep resep = new Resep();
     Pasien pasien = new Pasien(this);
     Dokter dokter = new Dokter();
+    Tentang tentang = new Tentang();
 
     /**
      * Creates new form Home
@@ -153,7 +154,7 @@ public class Home extends javax.swing.JFrame {
         regBtn = new javax.swing.JButton();
         psnBtn = new javax.swing.JButton();
         dokBtn = new javax.swing.JButton();
-        obatBtn1 = new javax.swing.JButton();
+        btnabout = new javax.swing.JButton();
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -242,17 +243,17 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(dokBtn);
 
-        obatBtn1.setBackground(new java.awt.Color(255, 255, 255));
-        obatBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/8956782_info_help_guide_about_customer service_icon.png"))); // NOI18N
-        obatBtn1.setText("Tentang Aplikasi");
-        obatBtn1.setBorder(null);
-        obatBtn1.setPreferredSize(new java.awt.Dimension(150, 40));
-        obatBtn1.addActionListener(new java.awt.event.ActionListener() {
+        btnabout.setBackground(new java.awt.Color(255, 255, 255));
+        btnabout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/8956782_info_help_guide_about_customer service_icon.png"))); // NOI18N
+        btnabout.setText("Tentang Aplikasi");
+        btnabout.setBorder(null);
+        btnabout.setPreferredSize(new java.awt.Dimension(150, 40));
+        btnabout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                obatBtn1ActionPerformed(evt);
+                btnaboutActionPerformed(evt);
             }
         });
-        mainMenu.add(obatBtn1);
+        mainMenu.add(btnabout);
 
         getContentPane().add(mainMenu, java.awt.BorderLayout.LINE_START);
 
@@ -270,6 +271,7 @@ public class Home extends javax.swing.JFrame {
         resep.setVisible(false);
         pasien.setVisible(false);
         dokter.setVisible(false);
+        tentang.setVisible(false);
     }
 
     private void regBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBtnActionPerformed
@@ -297,9 +299,14 @@ public class Home extends javax.swing.JFrame {
         dokter.setVisible(true);
     }//GEN-LAST:event_dokBtnActionPerformed
 
-    private void obatBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obatBtn1ActionPerformed
+    private void btnaboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaboutActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_obatBtn1ActionPerformed
+        this.clearAllPanel();
+
+        body.add(tentang, "card2");
+        body.setVisible(true);
+        tentang.setVisible(true);
+    }//GEN-LAST:event_btnaboutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,12 +327,12 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
+    private javax.swing.JButton btnabout;
     private javax.swing.JButton dokBtn;
     private javax.swing.JPanel header;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel mainMenu;
-    private javax.swing.JButton obatBtn1;
     private javax.swing.JButton psnBtn;
     private javax.swing.JButton regBtn;
     // End of variables declaration//GEN-END:variables
