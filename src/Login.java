@@ -11,6 +11,7 @@ import models.UserModel;
 public class Login extends javax.swing.JFrame {
 
     private UserModel user = new UserModel();
+    Home home = new Home();
 
     /**
      * Creates new form Login
@@ -158,7 +159,7 @@ public class Login extends javax.swing.JFrame {
         try {
             user.login(username.getText(), String.valueOf(password.getPassword()));
             this.dispose();
-            new Home().setVisible(true);
+            home.setVisible(true);
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());

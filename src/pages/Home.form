@@ -181,7 +181,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dokBtnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="obatBtn1">
+        <Component class="javax.swing.JButton" name="btnabout">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/assets/icons/8956782_info_help_guide_about_customer service_icon.png"/>
@@ -195,7 +195,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="obatBtn1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnaboutActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
