@@ -3,6 +3,7 @@ package pages;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import pages.master.Master;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Home extends javax.swing.JFrame {
     Resep resep = new Resep();
     Pasien pasien = new Pasien(this);
     Dokter dokter = new Dokter();
+    Master master = new Master();
 
     /**
      * Creates new form Home
@@ -67,6 +69,12 @@ public class Home extends javax.swing.JFrame {
                 body.add(registrasi, "card2");
                 body.setVisible(true);
                 registrasi.setVisible(true);
+                break;
+            case "master":
+                System.out.println("show master page");
+                body.add(master, "card2");
+                body.setVisible(true);
+                master.setVisible(true);
                 break;
             default:
                 System.out.println("show default page");
@@ -148,6 +156,7 @@ public class Home extends javax.swing.JFrame {
 
         header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         mainMenu = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         regBtn = new javax.swing.JButton();
@@ -166,19 +175,32 @@ public class Home extends javax.swing.JFrame {
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
+        jButton1.setText("Master");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1211, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1133, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(headerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
@@ -203,7 +225,6 @@ public class Home extends javax.swing.JFrame {
 
         mainMenu.add(jPanel1);
 
-        regBtn.setBackground(new java.awt.Color(255, 255, 255));
         regBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958267_disease_epidemic_infection_patient_sufferer_icon.png"))); // NOI18N
         regBtn.setText("Registrasi Pasien");
         regBtn.setBorder(null);
@@ -218,7 +239,6 @@ public class Home extends javax.swing.JFrame {
         regBtn.setBounds(0, 0, 0, 0);
         mainMenu.add(regBtn);
 
-        psnBtn.setBackground(new java.awt.Color(255, 255, 255));
         psnBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958254_cold_disease_epidemic_fever_flu_icon.png"))); // NOI18N
         psnBtn.setText("Daftar Pasien");
         psnBtn.setBorder(null);
@@ -230,7 +250,6 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(psnBtn);
 
-        dokBtn.setBackground(new java.awt.Color(255, 255, 255));
         dokBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958251_disease_doctor_epidemic_hospital_infection_icon.png"))); // NOI18N
         dokBtn.setText("Daftar Dokter");
         dokBtn.setBorder(null);
@@ -242,7 +261,6 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(dokBtn);
 
-        obatBtn1.setBackground(new java.awt.Color(255, 255, 255));
         obatBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/8956782_info_help_guide_about_customer service_icon.png"))); // NOI18N
         obatBtn1.setText("Tentang Aplikasi");
         obatBtn1.setBorder(null);
@@ -270,6 +288,7 @@ public class Home extends javax.swing.JFrame {
         resep.setVisible(false);
         pasien.setVisible(false);
         dokter.setVisible(false);
+        master.setVisible(false);
     }
 
     private void regBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBtnActionPerformed
@@ -301,6 +320,13 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_obatBtn1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.clearAllPanel();
+        
+        changePage("master");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -322,6 +348,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel body;
     private javax.swing.JButton dokBtn;
     private javax.swing.JPanel header;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel mainMenu;
