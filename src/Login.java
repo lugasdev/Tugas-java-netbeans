@@ -145,7 +145,7 @@ public class Login extends javax.swing.JFrame {
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.LINE_START);
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 70, 380, 240));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 40, 410, 240));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/images/login_background.jpg"))); // NOI18N
