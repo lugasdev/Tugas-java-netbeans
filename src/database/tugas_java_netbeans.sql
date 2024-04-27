@@ -63,7 +63,7 @@ CREATE TABLE `pasien_tugas` (
   `alamat` text NOT NULL,
   `goldar` char(3) NOT NULL,
   `jk` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `pasien_tugas` (`id`, `nama`, `alamat`, `goldar`, `jk`) VALUES
 ('2463252', 'Veronica Pokemon', 'asdas\n21312', 'O', 'Perempuan'),
