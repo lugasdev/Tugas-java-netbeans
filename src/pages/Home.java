@@ -3,6 +3,7 @@ package pages;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import pages.master.Master;
 
 /**
  *
@@ -18,6 +19,11 @@ public class Home extends javax.swing.JFrame {
     Pasien pasien = new Pasien(this);
     Dokter dokter = new Dokter();
     Tentang tentang = new Tentang();
+    Master master = new Master();
+    
+    boolean subMasterPanelVisible = false;
+    boolean subTransactionPanelVisible = false;
+    boolean subLaporanPanelVisible = false;
 
     /**
      * Creates new form Home
@@ -25,6 +31,10 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        subMasterPanel.setVisible(subMasterPanelVisible);
+        subTransactionPanel.setVisible(subTransactionPanelVisible);
+        subLaporanPanel.setVisible(subLaporanPanelVisible);
 
         changePage("welcome");
     }
@@ -64,10 +74,16 @@ public class Home extends javax.swing.JFrame {
                 pemeriksaan.setVisible(true);
                 break;
             case "registrasi":
-                System.out.println("show patient page");
+                System.out.println("show registration page");
                 body.add(registrasi, "card2");
                 body.setVisible(true);
                 registrasi.setVisible(true);
+                break;
+            case "master":
+                System.out.println("show master page");
+                body.add(master, "card2");
+                body.setVisible(true);
+                master.setVisible(true);
                 break;
             default:
                 System.out.println("show default page");
@@ -155,6 +171,23 @@ public class Home extends javax.swing.JFrame {
         psnBtn = new javax.swing.JButton();
         dokBtn = new javax.swing.JButton();
         btnabout = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        btnMaster = new javax.swing.JButton();
+        subMasterPanel = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        btnMaster1 = new javax.swing.JButton();
+        subTransactionPanel = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        btnMaster2 = new javax.swing.JButton();
+        subLaporanPanel = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -173,7 +206,7 @@ public class Home extends javax.swing.JFrame {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1211, Short.MAX_VALUE))
+                .addContainerGap(1211, Short.MAX_VALUE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +237,6 @@ public class Home extends javax.swing.JFrame {
 
         mainMenu.add(jPanel1);
 
-        regBtn.setBackground(new java.awt.Color(255, 255, 255));
         regBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958267_disease_epidemic_infection_patient_sufferer_icon.png"))); // NOI18N
         regBtn.setText("Registrasi Pasien");
         regBtn.setBorder(null);
@@ -219,7 +251,6 @@ public class Home extends javax.swing.JFrame {
         regBtn.setBounds(0, 0, 0, 0);
         mainMenu.add(regBtn);
 
-        psnBtn.setBackground(new java.awt.Color(255, 255, 255));
         psnBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958254_cold_disease_epidemic_fever_flu_icon.png"))); // NOI18N
         psnBtn.setText("Daftar Pasien");
         psnBtn.setBorder(null);
@@ -231,7 +262,6 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(psnBtn);
 
-        dokBtn.setBackground(new java.awt.Color(255, 255, 255));
         dokBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958251_disease_doctor_epidemic_hospital_infection_icon.png"))); // NOI18N
         dokBtn.setText("Daftar Dokter");
         dokBtn.setBorder(null);
@@ -243,7 +273,6 @@ public class Home extends javax.swing.JFrame {
         });
         mainMenu.add(dokBtn);
 
-        btnabout.setBackground(new java.awt.Color(255, 255, 255));
         btnabout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/8956782_info_help_guide_about_customer service_icon.png"))); // NOI18N
         btnabout.setText("Tentang Aplikasi");
         btnabout.setBorder(null);
@@ -254,6 +283,203 @@ public class Home extends javax.swing.JFrame {
             }
         });
         mainMenu.add(btnabout);
+
+        jPanel2.setBackground(new java.awt.Color(0, 41, 107));
+        jPanel2.setPreferredSize(new java.awt.Dimension(150, 100));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 150, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        mainMenu.add(jPanel2);
+
+        btnMaster.setText("Master");
+        btnMaster.setBorder(null);
+        btnMaster.setBorderPainted(false);
+        btnMaster.setPreferredSize(new java.awt.Dimension(150, 40));
+        btnMaster.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMasterActionPerformed(evt);
+            }
+        });
+        mainMenu.add(btnMaster);
+
+        subMasterPanel.setBackground(new java.awt.Color(0, 41, 107));
+        subMasterPanel.setLayout(new java.awt.GridLayout(3, 0, 0, 5));
+
+        jButton2.setText("Master Pasien");
+        jButton2.setBorder(null);
+        jButton2.setBorderPainted(false);
+        jButton2.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton2.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton2.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        subMasterPanel.add(jButton2);
+
+        jButton3.setText("Master Dokter");
+        jButton3.setBorder(null);
+        jButton3.setBorderPainted(false);
+        jButton3.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton3.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton3.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        subMasterPanel.add(jButton3);
+
+        jButton1.setText("Master Obat");
+        jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton1.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton1.setMinimumSize(new java.awt.Dimension(150, 20));
+        jButton1.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        subMasterPanel.add(jButton1);
+
+        mainMenu.add(subMasterPanel);
+
+        btnMaster1.setText("Transaksi");
+        btnMaster1.setBorder(null);
+        btnMaster1.setBorderPainted(false);
+        btnMaster1.setPreferredSize(new java.awt.Dimension(150, 40));
+        btnMaster1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaster1ActionPerformed(evt);
+            }
+        });
+        mainMenu.add(btnMaster1);
+
+        subTransactionPanel.setBackground(new java.awt.Color(0, 41, 107));
+        subTransactionPanel.setLayout(new java.awt.GridLayout(3, 0, 0, 5));
+
+        jButton4.setText("Transaksi Registrasi");
+        jButton4.setBorder(null);
+        jButton4.setBorderPainted(false);
+        jButton4.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton4.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton4.setMinimumSize(new java.awt.Dimension(150, 20));
+        jButton4.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        subTransactionPanel.add(jButton4);
+
+        jButton5.setText("Transaksi Obat");
+        jButton5.setBorder(null);
+        jButton5.setBorderPainted(false);
+        jButton5.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton5.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton5.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        subTransactionPanel.add(jButton5);
+
+        jButton6.setText("Transaksi Pemeriksaan");
+        jButton6.setBorder(null);
+        jButton6.setBorderPainted(false);
+        jButton6.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton6.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton6.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        subTransactionPanel.add(jButton6);
+
+        mainMenu.add(subTransactionPanel);
+
+        btnMaster2.setText("Laporan");
+        btnMaster2.setBorder(null);
+        btnMaster2.setBorderPainted(false);
+        btnMaster2.setPreferredSize(new java.awt.Dimension(150, 40));
+        btnMaster2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaster2ActionPerformed(evt);
+            }
+        });
+        mainMenu.add(btnMaster2);
+
+        subLaporanPanel.setBackground(new java.awt.Color(0, 41, 107));
+        subLaporanPanel.setLayout(new java.awt.GridLayout(4, 0, 0, 5));
+
+        jButton7.setText("Laporan Registrasi");
+        jButton7.setBorder(null);
+        jButton7.setBorderPainted(false);
+        jButton7.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton7.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton7.setMinimumSize(new java.awt.Dimension(150, 20));
+        jButton7.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        subLaporanPanel.add(jButton7);
+
+        jButton8.setText("Laporan Pasien");
+        jButton8.setBorder(null);
+        jButton8.setBorderPainted(false);
+        jButton8.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton8.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton8.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        subLaporanPanel.add(jButton8);
+
+        jButton9.setText("Laporan Dokter");
+        jButton9.setBorder(null);
+        jButton9.setBorderPainted(false);
+        jButton9.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton9.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton9.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        subLaporanPanel.add(jButton9);
+
+        jButton10.setText("Laporan Obat");
+        jButton10.setBorder(null);
+        jButton10.setBorderPainted(false);
+        jButton10.setMargin(new java.awt.Insets(10, 14, 10, 14));
+        jButton10.setMaximumSize(new java.awt.Dimension(150, 20));
+        jButton10.setPreferredSize(new java.awt.Dimension(150, 20));
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        subLaporanPanel.add(jButton10);
+
+        mainMenu.add(subLaporanPanel);
 
         getContentPane().add(mainMenu, java.awt.BorderLayout.LINE_START);
 
@@ -272,6 +498,9 @@ public class Home extends javax.swing.JFrame {
         pasien.setVisible(false);
         dokter.setVisible(false);
         tentang.setVisible(false);
+        master.setVisible(false);
+        
+        
     }
 
     private void regBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBtnActionPerformed
@@ -308,6 +537,84 @@ public class Home extends javax.swing.JFrame {
         tentang.setVisible(true);
     }//GEN-LAST:event_btnaboutActionPerformed
 
+    private void btnMaster1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaster1ActionPerformed
+//        subTransactionPanelVisible = !subTransactionPanelVisible;
+        
+        showSubPanel("transaksi");
+    }//GEN-LAST:event_btnMaster1ActionPerformed
+
+    private void btnMaster2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaster2ActionPerformed
+//        subLaporanPanelVisible = !subLaporanPanelVisible;
+        showSubPanel("laporan");
+        
+
+    }//GEN-LAST:event_btnMaster2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void btnMasterActionPerformed(java.awt.event.ActionEvent evt) {
+        showSubPanel("master");
+    }
+    
+    private void showSubPanel(String panel) {
+        subMasterPanelVisible = false;
+        subLaporanPanelVisible = false;
+        subTransactionPanelVisible = false;
+        switch (panel) {
+            case "master":
+                subMasterPanelVisible = true;
+                break;
+            case "laporan":
+                subLaporanPanelVisible = true;
+                break;            
+            case "transaksi":
+                subTransactionPanelVisible = true;
+                break;            
+            default:
+        }
+        subMasterPanel.setVisible(subMasterPanelVisible);
+        subLaporanPanel.setVisible(subLaporanPanelVisible);
+        subTransactionPanel.setVisible(subTransactionPanelVisible);        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -327,13 +634,30 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
+    private javax.swing.JButton btnMaster;
+    private javax.swing.JButton btnMaster1;
+    private javax.swing.JButton btnMaster2;
     private javax.swing.JButton btnabout;
     private javax.swing.JButton dokBtn;
     private javax.swing.JPanel header;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel mainMenu;
     private javax.swing.JButton psnBtn;
     private javax.swing.JButton regBtn;
+    private javax.swing.JPanel subLaporanPanel;
+    private javax.swing.JPanel subMasterPanel;
+    private javax.swing.JPanel subTransactionPanel;
     // End of variables declaration//GEN-END:variables
 }

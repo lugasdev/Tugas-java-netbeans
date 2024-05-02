@@ -16,12 +16,12 @@ public class ResepModel {
 
     private Connection conn = new DBConnect().connect();
 
-    public int create(int registrationId, String name, String dose, String note) throws Exception {
+    public int create(int registrationId, String name, String dose, String note, int medicineId) throws Exception {
         LocalDateTime dateNowObj = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String createdAt = dateNowObj.format(dateFormatter);
         int id = 0;
-        String query = "insert into prescriptions (registration_id, name, dose, note, created_at) values (?, ?, ?, ?, ?)";
+        String query = "insert into prescriptions (registration_id, name, dose, note, medicine_id, created_at) values (?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -29,7 +29,8 @@ public class ResepModel {
             stmt.setString(2, name);
             stmt.setString(3, dose);
             stmt.setString(4, note);
-            stmt.setString(5, String.valueOf(createdAt));
+            stmt.setInt(5, medicineId);
+            stmt.setString(6, String.valueOf(createdAt));
 
             int i = stmt.executeUpdate();
 

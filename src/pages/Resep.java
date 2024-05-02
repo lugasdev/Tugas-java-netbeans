@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.ObatModel;
 import models.PatientModel;
 import models.RegistrationModel;
 import models.ResepModel;
@@ -20,6 +21,7 @@ public class Resep extends javax.swing.JPanel {
     RegistrationModel registrationModel = new RegistrationModel();
     PatientModel patientModel = new PatientModel();
     ResepModel resepModel = new ResepModel();
+    ObatModel obatModel = new ObatModel();
 
     /**
      * Creates new form Resep
@@ -27,6 +29,7 @@ public class Resep extends javax.swing.JPanel {
     public Resep() {
         initComponents();
         disableEditDeleteBtn();
+        initObat();
     }
 
     public Resep(Home parent) {
@@ -34,6 +37,7 @@ public class Resep extends javax.swing.JPanel {
 
         this.parent = parent;
         disableEditDeleteBtn();
+        initObat();    
     }
 
     public Resep(Home parent, int registrationId) {
@@ -73,6 +77,30 @@ public class Resep extends javax.swing.JPanel {
         }
         disableEditDeleteBtn();
         refreshTable();
+        initObat();        
+    }
+    
+    private void initObat() {        
+        try {
+            ResultSet obat = obatModel.get();
+            int countObat = obatModel.countObat();
+            String[] obatName = new String[countObat];
+
+            int i = 0;
+            while (obat.next()) {
+                System.out.println(obat.getString("name"));
+                obatName[i] = obat.getString("name") +  "-" + obat.getString("id");
+
+                i++;
+            }
+            inputObatName.setModel(new javax.swing.DefaultComboBoxModel<>(obatName));
+
+        } catch (Exception e) {
+        }
+        
+//        inputObatName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "x Item 1", "x Item 2", "Item 3", "Item 4" }));
+        
+        
     }
 
     private void disableEditDeleteBtn() {
@@ -95,7 +123,6 @@ public class Resep extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        inputName = new javax.swing.JTextField();
         inputDosis = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         inputKeterangan = new javax.swing.JTextArea();
@@ -112,6 +139,7 @@ public class Resep extends javax.swing.JPanel {
         labelPatientDob = new javax.swing.JLabel();
         btnEdit = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
+        inputObatName = new javax.swing.JComboBox<>();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -230,6 +258,8 @@ public class Resep extends javax.swing.JPanel {
             }
         });
 
+        inputObatName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -258,8 +288,8 @@ public class Resep extends javax.swing.JPanel {
                                 .addComponent(jLabel3))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(inputName)
-                                .addComponent(inputDosis, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)))
+                                .addComponent(inputDosis, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                                .addComponent(inputObatName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addGap(18, 18, 18)
@@ -288,7 +318,7 @@ public class Resep extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputObatName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -308,7 +338,7 @@ public class Resep extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -316,11 +346,15 @@ public class Resep extends javax.swing.JPanel {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         try {
-            String name = inputName.getText();
+            String obatName = (String) inputObatName.getSelectedItem();
+            String[] obatNameSplit = obatName.split("-");
+            int ObatId = Integer.parseInt(obatNameSplit[1]);
+            
+            String name = obatNameSplit[0];
             String dose = inputDosis.getText();
             String note = inputKeterangan.getText();
 
-            resepModel.create(registrationId, name, dose, note);
+            resepModel.create(registrationId, name, dose, note, ObatId);
 
         } catch (Exception e) {
             System.out.println(e);
@@ -353,7 +387,7 @@ public class Resep extends javax.swing.JPanel {
                 System.out.println(resep.getString("dose"));
                 System.out.println(resep.getString("note"));
 
-                inputName.setText(resep.getString("name"));
+//                inputName.setText(resep.getString("name"));
                 inputDosis.setText(resep.getString("dose"));
                 inputKeterangan.setText(resep.getString("note"));
 
@@ -368,15 +402,6 @@ public class Resep extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        try {
-            boolean updated = resepModel.update(selectedResepId, registrationId, inputName.getText(), inputDosis.getText(), inputKeterangan.getText());
-
-            JOptionPane.showMessageDialog(null, "Resep terupdate");
-            disableEditDeleteBtn();
-        } catch (Exception e) {
-            System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
         refreshTable();
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -450,7 +475,7 @@ public class Resep extends javax.swing.JPanel {
     private javax.swing.JButton btnTambah;
     private javax.swing.JTextField inputDosis;
     private javax.swing.JTextArea inputKeterangan;
-    private javax.swing.JTextField inputName;
+    private javax.swing.JComboBox<String> inputObatName;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

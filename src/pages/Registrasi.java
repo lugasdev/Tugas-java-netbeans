@@ -29,14 +29,14 @@ public class Registrasi extends javax.swing.JPanel {
 
         this.parent = parent;
 
-        updateDoctorList();
+        initDoctorList();
         initDate();
     }
 
     public Registrasi() {
         initComponents();
 
-        updateDoctorList();
+        initDoctorList();
         initDate();
     }
 
@@ -52,7 +52,7 @@ public class Registrasi extends javax.swing.JPanel {
         inputRegTime.setText(timeNow);
     }
 
-    private void updateDoctorList() {
+    private void initDoctorList() {
         try {
             ResultSet doctors = doctorModel.getActiveDoctor();
             int rsCount = doctorModel.getCountActiveDoctor();
