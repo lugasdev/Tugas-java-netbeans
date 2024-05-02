@@ -50,6 +50,22 @@ public class PatientModel {
         return id;
     }
 
+    public ResultSet get() throws Exception {
+        String query = "select * from patients ";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.executeQuery();
+
+            System.out.println("get by id done");
+
+            ResultSet rs = stmt.executeQuery();
+
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+    
     public ResultSet get(int id) throws Exception {
         String query = "select * from patients where id = ?";
         try {

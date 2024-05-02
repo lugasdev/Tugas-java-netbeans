@@ -4,17 +4,57 @@
  */
 package pages.master;
 
+import javax.swing.table.DefaultTableModel;
+import models.PatientModel;
+import java.sql.ResultSet;
+
 /**
  *
  * @author lugas
  */
 public class Pasien extends javax.swing.JPanel {
+    
+    PatientModel patientModel = new PatientModel();
 
     /**
      * Creates new form Pasien
      */
     public Pasien() {
         initComponents();
+        
+        initTable();
+    }
+    
+    public void initTable() {
+        DefaultTableModel RecordTable = (DefaultTableModel) patientTable.getModel();
+        RecordTable.setRowCount(0);
+        
+        String[] columns = {"No. Identitas", "Nama", "Jenis Kelamin", "Tanggal Lahir", "Alamat", "No. Telp"};
+        RecordTable.setColumnIdentifiers(columns);
+        
+        try {
+            ResultSet patients = patientModel.get();
+            
+            while (patients.next()) {
+                String identityNumber = patients.getString("identity_number");
+                String name = patients.getString("name");
+                int genderId = patients.getInt("gender");               
+                String dob = patients.getString("date_of_birth");
+                String address = patients.getString("address");
+                String phone = patients.getString("phone");
+                
+                String gender = "Laki-laki";
+                if (genderId == 2) {
+                    gender = "Perempuan";                    
+                }
+                
+                String[] row = {identityNumber, name, gender, dob, address, phone};
+                RecordTable.addRow(row);
+            }
+            
+        } catch (Exception e) {
+        }
+        
     }
 
     /**
@@ -26,30 +66,62 @@ public class Pasien extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        patientTable = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(613, 50));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         jLabel1.setText("Master Pasien");
+        jPanel1.add(jLabel1, new java.awt.GridBagConstraints());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addComponent(jLabel1)
-                .addContainerGap(238, Short.MAX_VALUE))
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        patientTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(patientTable);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(jLabel1)
-                .addContainerGap(211, Short.MAX_VALUE))
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable patientTable;
     // End of variables declaration//GEN-END:variables
 }
