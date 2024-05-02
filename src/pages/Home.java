@@ -20,6 +20,7 @@ public class Home extends javax.swing.JFrame {
     Dokter dokter = new Dokter();
     Tentang tentang = new Tentang();
     Master master = new Master();
+    pages.master.Pasien masterPasien = new pages.master.Pasien();
     
     boolean subMasterPanelVisible = false;
     boolean subTransactionPanelVisible = false;
@@ -84,6 +85,12 @@ public class Home extends javax.swing.JFrame {
                 body.add(master, "card2");
                 body.setVisible(true);
                 master.setVisible(true);
+                break;
+            case "master-pasien":
+                System.out.println("show master pasien page");
+                body.add(masterPasien, "card2");
+                body.setVisible(true);
+                masterPasien.setVisible(true);
                 break;
             default:
                 System.out.println("show default page");
@@ -499,7 +506,7 @@ public class Home extends javax.swing.JFrame {
         dokter.setVisible(false);
         tentang.setVisible(false);
         master.setVisible(false);
-        
+        masterPasien.setVisible(false);
         
     }
 
@@ -555,7 +562,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        changePage("master-pasien");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
