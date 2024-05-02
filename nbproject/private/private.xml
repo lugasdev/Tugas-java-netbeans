@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/config.properties</file>
-            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/pages/Home.java</file>
-            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/pages/Tentang.java</file>
-            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/database/tugas_java_netbeans.sql</file>
-            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/database/DBConnect.java</file>
-            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/Login.java</file>
-            <file>file:/C:/Users/giesl/OneDrive/Documents/Unindra%20SM6/Pemrograman%20Visual/X6K/project/src/models/UserModel.java</file>
+            <file>file:/E:/OneDrive/Documents/UNINDRA/Smt%206/Pemrograman%20Visual/tugas/Poliklinik/src/pages/Home.java</file>
+            <file>file:/E:/OneDrive/Documents/UNINDRA/Smt%206/Pemrograman%20Visual/tugas/Poliklinik/src/models/ResepModel.java</file>
+            <file>file:/E:/OneDrive/Documents/UNINDRA/Smt%206/Pemrograman%20Visual/tugas/Poliklinik/src/pages/Resep.java</file>
+            <file>file:/E:/OneDrive/Documents/UNINDRA/Smt%206/Pemrograman%20Visual/tugas/Poliklinik/src/models/ObatModel.java</file>
+            <file>file:/E:/OneDrive/Documents/UNINDRA/Smt%206/Pemrograman%20Visual/tugas/Poliklinik/src/pages/Anamnesa.java</file>
         </group>
     </open-files>
 </project-private>
