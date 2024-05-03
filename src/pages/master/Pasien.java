@@ -7,6 +7,9 @@ package pages.master;
 import javax.swing.table.DefaultTableModel;
 import models.PatientModel;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,6 +18,8 @@ import java.sql.ResultSet;
 public class Pasien extends javax.swing.JPanel {
     
     PatientModel patientModel = new PatientModel();
+    String selectedPatientId = "";
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Creates new form Pasien
@@ -29,7 +34,7 @@ public class Pasien extends javax.swing.JPanel {
         DefaultTableModel RecordTable = (DefaultTableModel) patientTable.getModel();
         RecordTable.setRowCount(0);
         
-        String[] columns = {"No. Identitas", "Nama", "Jenis Kelamin", "Tanggal Lahir", "Alamat", "No. Telp"};
+        String[] columns = {"id", "No. Identitas", "Nama", "Jenis Kelamin", "Tanggal Lahir", "Alamat", "No. Telp"};
         RecordTable.setColumnIdentifiers(columns);
         
         try {
@@ -42,16 +47,19 @@ public class Pasien extends javax.swing.JPanel {
                 String dob = patients.getString("date_of_birth");
                 String address = patients.getString("address");
                 String phone = patients.getString("phone");
+                String id = patients.getString("id");
                 
                 String gender = "Laki-laki";
                 if (genderId == 2) {
                     gender = "Perempuan";                    
                 }
                 
-                String[] row = {identityNumber, name, gender, dob, address, phone};
+                String[] row = {id, identityNumber, name, gender, dob, address, phone};
                 RecordTable.addRow(row);
             }
-            
+            patientTable.getColumnModel().getColumn(0).setMinWidth(0);
+            patientTable.getColumnModel().getColumn(0).setMaxWidth(0);
+            patientTable.getColumnModel().getColumn(0).setWidth(0);
         } catch (Exception e) {
         }
         
@@ -71,6 +79,25 @@ public class Pasien extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         patientTable = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        inputNIK = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        inputName = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        inputGender = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        inputAddress = new javax.swing.JTextArea();
+        jLabel9 = new javax.swing.JLabel();
+        inputPhone = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        inputBloodType = new javax.swing.JComboBox<>();
+        btnTambah = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        inputDOB = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
@@ -94,34 +121,328 @@ public class Pasien extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        patientTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patientTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(patientTable);
+
+        jLabel4.setText("Nomor Identitas");
+
+        inputNIK.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputNIKFocusLost(evt);
+            }
+        });
+
+        jLabel6.setText("Nama");
+
+        jLabel7.setText("Jenis Kelamin");
+
+        inputGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laki-Laki", "Perempuan" }));
+
+        jLabel10.setText("Tanggal Lahir");
+
+        jLabel8.setText("Alamat");
+
+        inputAddress.setColumns(20);
+        inputAddress.setRows(5);
+        jScrollPane2.setViewportView(inputAddress);
+
+        jLabel9.setText("Nomor HP");
+
+        jLabel3.setText("Gol. Darah");
+
+        inputBloodType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A -", "A +", "B -", "B +", "AB -", "AB +", "O -", "O +" }));
+
+        btnTambah.setBackground(new java.awt.Color(0, 41, 107));
+        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambah.setText("Tambah");
+        btnTambah.setBorder(null);
+        btnTambah.setBorderPainted(false);
+        btnTambah.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
+
+        btnEdit.setBackground(new java.awt.Color(0, 41, 107));
+        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
+        btnEdit.setText("Edit");
+        btnEdit.setBorder(null);
+        btnEdit.setBorderPainted(false);
+        btnEdit.setEnabled(false);
+        btnEdit.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnHapus.setBackground(new java.awt.Color(0, 41, 107));
+        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapus.setText("Hapus");
+        btnHapus.setBorder(null);
+        btnHapus.setBorderPainted(false);
+        btnHapus.setEnabled(false);
+        btnHapus.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
+
+        inputDOB.setDateFormatString("yyyy-MM-dd");
+
+        jButton1.setBackground(new java.awt.Color(255, 159, 28));
+        jButton1.setText("Refresh");
+        jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel4))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputBloodType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputNIK, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(inputDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)))
                 .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(inputNIK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(inputName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(inputGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputDOB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(inputPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(inputBloodType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void inputNIKFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNIKFocusLost
+        System.out.println("check nik pasien");
+    }//GEN-LAST:event_inputNIKFocusLost
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        String nik = inputNIK.getText();
+        String name = inputName.getText();
+        String genderString = inputGender.getSelectedItem().toString();
+        String gender = genderString == "Perempuan" ? "2" : "1";
+        Date dob = inputDOB.getDate();
+        String formattedDOB = dateFormat.format(dob);
+        System.out.println(formattedDOB);
+        
+        String address = inputAddress.getText();
+        String phone = inputPhone.getText();
+        String bloodType = inputBloodType.getSelectedItem().toString();
+        
+        try {
+            int patientId = patientModel.create(nik, name, Integer.parseInt(gender), formattedDOB, address, phone, bloodType);
+            System.out.println("patient id: " + patientId);
+
+            resetForm();
+            
+            JOptionPane.showMessageDialog(null, "Pasien telah ditambahkan");            
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());            
+        }
+        
+        initTable();
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void patientTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientTableMouseClicked
+        System.out.println("registrationTableMouseClicked");
+        int row = patientTable.rowAtPoint(evt.getPoint());
+        int col = patientTable.columnAtPoint(evt.getPoint());
+
+        System.out.println(row);
+        System.out.println(col);
+        
+        selectedPatientId = patientTable.getValueAt(row, 0).toString();
+
+        System.out.println(selectedPatientId);
+        
+        try {
+            ResultSet patient = patientModel.get(Integer.parseInt(selectedPatientId));
+            patient.next();
+            System.out.println(patient.getString("name"));
+            System.out.println(patient.getString("date_of_birth"));
+            
+            inputNIK.setText(patient.getString("identity_number"));
+            inputName.setText(patient.getString("name"));
+            inputAddress.setText(patient.getString("address"));
+            inputPhone.setText(patient.getString("phone"));
+           
+            String[] dob = patient.getString("date_of_birth").split("-");
+            System.out.println(dob);
+            System.out.println(Integer.parseInt(dob[0]));
+            System.out.println(dob[1]);
+            System.out.println(dob[2]);
+            Date date = new Date(Integer.parseInt(dob[0]) - 1900, Integer.parseInt(dob[1]), Integer.parseInt(dob[2]));
+            System.out.println(date);
+            inputDOB.setDate(date);
+            
+            btnTambah.setEnabled(true);
+            btnEdit.setEnabled(true);
+            btnHapus.setEnabled(true);
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+    }//GEN-LAST:event_patientTableMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        initTable();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Hapus Pasien?") == 0) {
+            try {
+                patientModel.delete(Integer.parseInt(selectedPatientId));
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, e.getMessage());                
+            }
+        }    
+        initTable();
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        String nik = inputNIK.getText();
+        String name = inputName.getText();
+        String genderString = inputGender.getSelectedItem().toString();
+        String gender = genderString == "Perempuan" ? "2" : "1";
+        Date dob = inputDOB.getDate();
+        String formattedDOB = dateFormat.format(dob);
+        System.out.println(formattedDOB);
+        
+        String address = inputAddress.getText();
+        String phone = inputPhone.getText();
+        String bloodType = inputBloodType.getSelectedItem().toString();
+        
+        try {
+            patientModel.update(Integer.parseInt(selectedPatientId), nik, name, Integer.parseInt(gender), formattedDOB, address, phone, bloodType);
+            resetForm();            
+            JOptionPane.showMessageDialog(null, "Pasien telah diedit");            
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());            
+        }
+        
+        initTable();
+    }//GEN-LAST:event_btnEditActionPerformed
+    
+    private void resetForm() {
+        inputNIK.setText("");
+        inputName.setText("");
+//        inputDOB.setText("");
+        inputAddress.setText("");
+        inputPhone.setText("");
+        
+        btnTambah.setEnabled(true);
+        btnEdit.setEnabled(false);
+        btnHapus.setEnabled(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnTambah;
+    private javax.swing.JTextArea inputAddress;
+    private javax.swing.JComboBox<String> inputBloodType;
+    private com.toedter.calendar.JDateChooser inputDOB;
+    private javax.swing.JComboBox<String> inputGender;
+    private javax.swing.JTextField inputNIK;
+    private javax.swing.JTextField inputName;
+    private javax.swing.JTextField inputPhone;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable patientTable;
     // End of variables declaration//GEN-END:variables
 }

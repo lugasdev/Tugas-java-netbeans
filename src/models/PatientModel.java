@@ -49,6 +49,30 @@ public class PatientModel {
 
         return id;
     }
+    
+    public boolean update(int id, String nik, String name, int gender, String dob, String address, String phone, String bloodType) throws Exception {
+        String query = "UPDATE `patients` SET `identity_number` = ?, `name` = ?, `gender` = ?, `date_of_birth` = ?, `address` = ?, `phone` = ?, `blood_type` = ? WHERE `id` = ?";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, nik);
+            stmt.setString(2, name);
+            stmt.setString(3, String.valueOf(gender));
+            stmt.setString(4, dob);
+            stmt.setString(5, address);
+            stmt.setString(6, phone);
+            stmt.setString(7, bloodType);
+            stmt.setInt(8, id);
+
+            stmt.executeUpdate();
+
+            System.out.println("patient updated");
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
+        return true;
+    }
 
     public ResultSet get() throws Exception {
         String query = "select * from patients ";
@@ -82,5 +106,19 @@ public class PatientModel {
         } catch (Exception e) {
             throw new Exception(e);
         }
+    }
+    
+    public boolean delete(int id) throws Exception {
+        try {
+            String query = "DELETE from patients where id = ?";
+            
+            PreparedStatement stat = conn.prepareStatement(query);
+            stat.setInt(1, id);
+            
+            stat.execute();            
+        } catch (Exception e) {
+            throw new Exception(e);
+        }        
+        return true;
     }
 }
