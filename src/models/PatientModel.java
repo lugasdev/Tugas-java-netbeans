@@ -74,6 +74,24 @@ public class PatientModel {
         return true;
     }
 
+    public ResultSet get(String filterKey, String filterValue) throws Exception {
+        String query = "select * from patients where "+ filterKey +" LIKE ?";
+        System.out.println(query);
+        System.out.println(filterValue);
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, "%" + filterValue + "%");
+            stmt.executeQuery();
+
+            System.out.println("get by id done");
+
+            ResultSet rs = stmt.executeQuery();
+
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }        
+    }
     public ResultSet get() throws Exception {
         String query = "select * from patients ";
         try {

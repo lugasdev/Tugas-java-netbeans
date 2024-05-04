@@ -21,6 +21,7 @@ public class Home extends javax.swing.JFrame {
     Tentang tentang = new Tentang();
     Master master = new Master();
     pages.master.Pasien masterPasien = new pages.master.Pasien();
+    pages.transaction.Registrasi transactionRegistration = new pages.transaction.Registrasi();
     
     boolean subMasterPanelVisible = false;
     boolean subTransactionPanelVisible = false;
@@ -47,59 +48,56 @@ public class Home extends javax.swing.JFrame {
             case "dokter":
                 System.out.println("show dokter page");
                 body.add(dokter, "card2");
-                body.setVisible(true);
                 dokter.setVisible(true);
                 break;
             case "pasien":
                 System.out.println("show pasien page");
                 body.add(pasien, "card2");
-                body.setVisible(true);
                 pasien.setVisible(true);
                 break;
             case "resep":
                 System.out.println("show resep page");
                 body.add(resep, "card2");
-                body.setVisible(true);
                 resep.setVisible(true);
                 break;
             case "anamnesa":
                 System.out.println("show anamnesa page");
                 body.add(anamnesa, "card2");
-                body.setVisible(true);
                 anamnesa.setVisible(true);
                 break;
             case "pemeriksaan":
                 System.out.println("show pemeriksaan page");
                 body.add(pemeriksaan, "card2");
-                body.setVisible(true);
                 pemeriksaan.setVisible(true);
                 break;
             case "registrasi":
                 System.out.println("show registration page");
                 body.add(registrasi, "card2");
-                body.setVisible(true);
                 registrasi.setVisible(true);
                 break;
             case "master":
                 System.out.println("show master page");
                 body.add(master, "card2");
-                body.setVisible(true);
                 master.setVisible(true);
                 break;
             case "master-pasien":
                 System.out.println("show master pasien page");
                 body.add(masterPasien, "card2");
-                body.setVisible(true);
                 masterPasien.setVisible(true);
+                break;
+            case "transaction-registrasi":
+                System.out.println("show transaksi registrasi page");
+                body.add(transactionRegistration, "card2");
+                transactionRegistration.setVisible(true);
                 break;
             default:
                 System.out.println("show default page");
                 body.add(welcome, "card2");
-                body.setVisible(true);
                 welcome.setVisible(true);
                 System.out.println("no default");
         }
 
+        body.setVisible(true);
         body.validate();
         body.repaint();
     }
@@ -173,12 +171,10 @@ public class Home extends javax.swing.JFrame {
         header = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         mainMenu = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
         regBtn = new javax.swing.JButton();
         psnBtn = new javax.swing.JButton();
         dokBtn = new javax.swing.JButton();
         btnabout = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
         btnMaster = new javax.swing.JButton();
         subMasterPanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
@@ -213,7 +209,7 @@ public class Home extends javax.swing.JFrame {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1211, Short.MAX_VALUE))
+                .addContainerGap(933, Short.MAX_VALUE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,23 +222,6 @@ public class Home extends javax.swing.JFrame {
 
         mainMenu.setBackground(new java.awt.Color(0, 41, 107));
         mainMenu.setPreferredSize(new java.awt.Dimension(200, 469));
-        mainMenu.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
-
-        jPanel1.setBackground(new java.awt.Color(0, 41, 107));
-        jPanel1.setPreferredSize(new java.awt.Dimension(100, 5));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
-
-        mainMenu.add(jPanel1);
 
         regBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958267_disease_epidemic_infection_patient_sufferer_icon.png"))); // NOI18N
         regBtn.setText("Registrasi Pasien");
@@ -256,7 +235,6 @@ public class Home extends javax.swing.JFrame {
         });
         regBtn.setBorderPainted(false);
         regBtn.setBounds(0, 0, 0, 0);
-        mainMenu.add(regBtn);
 
         psnBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958254_cold_disease_epidemic_fever_flu_icon.png"))); // NOI18N
         psnBtn.setText("Daftar Pasien");
@@ -267,7 +245,6 @@ public class Home extends javax.swing.JFrame {
                 psnBtnActionPerformed(evt);
             }
         });
-        mainMenu.add(psnBtn);
 
         dokBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/5958251_disease_doctor_epidemic_hospital_infection_icon.png"))); // NOI18N
         dokBtn.setText("Daftar Dokter");
@@ -278,7 +255,6 @@ public class Home extends javax.swing.JFrame {
                 dokBtnActionPerformed(evt);
             }
         });
-        mainMenu.add(dokBtn);
 
         btnabout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/8956782_info_help_guide_about_customer service_icon.png"))); // NOI18N
         btnabout.setText("Tentang Aplikasi");
@@ -289,23 +265,6 @@ public class Home extends javax.swing.JFrame {
                 btnaboutActionPerformed(evt);
             }
         });
-        mainMenu.add(btnabout);
-
-        jPanel2.setBackground(new java.awt.Color(0, 41, 107));
-        jPanel2.setPreferredSize(new java.awt.Dimension(150, 100));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        mainMenu.add(jPanel2);
 
         btnMaster.setText("Master");
         btnMaster.setBorder(null);
@@ -316,13 +275,12 @@ public class Home extends javax.swing.JFrame {
                 btnMasterActionPerformed(evt);
             }
         });
-        mainMenu.add(btnMaster);
 
         subMasterPanel.setBackground(new java.awt.Color(0, 41, 107));
         subMasterPanel.setLayout(new java.awt.GridLayout(3, 0, 0, 5));
 
         jButton2.setText("Master Pasien");
-        jButton2.setBorder(null);
+        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jButton2.setBorderPainted(false);
         jButton2.setMargin(new java.awt.Insets(10, 14, 10, 14));
         jButton2.setMaximumSize(new java.awt.Dimension(150, 20));
@@ -361,8 +319,6 @@ public class Home extends javax.swing.JFrame {
         });
         subMasterPanel.add(jButton1);
 
-        mainMenu.add(subMasterPanel);
-
         btnMaster1.setText("Transaksi");
         btnMaster1.setBorder(null);
         btnMaster1.setBorderPainted(false);
@@ -372,7 +328,6 @@ public class Home extends javax.swing.JFrame {
                 btnMaster1ActionPerformed(evt);
             }
         });
-        mainMenu.add(btnMaster1);
 
         subTransactionPanel.setBackground(new java.awt.Color(0, 41, 107));
         subTransactionPanel.setLayout(new java.awt.GridLayout(3, 0, 0, 5));
@@ -417,8 +372,6 @@ public class Home extends javax.swing.JFrame {
         });
         subTransactionPanel.add(jButton6);
 
-        mainMenu.add(subTransactionPanel);
-
         btnMaster2.setText("Laporan");
         btnMaster2.setBorder(null);
         btnMaster2.setBorderPainted(false);
@@ -428,7 +381,6 @@ public class Home extends javax.swing.JFrame {
                 btnMaster2ActionPerformed(evt);
             }
         });
-        mainMenu.add(btnMaster2);
 
         subLaporanPanel.setBackground(new java.awt.Color(0, 41, 107));
         subLaporanPanel.setLayout(new java.awt.GridLayout(4, 0, 0, 5));
@@ -486,7 +438,50 @@ public class Home extends javax.swing.JFrame {
         });
         subLaporanPanel.add(jButton10);
 
-        mainMenu.add(subLaporanPanel);
+        javax.swing.GroupLayout mainMenuLayout = new javax.swing.GroupLayout(mainMenu);
+        mainMenu.setLayout(mainMenuLayout);
+        mainMenuLayout.setHorizontalGroup(
+            mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainMenuLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(regBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(psnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dokBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnabout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMaster, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(subMasterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMaster1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(subTransactionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMaster2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(subLaporanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+        mainMenuLayout.setVerticalGroup(
+            mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainMenuLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(regBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(psnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(dokBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btnabout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(btnMaster, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(subMasterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnMaster1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(subTransactionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnMaster2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(subLaporanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+        );
 
         getContentPane().add(mainMenu, java.awt.BorderLayout.LINE_START);
 
@@ -495,6 +490,94 @@ public class Home extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void btnMaster2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaster2ActionPerformed
+        showSubPanel("laporan");
+    }//GEN-LAST:event_btnMaster2ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        changePage("transaction-registrasi");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnMaster1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaster1ActionPerformed
+        showSubPanel("transaksi");
+    }//GEN-LAST:event_btnMaster1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        changePage("master-pasien");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnMasterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasterActionPerformed
+        // TODO add your handling code here:
+                showSubPanel("master");
+    }//GEN-LAST:event_btnMasterActionPerformed
+
+    private void btnaboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaboutActionPerformed
+        // TODO add your handling code here:
+        this.clearAllPanel();
+
+        body.add(tentang, "card2");
+        body.setVisible(true);
+        tentang.setVisible(true);
+    }//GEN-LAST:event_btnaboutActionPerformed
+
+    private void dokBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dokBtnActionPerformed
+        // TODO add your handling code here:
+        this.clearAllPanel();
+
+        body.add(dokter, "card2");
+        body.setVisible(true);
+        dokter.setVisible(true);
+    }//GEN-LAST:event_dokBtnActionPerformed
+
+    private void psnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psnBtnActionPerformed
+        this.clearAllPanel();
+
+        body.add(pasien, "card2");
+        body.setVisible(true);
+        pasien.setVisible(true);
+    }//GEN-LAST:event_psnBtnActionPerformed
+
+    private void regBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBtnActionPerformed
+        this.clearAllPanel();
+
+        body.add(registrasi, "card2");
+        body.setVisible(true);
+        registrasi.setVisible(true);
+    }//GEN-LAST:event_regBtnActionPerformed
 
     private void clearAllPanel() {
         welcome.setVisible(false);
@@ -510,96 +593,9 @@ public class Home extends javax.swing.JFrame {
         
     }
 
-    private void regBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBtnActionPerformed
-        this.clearAllPanel();
-
-        body.add(registrasi, "card2");
-        body.setVisible(true);
-        registrasi.setVisible(true);
-    }//GEN-LAST:event_regBtnActionPerformed
-
-    private void psnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psnBtnActionPerformed
-        this.clearAllPanel();
-
-        body.add(pasien, "card2");
-        body.setVisible(true);
-        pasien.setVisible(true);
-    }//GEN-LAST:event_psnBtnActionPerformed
-
-    private void dokBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dokBtnActionPerformed
-        // TODO add your handling code here:
-        this.clearAllPanel();
-
-        body.add(dokter, "card2");
-        body.setVisible(true);
-        dokter.setVisible(true);
-    }//GEN-LAST:event_dokBtnActionPerformed
-
-    private void btnaboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaboutActionPerformed
-        // TODO add your handling code here:
-        this.clearAllPanel();
-
-        body.add(tentang, "card2");
-        body.setVisible(true);
-        tentang.setVisible(true);
-    }//GEN-LAST:event_btnaboutActionPerformed
-
-    private void btnMaster1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaster1ActionPerformed
-//        subTransactionPanelVisible = !subTransactionPanelVisible;
-        
-        showSubPanel("transaksi");
-    }//GEN-LAST:event_btnMaster1ActionPerformed
-
-    private void btnMaster2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaster2ActionPerformed
-//        subLaporanPanelVisible = !subLaporanPanelVisible;
-        showSubPanel("laporan");
-        
-
-    }//GEN-LAST:event_btnMaster2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        changePage("master-pasien");
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void btnMasterActionPerformed(java.awt.event.ActionEvent evt) {
-        showSubPanel("master");
-    }
+//    private void btnMasterActionPerformed(java.awt.event.ActionEvent evt) {
+//        showSubPanel("master");
+//    }
     
     private void showSubPanel(String panel) {
         subMasterPanelVisible = false;
@@ -658,8 +654,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel mainMenu;
     private javax.swing.JButton psnBtn;
     private javax.swing.JButton regBtn;

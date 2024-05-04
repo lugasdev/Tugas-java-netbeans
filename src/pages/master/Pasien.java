@@ -61,6 +61,8 @@ public class Pasien extends javax.swing.JPanel {
             patientTable.getColumnModel().getColumn(0).setMaxWidth(0);
             patientTable.getColumnModel().getColumn(0).setWidth(0);
         } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         
     }
@@ -374,6 +376,7 @@ public class Pasien extends javax.swing.JPanel {
         if (JOptionPane.showConfirmDialog(null, "Hapus Pasien?") == 0) {
             try {
                 patientModel.delete(Integer.parseInt(selectedPatientId));
+                resetForm();
             } catch (Exception e) {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(null, e.getMessage());                
@@ -397,8 +400,8 @@ public class Pasien extends javax.swing.JPanel {
         
         try {
             patientModel.update(Integer.parseInt(selectedPatientId), nik, name, Integer.parseInt(gender), formattedDOB, address, phone, bloodType);
-            resetForm();            
             JOptionPane.showMessageDialog(null, "Pasien telah diedit");            
+            resetForm();            
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());            
