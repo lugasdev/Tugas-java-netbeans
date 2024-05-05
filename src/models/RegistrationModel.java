@@ -69,6 +69,26 @@ public class RegistrationModel {
             throw new Exception(e);
         }
     }
+        
+    public ResultSet getRegistrant() throws Exception {
+        try {
+            String query = "select r.*, d.*, p.* "
+                    + "from registrations r "
+                    + "join doctors d on d.id = r.doctor_id "
+                    + "join patients p on p.id = r.patient_id "
+                    + "order by registration_at DESC";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            ResultSet rs = stmt.executeQuery();
+
+            System.out.println(rs.getStatement());
+
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
 
     public ResultSet get(int Id) throws Exception {
         try {

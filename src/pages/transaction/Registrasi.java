@@ -4,7 +4,15 @@
  */
 package pages.transaction;
 
+import models.PatientModel;
 import pages.modal.PatientFilter;
+import java.sql.*;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableModel;
+import models.DoctorModel;
+import pages.modal.DoctorFilter;
 
 /**
  *
@@ -12,11 +20,87 @@ import pages.modal.PatientFilter;
  */
 public class Registrasi extends javax.swing.JPanel {
 
+    private models.RegistrationModel registrationModel = new models.RegistrationModel();
+    private PatientModel patientModel = new PatientModel();
+    private DoctorModel doctorModel = new DoctorModel();
+    int patientId = 0;
+    int doctorId = 0;
+
     /**
      * Creates new form Registrasi
      */
     public Registrasi() {
         initComponents();
+    }
+
+    private void initTable() {
+        String[] columns = {"ID", "Waktu Pemeriksaan", "Klinik", "Dokter", "Nama Pasien", "Jenis Kelamin Pasien", "Tanggal Lahir Pasien", "Status"};
+        registrationTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                columns
+        ) {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        });
+
+        System.out.println("viewPatient");
+        DefaultTableModel RecordTable = (DefaultTableModel) registrationTable.getModel();
+        RecordTable.setRowCount(0);
+
+        try {
+            ResultSet registrations = registrationModel.getRegistrant();
+
+            while (registrations.next()) {
+                System.out.println(registrations.getString("r.id"));
+                System.out.println(registrations.getString("r.registration_at"));
+                System.out.println(registrations.getString("d.clinic"));
+                System.out.println(registrations.getString("d.name"));
+                System.out.println(registrations.getString("p.name"));
+                System.out.println(registrations.getString("p.gender"));
+                System.out.println(registrations.getString("p.date_of_birth"));
+                System.out.println(registrations.getString("r.stat"));
+
+                String stat = "";
+
+//                disableButtons();
+                switch (registrations.getInt("r.stat")) {
+                    case 1:
+                        stat = "Menunggu Pemeriksaan Dokter";
+                        break;
+                    case 2:
+                        stat = "Menunggu Pemberian Obat";
+                        break;
+                    case 3:
+                        stat = "Selesai";
+                        break;
+                    default:
+                        stat = "Menunggu Anamnesa";
+                }
+
+                String genderString = "Laki-Laki";
+                if (registrations.getInt("p.gender") == 2) {
+                    genderString = "Perempuan";
+                }
+
+                Vector row = new Vector();
+                row.add(registrations.getInt("r.id"));
+                row.add(registrations.getString("r.registration_at"));
+                row.add(registrations.getString("d.clinic"));
+                row.add(registrations.getString("d.name"));
+                row.add(registrations.getString("p.name"));
+                row.add(genderString);
+                row.add(registrations.getString("p.date_of_birth"));
+                row.add(stat);
+                RecordTable.addRow(row);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+
+        registrationTable.getColumnModel().getColumn(0).setMinWidth(30);
+        registrationTable.getColumnModel().getColumn(0).setMaxWidth(30);
+        registrationTable.getColumnModel().getColumn(0).setWidth(30);
     }
 
     /**
@@ -33,20 +117,25 @@ public class Registrasi extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        inputPatient = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        inputTanggal = new com.toedter.calendar.JCalendar();
+        inputWaktu = new javax.swing.JFormattedTextField();
         btnTambah = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        registrationTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 50));
@@ -64,19 +153,15 @@ public class Registrasi extends javax.swing.JPanel {
 
         jLabel3.setText("Dokter");
 
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField1");
-
         jLabel4.setText("Tanggal Pemeriksaan");
         jLabel4.setToolTipText("");
 
         jLabel5.setText("Waktu Pemeriksaan");
         jLabel5.setToolTipText("");
 
-        jCalendar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        inputTanggal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("HH:mm"))));
+        inputWaktu.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("HH:mm"))));
 
         btnTambah.setBackground(new java.awt.Color(0, 41, 107));
         btnTambah.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,18 +201,20 @@ public class Registrasi extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        registrationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        registrationTable.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                registrationTableComponentShown(evt);
+            }
+        });
+        jScrollPane1.setViewportView(registrationTable);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/211885_search_icon.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +224,11 @@ public class Registrasi extends javax.swing.JPanel {
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/211885_search_icon.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -155,14 +247,14 @@ public class Registrasi extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(inputWaktu, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1))
+                                .addComponent(inputPatient))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
@@ -183,7 +275,7 @@ public class Registrasi extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,11 +286,11 @@ public class Registrasi extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(inputTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(inputWaktu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,33 +306,63 @@ public class Registrasi extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        
+//        System.out.println("");
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        
+
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-        
+
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        PatientFilter patientFilter = new PatientFilter();        
+        PatientFilter patientFilter = new PatientFilter(this);
         patientFilter.setVisible(true);
-
-//        jPopupMenu1.setVisible(true);
+        patientFilter.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void registrationTableComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_registrationTableComponentShown
+
+    }//GEN-LAST:event_registrationTableComponentShown
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        initTable();
+    }//GEN-LAST:event_formComponentShown
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DoctorFilter doctorFilter = new DoctorFilter();
+        doctorFilter.setVisible(true);
+        doctorFilter.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public void selectedPatientId(int id) {
+        System.out.println("selectedPatientId");
+        System.out.println(id);
+        try {
+            ResultSet patient = patientModel.get(id);
+
+            while (patient.next()) {
+                patientId = patient.getInt("id");
+                inputPatient.setText(patient.getString("name"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
+    private javax.swing.JTextField inputPatient;
+    private com.toedter.calendar.JCalendar inputTanggal;
+    private javax.swing.JFormattedTextField inputWaktu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private com.toedter.calendar.JCalendar jCalendar1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -249,8 +371,7 @@ public class Registrasi extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable registrationTable;
     // End of variables declaration//GEN-END:variables
 }

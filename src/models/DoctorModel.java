@@ -75,7 +75,7 @@ public class DoctorModel {
     }
 
     public ResultSet get() throws Exception {
-        String query = "select * from doctors";
+        String query = "select * from doctors order by stat DESC, name ASC";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(query);
@@ -88,11 +88,26 @@ public class DoctorModel {
     }
 
     public ResultSet get(int id) throws Exception {
-        String query = "select * from doctors where id = ?";
+        String query = "select * from doctors where id = ? order by stat DESC, name ASC";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, String.valueOf(id));
+
+            ResultSet rs = stmt.executeQuery();
+
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+    public ResultSet get(String name) throws Exception {
+        String query = "select * from doctors where name LIKE ?";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, "%" + name + "%");
 
             ResultSet rs = stmt.executeQuery();
 

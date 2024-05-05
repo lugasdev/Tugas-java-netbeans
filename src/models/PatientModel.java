@@ -109,7 +109,7 @@ public class PatientModel {
     }
     
     public ResultSet get(int id) throws Exception {
-        String query = "select * from patients where id = ?";
+        String query = "select * from patients where id = ? limit 1";
         try {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, id);

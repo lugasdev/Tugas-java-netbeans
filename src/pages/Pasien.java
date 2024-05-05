@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
  * @author lugas
  */
 public class Pasien extends javax.swing.JPanel {
-
     private Home parent;
     private models.RegistrationModel registrationModel = new models.RegistrationModel();
     private int clickedRegistrationId = 0;

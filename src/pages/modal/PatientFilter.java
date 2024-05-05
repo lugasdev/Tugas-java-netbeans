@@ -14,7 +14,10 @@ import models.PatientModel;
  * @author lugas
  */
 public class PatientFilter extends javax.swing.JFrame {
+
     PatientModel patientModel = new PatientModel();
+    private pages.transaction.Registrasi transactionRegistration;
+    public String callbackTo = "";
 
     /**
      * Creates new form PatientFilter
@@ -23,63 +26,81 @@ public class PatientFilter extends javax.swing.JFrame {
         initComponents();
         initTable();
     }
-    
+
+    public PatientFilter(pages.transaction.Registrasi parent) {
+        initComponents();
+        initTable();
+
+        this.transactionRegistration = parent;
+        this.callbackTo = "transaction-registration";
+    }
+
     private void initTable() {
         String filterKey = "name";
         String filterValue = inputFilterValue.getText();
-        
+
         System.out.println(inputFilterKey.getSelectedIndex());
-        
+
         switch (inputFilterKey.getSelectedIndex()) {
             case 1:
-                filterKey = "identity_number";                
+                filterKey = "identity_number";
                 break;
             case 2:
-                filterKey = "date_of_birth";                
-                break;                
+                filterKey = "date_of_birth";
+                break;
             case 3:
-                filterKey = "address";                
-                break;  
+                filterKey = "address";
+                break;
             case 4:
-                filterKey = "phone";                
+                filterKey = "phone";
                 break;
             default:
                 filterKey = "name";
         }
-        
-        DefaultTableModel RecordTable = (DefaultTableModel) patientTable.getModel();
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{}
+        ) {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        });
+
+        DefaultTableModel RecordTable = (DefaultTableModel) table.getModel();
         RecordTable.setRowCount(0);
-        
+
         String[] columns = {"id", "No. Identitas", "Nama", "Jenis Kelamin", "Tanggal Lahir", "Alamat", "No. Telp"};
         RecordTable.setColumnIdentifiers(columns);
+
         try {
             ResultSet patients;
             if (filterValue.equals("")) {
-                patients = patientModel.get();                                
+                patients = patientModel.get();
             } else {
-                patients = patientModel.get(filterKey, filterValue);                
+                patients = patientModel.get(filterKey, filterValue);
             }
-            
+
             while (patients.next()) {
                 String identityNumber = patients.getString("identity_number");
                 String name = patients.getString("name");
-                int genderId = patients.getInt("gender");               
+                int genderId = patients.getInt("gender");
                 String dob = patients.getString("date_of_birth");
                 String address = patients.getString("address");
                 String phone = patients.getString("phone");
                 String id = patients.getString("id");
-                
+
                 String gender = "Laki-laki";
                 if (genderId == 2) {
-                    gender = "Perempuan";                    
+                    gender = "Perempuan";
                 }
-                
+
                 String[] row = {id, identityNumber, name, gender, dob, address, phone};
                 RecordTable.addRow(row);
             }
-            patientTable.getColumnModel().getColumn(0).setMinWidth(0);
-            patientTable.getColumnModel().getColumn(0).setMaxWidth(0);
-            patientTable.getColumnModel().getColumn(0).setWidth(0);
+            table.getColumnModel().getColumn(0).setMinWidth(0);
+            table.getColumnModel().getColumn(0).setMaxWidth(0);
+            table.getColumnModel().getColumn(0).setWidth(0);
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -97,25 +118,48 @@ public class PatientFilter extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        patientTable = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         inputFilterValue = new javax.swing.JTextField();
         inputFilterKey = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
-        patientTable.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                { new Integer(1), "dsad"},
+                { new Integer(2), null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2"
             }
-        ));
-        jScrollPane1.setViewportView(patientTable);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table);
 
         jLabel1.setText("Filter");
 
@@ -209,6 +253,28 @@ public class PatientFilter extends javax.swing.JFrame {
         initTable();
     }//GEN-LAST:event_inputFilterKeyItemStateChanged
 
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+            int row = table.rowAtPoint(evt.getPoint());
+//            int col = patientTable.columnAtPoint(evt.getPoint());
+            String id = table.getValueAt(row, 0).toString();
+            System.out.println(id);
+
+            switch (callbackTo) {
+                case "transaction-registration":
+                    this.transactionRegistration.selectedPatientId(Integer.parseInt(id));
+                    break;
+                default:
+                    System.out.println("callback to empty");
+            }
+        }
+
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+//        this.setVisible(false);
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -216,7 +282,7 @@ public class PatientFilter extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -249,6 +315,6 @@ public class PatientFilter extends javax.swing.JFrame {
     private javax.swing.JTextField inputFilterValue;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable patientTable;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
