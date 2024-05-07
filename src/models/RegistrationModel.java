@@ -13,6 +13,26 @@ public class RegistrationModel {
 
     private Connection conn = new DBConnect().connect();
 
+    public int update(int id, int doctorId, int patientId, String registrationAt) throws Exception {
+        String query = "UPDATE registrations SET doctor_id = ?, registration_at = ?, patient_id = ? WHERE id = ?";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, String.valueOf(doctorId));
+            stmt.setString(2, registrationAt);
+            stmt.setString(3, String.valueOf(patientId));
+            stmt.setInt(4, id);
+
+            int i = stmt.executeUpdate();
+
+            System.out.println(i + " records updated");
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
+        return id;
+    }
+
     public int create(int doctorId, int patientId, String registrationAt) throws Exception {
         LocalDateTime dateNowObj = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -69,7 +89,7 @@ public class RegistrationModel {
             throw new Exception(e);
         }
     }
-        
+
     public ResultSet getRegistrant() throws Exception {
         try {
             String query = "select r.*, d.*, p.* "
@@ -90,12 +110,34 @@ public class RegistrationModel {
         }
     }
 
-    public ResultSet get(int Id) throws Exception {
+    public ResultSet getRegistrant(int id) throws Exception {
+        try {
+            String query = "select r.*, d.*, p.* "
+                    + "from registrations r "
+                    + "join doctors d on d.id = r.doctor_id "
+                    + "join patients p on p.id = r.patient_id "
+                    + "where r.id = ? "
+                    + "order by registration_at DESC";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            System.out.println(rs.getStatement());
+
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+    public ResultSet get(int id) throws Exception {
         try {
             String query = "select * from registrations where id = ?";
 
             PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_FORWARD_ONLY);
-            stmt.setInt(1, Id);
+            stmt.setInt(1, id);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -118,6 +160,20 @@ public class RegistrationModel {
             throw new Exception(e);
         }
 
+        return true;
+    }
+
+    public boolean delete(int id) throws Exception {
+        try {
+            String query = "DELETE from registrations where id = ?";
+
+            PreparedStatement stat = conn.prepareStatement(query);
+            stat.setInt(1, id);
+
+            stat.execute();
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
         return true;
     }
 

@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author lugas
  */
 public class Pasien extends javax.swing.JPanel {
-    
+
     PatientModel patientModel = new PatientModel();
     String selectedPatientId = "";
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -26,34 +26,34 @@ public class Pasien extends javax.swing.JPanel {
      */
     public Pasien() {
         initComponents();
-        
+
         initTable();
     }
-    
+
     public void initTable() {
         DefaultTableModel RecordTable = (DefaultTableModel) patientTable.getModel();
         RecordTable.setRowCount(0);
-        
+
         String[] columns = {"id", "No. Identitas", "Nama", "Jenis Kelamin", "Tanggal Lahir", "Alamat", "No. Telp"};
         RecordTable.setColumnIdentifiers(columns);
-        
+
         try {
             ResultSet patients = patientModel.get();
-            
+
             while (patients.next()) {
                 String identityNumber = patients.getString("identity_number");
                 String name = patients.getString("name");
-                int genderId = patients.getInt("gender");               
+                int genderId = patients.getInt("gender");
                 String dob = patients.getString("date_of_birth");
                 String address = patients.getString("address");
                 String phone = patients.getString("phone");
                 String id = patients.getString("id");
-                
+
                 String gender = "Laki-laki";
                 if (genderId == 2) {
-                    gender = "Perempuan";                    
+                    gender = "Perempuan";
                 }
-                
+
                 String[] row = {id, identityNumber, name, gender, dob, address, phone};
                 RecordTable.addRow(row);
             }
@@ -64,7 +64,7 @@ public class Pasien extends javax.swing.JPanel {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
+
     }
 
     /**
@@ -306,23 +306,23 @@ public class Pasien extends javax.swing.JPanel {
         Date dob = inputDOB.getDate();
         String formattedDOB = dateFormat.format(dob);
         System.out.println(formattedDOB);
-        
+
         String address = inputAddress.getText();
         String phone = inputPhone.getText();
         String bloodType = inputBloodType.getSelectedItem().toString();
-        
+
         try {
             int patientId = patientModel.create(nik, name, Integer.parseInt(gender), formattedDOB, address, phone, bloodType);
             System.out.println("patient id: " + patientId);
 
             resetForm();
-            
-            JOptionPane.showMessageDialog(null, "Pasien telah ditambahkan");            
+
+            JOptionPane.showMessageDialog(null, "Pasien telah ditambahkan");
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());            
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
+
         initTable();
     }//GEN-LAST:event_btnTambahActionPerformed
 
@@ -333,22 +333,21 @@ public class Pasien extends javax.swing.JPanel {
 
         System.out.println(row);
         System.out.println(col);
-        
-        selectedPatientId = patientTable.getValueAt(row, 0).toString();
 
+        selectedPatientId = patientTable.getValueAt(row, 0).toString();
         System.out.println(selectedPatientId);
-        
+
         try {
             ResultSet patient = patientModel.get(Integer.parseInt(selectedPatientId));
             patient.next();
             System.out.println(patient.getString("name"));
             System.out.println(patient.getString("date_of_birth"));
-            
+
             inputNIK.setText(patient.getString("identity_number"));
             inputName.setText(patient.getString("name"));
             inputAddress.setText(patient.getString("address"));
             inputPhone.setText(patient.getString("phone"));
-           
+
             String[] dob = patient.getString("date_of_birth").split("-");
             System.out.println(dob);
             System.out.println(Integer.parseInt(dob[0]));
@@ -357,7 +356,7 @@ public class Pasien extends javax.swing.JPanel {
             Date date = new Date(Integer.parseInt(dob[0]) - 1900, Integer.parseInt(dob[1]), Integer.parseInt(dob[2]));
             System.out.println(date);
             inputDOB.setDate(date);
-            
+
             btnTambah.setEnabled(true);
             btnEdit.setEnabled(true);
             btnHapus.setEnabled(true);
@@ -379,9 +378,9 @@ public class Pasien extends javax.swing.JPanel {
                 resetForm();
             } catch (Exception e) {
                 System.out.println(e);
-                JOptionPane.showMessageDialog(null, e.getMessage());                
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
-        }    
+        }
         initTable();
     }//GEN-LAST:event_btnHapusActionPerformed
 
@@ -393,30 +392,30 @@ public class Pasien extends javax.swing.JPanel {
         Date dob = inputDOB.getDate();
         String formattedDOB = dateFormat.format(dob);
         System.out.println(formattedDOB);
-        
+
         String address = inputAddress.getText();
         String phone = inputPhone.getText();
         String bloodType = inputBloodType.getSelectedItem().toString();
-        
+
         try {
             patientModel.update(Integer.parseInt(selectedPatientId), nik, name, Integer.parseInt(gender), formattedDOB, address, phone, bloodType);
-            JOptionPane.showMessageDialog(null, "Pasien telah diedit");            
-            resetForm();            
+            JOptionPane.showMessageDialog(null, "Pasien telah diedit");
+            resetForm();
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());            
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
+
         initTable();
     }//GEN-LAST:event_btnEditActionPerformed
-    
+
     private void resetForm() {
         inputNIK.setText("");
         inputName.setText("");
 //        inputDOB.setText("");
         inputAddress.setText("");
         inputPhone.setText("");
-        
+
         btnTambah.setEnabled(true);
         btnEdit.setEnabled(false);
         btnHapus.setEnabled(false);

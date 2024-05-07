@@ -88,7 +88,7 @@ public class DoctorModel {
     }
 
     public ResultSet get(int id) throws Exception {
-        String query = "select * from doctors where id = ? order by stat DESC, name ASC";
+        String query = "select * from doctors where id = ? order by stat DESC, name ASC limit 1";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(query);

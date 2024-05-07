@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package pages.modal;
 
 import java.sql.ResultSet;
@@ -263,6 +259,7 @@ public class PatientFilter extends javax.swing.JFrame {
             switch (callbackTo) {
                 case "transaction-registration":
                     this.transactionRegistration.selectedPatientId(Integer.parseInt(id));
+                    this.dispose();
                     break;
                 default:
                     System.out.println("callback to empty");

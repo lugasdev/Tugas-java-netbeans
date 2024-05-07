@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package pages.modal;
 
 import javax.swing.table.DefaultTableModel;
@@ -16,12 +12,22 @@ import javax.swing.JOptionPane;
 public class DoctorFilter extends javax.swing.JFrame {
 
     DoctorModel doctorModel = new DoctorModel();
+    private pages.transaction.Registrasi transactionRegistration;
+    public String callbackTo = "";
 
     /**
      * Creates new form DoctorFilter
      */
     public DoctorFilter() {
         initComponents();
+    }
+
+    public DoctorFilter(pages.transaction.Registrasi parent) {
+        initComponents();
+//        initTable();
+
+        this.transactionRegistration = parent;
+        this.callbackTo = "transaction-registration";
     }
 
     private void initTable() {
@@ -176,13 +182,15 @@ public class DoctorFilter extends javax.swing.JFrame {
             String id = table.getValueAt(row, 0).toString();
             System.out.println(id);
 
-//            switch (callbackTo) {
-//                case "transaction-registration":
-//                this.transactionRegistration.selectedPatientId(Integer.parseInt(id));
-//                break;
-//                default:
-//                System.out.println("callback to empty");
-//            }
+            switch (callbackTo) {
+                case "transaction-registration":
+                    this.transactionRegistration.selectedDoctorId(Integer.parseInt(id));
+
+                    this.dispose();
+                    break;
+                default:
+                    System.out.println("callback to empty");
+            }
         }
 
     }//GEN-LAST:event_tableMouseClicked

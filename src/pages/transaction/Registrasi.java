@@ -7,7 +7,8 @@ package pages.transaction;
 import models.PatientModel;
 import pages.modal.PatientFilter;
 import java.sql.*;
-import java.util.Vector;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +24,8 @@ public class Registrasi extends javax.swing.JPanel {
     private models.RegistrationModel registrationModel = new models.RegistrationModel();
     private PatientModel patientModel = new PatientModel();
     private DoctorModel doctorModel = new DoctorModel();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String selectedRegistrationId = "";
     int patientId = 0;
     int doctorId = 0;
 
@@ -103,6 +106,12 @@ public class Registrasi extends javax.swing.JPanel {
         registrationTable.getColumnModel().getColumn(0).setWidth(30);
     }
 
+    private void resetButton() {
+        btnTambah.setEnabled(true);
+        btnEdit.setEnabled(false);
+        btnHapus.setEnabled(false);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -118,7 +127,7 @@ public class Registrasi extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         inputPatient = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        inputDoctor = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         inputTanggal = new com.toedter.calendar.JCalendar();
@@ -130,6 +139,7 @@ public class Registrasi extends javax.swing.JPanel {
         registrationTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -160,6 +170,7 @@ public class Registrasi extends javax.swing.JPanel {
         jLabel5.setToolTipText("");
 
         inputTanggal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        inputTanggal.setDecorationBackgroundColor(new java.awt.Color(255, 255, 255));
 
         inputWaktu.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("HH:mm"))));
 
@@ -209,6 +220,11 @@ public class Registrasi extends javax.swing.JPanel {
 
             }
         ));
+        registrationTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registrationTableMouseClicked(evt);
+            }
+        });
         registrationTable.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 registrationTableComponentShown(evt);
@@ -230,41 +246,55 @@ public class Registrasi extends javax.swing.JPanel {
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(255, 159, 28));
+        jButton3.setText("Refresh");
+        jButton3.setBorder(null);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(inputWaktu, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(inputTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(inputPatient))
+                                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane1)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(inputWaktu, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(inputTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(inputPatient))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(inputDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(40, 40, 40)
+                        .addComponent(jScrollPane1)))
                 .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
@@ -281,7 +311,7 @@ public class Registrasi extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel3)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(inputDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
@@ -298,7 +328,9 @@ public class Registrasi extends javax.swing.JPanel {
                             .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20))))
         );
 
@@ -306,15 +338,55 @@ public class Registrasi extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-//        System.out.println("");
+        java.util.Date regDate = inputTanggal.getDate();
+        String formattedRegDate = dateFormat.format(regDate);
+        System.out.println(formattedRegDate);
+
+        String fullRegDate = formattedRegDate + " " + inputWaktu.getText();
+
+        try {
+            int id = registrationModel.create(doctorId, patientId, fullRegDate);
+
+            JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
+        } catch (Exception e) {
+            System.out.println(e);
+
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        initTable();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        java.util.Date regDate = inputTanggal.getDate();
+        String formattedRegDate = dateFormat.format(regDate);
+        System.out.println(formattedRegDate);
 
+        String fullRegDate = formattedRegDate + " " + inputWaktu.getText();
+
+        try {
+            int id = registrationModel.update(Integer.parseInt(selectedRegistrationId), doctorId, patientId, fullRegDate);
+
+            JOptionPane.showMessageDialog(null, "Registrasi Terupdate");
+            resetButton();
+        } catch (Exception e) {
+            System.out.println(e);
+
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        initTable();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        try {
+            registrationModel.delete(Integer.parseInt(selectedRegistrationId));
 
+            JOptionPane.showMessageDialog(null, "Registrasi dihapus");
+            resetButton();
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        initTable();
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -328,15 +400,77 @@ public class Registrasi extends javax.swing.JPanel {
     }//GEN-LAST:event_registrationTableComponentShown
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        // TODO add your handling code here:
         initTable();
     }//GEN-LAST:event_formComponentShown
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DoctorFilter doctorFilter = new DoctorFilter();
+        DoctorFilter doctorFilter = new DoctorFilter(this);
         doctorFilter.setVisible(true);
         doctorFilter.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void registrationTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrationTableMouseClicked
+        System.out.println("registrationTableMouseClicked");
+        int row = registrationTable.rowAtPoint(evt.getPoint());
+        int col = registrationTable.columnAtPoint(evt.getPoint());
+
+        System.out.println(row);
+        System.out.println(col);
+
+        selectedRegistrationId = registrationTable.getValueAt(row, 0).toString();
+        System.out.println(selectedRegistrationId);
+
+        try {
+            System.out.println("getRegistrant");
+            ResultSet registration = registrationModel.getRegistrant(Integer.parseInt(selectedRegistrationId));
+
+            while (registration.next()) {
+                System.out.println(registration.getString("r.id"));
+                System.out.println(registration.getString("r.registration_at"));
+                System.out.println(registration.getString("d.id"));
+                System.out.println(registration.getString("d.name"));
+                System.out.println(registration.getString("p.id"));
+                System.out.println(registration.getString("p.name"));
+
+                String[] regAtSplit = registration.getString("r.registration_at").split(" ");
+                String[] regAt = regAtSplit[0].split("-");
+                java.util.Date regDate = new java.util.Date(Integer.parseInt(regAt[0]) - 1900, Integer.parseInt(regAt[1]), Integer.parseInt(regAt[2]));
+
+                inputTanggal.setDate(regDate);
+                inputWaktu.setText(regAtSplit[1]);
+                doctorId = Integer.parseInt(registration.getString("d.id"));
+                inputDoctor.setText(registration.getString("d.name"));
+                patientId = Integer.parseInt(registration.getString("p.id"));
+                inputPatient.setText(registration.getString("p.name"));
+
+                btnEdit.setEnabled(true);
+                btnHapus.setEnabled(true);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_registrationTableMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        initTable();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    public void selectedDoctorId(int id) {
+        System.out.println("selectedDoctorId");
+        System.out.println(id);
+        try {
+            ResultSet doctor = doctorModel.get(id);
+
+            while (doctor.next()) {
+                doctorId = doctor.getInt("id");
+                inputDoctor.setText(doctor.getString("name"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
 
     public void selectedPatientId(int id) {
         System.out.println("selectedPatientId");
@@ -358,11 +492,13 @@ public class Registrasi extends javax.swing.JPanel {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
+    private javax.swing.JTextField inputDoctor;
     private javax.swing.JTextField inputPatient;
     private com.toedter.calendar.JCalendar inputTanggal;
     private javax.swing.JFormattedTextField inputWaktu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -371,7 +507,6 @@ public class Registrasi extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable registrationTable;
     // End of variables declaration//GEN-END:variables
 }
