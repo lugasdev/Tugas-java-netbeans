@@ -64,7 +64,6 @@ public class Pasien extends javax.swing.JPanel {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
     }
 
     /**

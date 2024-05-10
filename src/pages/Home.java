@@ -21,8 +21,9 @@ public class Home extends javax.swing.JFrame {
     Tentang tentang = new Tentang();
     Master master = new Master();
     pages.master.Pasien masterPasien = new pages.master.Pasien();
+    pages.master.Obat masterObat = new pages.master.Obat();
     pages.transaction.Registrasi transactionRegistration = new pages.transaction.Registrasi();
-    
+
     boolean subMasterPanelVisible = false;
     boolean subTransactionPanelVisible = false;
     boolean subLaporanPanelVisible = false;
@@ -33,7 +34,7 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
+
         subMasterPanel.setVisible(subMasterPanelVisible);
         subTransactionPanel.setVisible(subTransactionPanelVisible);
         subLaporanPanel.setVisible(subLaporanPanelVisible);
@@ -84,6 +85,11 @@ public class Home extends javax.swing.JFrame {
                 System.out.println("show master pasien page");
                 body.add(masterPasien, "card2");
                 masterPasien.setVisible(true);
+                break;
+            case "master-obat":
+                System.out.println("show master obat page");
+                body.add(masterObat, "card2");
+                masterObat.setVisible(true);
                 break;
             case "transaction-registrasi":
                 System.out.println("show transaksi registrasi page");
@@ -529,11 +535,11 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMaster1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        changePage("master-obat");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        changePage("dokter");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -542,7 +548,7 @@ public class Home extends javax.swing.JFrame {
 
     private void btnMasterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasterActionPerformed
         // TODO add your handling code here:
-                showSubPanel("master");
+        showSubPanel("master");
     }//GEN-LAST:event_btnMasterActionPerformed
 
     private void btnaboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaboutActionPerformed
@@ -555,7 +561,6 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnaboutActionPerformed
 
     private void dokBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dokBtnActionPerformed
-        // TODO add your handling code here:
         this.clearAllPanel();
 
         body.add(dokter, "card2");
@@ -590,13 +595,14 @@ public class Home extends javax.swing.JFrame {
         tentang.setVisible(false);
         master.setVisible(false);
         masterPasien.setVisible(false);
-        
+        transactionRegistration.setVisible(false);
+        masterObat.setVisible(false);
+
     }
 
 //    private void btnMasterActionPerformed(java.awt.event.ActionEvent evt) {
 //        showSubPanel("master");
 //    }
-    
     private void showSubPanel(String panel) {
         subMasterPanelVisible = false;
         subLaporanPanelVisible = false;
@@ -607,17 +613,17 @@ public class Home extends javax.swing.JFrame {
                 break;
             case "laporan":
                 subLaporanPanelVisible = true;
-                break;            
+                break;
             case "transaksi":
                 subTransactionPanelVisible = true;
-                break;            
+                break;
             default:
         }
         subMasterPanel.setVisible(subMasterPanelVisible);
         subLaporanPanel.setVisible(subLaporanPanelVisible);
-        subTransactionPanel.setVisible(subTransactionPanelVisible);        
+        subTransactionPanel.setVisible(subTransactionPanelVisible);
     }
-    
+
     /**
      * @param args the command line arguments
      */

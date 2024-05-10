@@ -49,7 +49,7 @@ public class PatientModel {
 
         return id;
     }
-    
+
     public boolean update(int id, String nik, String name, int gender, String dob, String address, String phone, String bloodType) throws Exception {
         String query = "UPDATE `patients` SET `identity_number` = ?, `name` = ?, `gender` = ?, `date_of_birth` = ?, `address` = ?, `phone` = ?, `blood_type` = ? WHERE `id` = ?";
 
@@ -75,28 +75,29 @@ public class PatientModel {
     }
 
     public ResultSet get(String filterKey, String filterValue) throws Exception {
-        String query = "select * from patients where "+ filterKey +" LIKE ?";
+        String query = "select * from patients where " + filterKey + " LIKE ?";
         System.out.println(query);
         System.out.println(filterValue);
         try {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, "%" + filterValue + "%");
-            stmt.executeQuery();
+//            stmt.executeQuery();
 
-            System.out.println("get by id done");
+            System.out.println("get done");
 
             ResultSet rs = stmt.executeQuery();
 
             return rs;
         } catch (Exception e) {
             throw new Exception(e);
-        }        
+        }
     }
+
     public ResultSet get() throws Exception {
         String query = "select * from patients ";
         try {
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.executeQuery();
+//            stmt.executeQuery();
 
             System.out.println("get by id done");
 
@@ -107,7 +108,7 @@ public class PatientModel {
             throw new Exception(e);
         }
     }
-    
+
     public ResultSet get(int id) throws Exception {
         String query = "select * from patients where id = ? limit 1";
         try {
@@ -125,18 +126,18 @@ public class PatientModel {
             throw new Exception(e);
         }
     }
-    
+
     public boolean delete(int id) throws Exception {
         try {
             String query = "DELETE from patients where id = ?";
-            
+
             PreparedStatement stat = conn.prepareStatement(query);
             stat.setInt(1, id);
-            
-            stat.execute();            
+
+            stat.execute();
         } catch (Exception e) {
             throw new Exception(e);
-        }        
+        }
         return true;
     }
 }
