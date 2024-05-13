@@ -1,14 +1,4 @@
 
-import java.awt.Image;
-import java.awt.Rectangle;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
 /**
  *
  * @author ameng
@@ -20,17 +10,15 @@ public class LoginNew extends javax.swing.JFrame {
      */
     public LoginNew() {
         initComponents();
-        
+
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
 //        ImageIcon background = new javax.swing.ImageIcon(getClass().getResource("/images/login_background.jpg"));
-//        
+//
 ////        background.getS
 //
 //        Rectangle size = this.getBounds();
 //
 //        jLabel1.setIcon(new ImageIcon(background.getImage().getScaledInstance(size.width, size.height, Image.SCALE_SMOOTH)));
-
     }
 
     /**
@@ -170,7 +158,7 @@ public class LoginNew extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/login_background.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/images/login_background.jpg"))); // NOI18N
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
 
@@ -186,7 +174,7 @@ public class LoginNew extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

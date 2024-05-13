@@ -23,6 +23,7 @@ public class Home extends javax.swing.JFrame {
     pages.master.Pasien masterPasien = new pages.master.Pasien();
     pages.master.Obat masterObat = new pages.master.Obat();
     pages.transaction.Registrasi transactionRegistration = new pages.transaction.Registrasi();
+    pages.transaction.Resep transactionResep = new pages.transaction.Resep();
 
     boolean subMasterPanelVisible = false;
     boolean subTransactionPanelVisible = false;
@@ -95,6 +96,11 @@ public class Home extends javax.swing.JFrame {
                 System.out.println("show transaksi registrasi page");
                 body.add(transactionRegistration, "card2");
                 transactionRegistration.setVisible(true);
+                break;
+            case "transaction-resep":
+                System.out.println("show transaksi resep page");
+                body.add(transactionResep, "card2");
+                transactionResep.setVisible(true);
                 break;
             default:
                 System.out.println("show default page");
@@ -352,7 +358,8 @@ public class Home extends javax.swing.JFrame {
         });
         subTransactionPanel.add(jButton4);
 
-        jButton5.setText("Transaksi Obat");
+        jButton5.setText("Transaksi Resep");
+        jButton5.setActionCommand("Transaksi Resep");
         jButton5.setBorder(null);
         jButton5.setBorderPainted(false);
         jButton5.setMargin(new java.awt.Insets(10, 14, 10, 14));
@@ -522,7 +529,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        changePage("transaction-resep");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -597,6 +604,7 @@ public class Home extends javax.swing.JFrame {
         masterPasien.setVisible(false);
         transactionRegistration.setVisible(false);
         masterObat.setVisible(false);
+        transactionResep.setVisible(false);
 
     }
 

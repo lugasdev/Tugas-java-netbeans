@@ -83,16 +83,43 @@ public class ResepModel {
         }
     }
 
-    public boolean update(int id, int registrationId, String name, String dose, String note) throws Exception {
+    public ResultSet getDetail() throws Exception {
+        System.out.println("getDetail");
         try {
-            String query = "update prescriptions set name = ?, dose = ?, note = ? where id = ? and registration_id = ?";
+            String query = "SELECT pr.*, me.*, re.*, do.*, pa.* "
+                    + "FROM `prescriptions` as pr "
+                    + "JOIN medicines as me ON pr.medicine_id = me.id "
+                    + "JOIN registrations as re ON re.id = pr.registration_id "
+                    + "JOIN doctors as do ON do.id = re.doctor_id "
+                    + "JOIN patients as pa ON pa.id = re.patient_id";
+
+            System.out.println(query);
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+//            stmt.setInt(1, id);
+//            stmt.setInt(2, registrationId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            System.out.println(rs.getStatement());
+
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+    public boolean update(int id, int registrationId, String name, String dose, String note, int medicineId) throws Exception {
+        try {
+            String query = "update prescriptions set name = ?, dose = ?, note = ?, medicine_id = ? where id = ? and registration_id = ?";
 
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, name);
             stmt.setString(2, dose);
             stmt.setString(3, note);
-            stmt.setInt(4, id);
-            stmt.setInt(5, registrationId);
+            stmt.setInt(4, medicineId);
+            stmt.setInt(5, id);
+            stmt.setInt(6, registrationId);
             stmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e);
