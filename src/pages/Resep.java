@@ -352,7 +352,6 @@ public class Resep extends javax.swing.JPanel {
             String note = inputKeterangan.getText();
 
             resepModel.create(registrationId, name, dose, note, ObatId);
-
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -435,7 +434,6 @@ public class Resep extends javax.swing.JPanel {
             }
             refreshTable();
         }
-
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

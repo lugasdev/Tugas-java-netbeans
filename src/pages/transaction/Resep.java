@@ -2,7 +2,11 @@ package pages.transaction;
 
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+import models.ObatModel;
 import models.ResepModel;
+import pages.modal.RegistrationFilter;
 
 /**
  *
@@ -11,6 +15,9 @@ import models.ResepModel;
 public class Resep extends javax.swing.JPanel {
 
     ResepModel resepModel = new ResepModel();
+    ObatModel obatModel = new ObatModel();
+    String selectedResepId = "";
+    
 
     /**
      * Creates new form Resep
@@ -20,23 +27,79 @@ public class Resep extends javax.swing.JPanel {
     }
 
     private void initTable() {
-        String[] columns = {"ID", "Nama Obat", "Dosis", "Dokter", "Pasien", "Waktu Pendaftaran"};
+        String[] columns = {"ID", "Nama Obat", "Dosis", "Dokter", "Pasien", "Waktu Pendaftaran", "reg id", "note"};
         resepTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                columns
+            new Object[][]{},
+            columns
         ) {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return false;
             }
         });
+        DefaultTableModel RecordTable = (DefaultTableModel) resepTable.getModel();
+        RecordTable.setRowCount(0);
 
         try {
             ResultSet registrations = resepModel.getDetail();
+            
+            while (registrations.next()) {                
+                String id = registrations.getString("pr.id");
+                String obat = registrations.getString("me.name");
+                String dose = registrations.getString("pr.dose");
+                String dokter = registrations.getString("do.name");
+                String pasien = registrations.getString("pa.name");
+                String waktu = registrations.getString("re.registration_at");
+                String regId = registrations.getString("re.id");
+                String note = registrations.getString("pr.note");
+                
+                String[] row = {id, obat, dose, dokter, pasien, waktu, regId, note};
+                RecordTable.addRow(row);                
+            }
+            
+            resepTable.getColumnModel().getColumn(6).setMinWidth(0);
+            resepTable.getColumnModel().getColumn(6).setMaxWidth(0);
+            resepTable.getColumnModel().getColumn(6).setWidth(0);
+
+            resepTable.getColumnModel().getColumn(7).setMinWidth(0);
+            resepTable.getColumnModel().getColumn(7).setMaxWidth(0);
+            resepTable.getColumnModel().getColumn(7).setWidth(0);
+            
+            resepTable.getColumnModel().getColumn(0).setMinWidth(50);
+            resepTable.getColumnModel().getColumn(0).setMaxWidth(50);
+            resepTable.getColumnModel().getColumn(0).setWidth(50);
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+    }
+    
+    private void initObat() {
+        try {
+            ResultSet obat = obatModel.get();
+            int countObat = obatModel.countObat();
+            String[] obatName = new String[countObat];
 
+            int i = 0;
+            while (obat.next()) {
+                System.out.println(obat.getString("name"));
+                obatName[i] = obat.getString("name") + "-" + obat.getString("id");
+
+                i++;
+            }
+            inputObatName.setModel(new javax.swing.DefaultComboBoxModel<>(obatName));
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    private void resetButton() {
+        btnEdit.setEnabled(false);
+        btnHapus.setEnabled(false);
+        
+        inputDosis.setText("");
+        inputKeterangan.setText("");
+        inputRegistrationId.setText("");
     }
 
     /**
@@ -57,11 +120,11 @@ public class Resep extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        inputRegistrationId = new javax.swing.JTextField();
+        inputObatName = new javax.swing.JComboBox<>();
+        inputDosis = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        inputKeterangan = new javax.swing.JTextArea();
         btnTambah = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
@@ -102,6 +165,11 @@ public class Resep extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        resepTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resepTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(resepTable);
 
         jLabel2.setText("Registrasi ID");
@@ -112,11 +180,11 @@ public class Resep extends javax.swing.JPanel {
 
         jLabel6.setText("Keterangan");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        inputObatName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        inputKeterangan.setColumns(20);
+        inputKeterangan.setRows(5);
+        jScrollPane2.setViewportView(inputKeterangan);
 
         btnTambah.setBackground(new java.awt.Color(0, 41, 107));
         btnTambah.setForeground(new java.awt.Color(255, 255, 255));
@@ -181,7 +249,7 @@ public class Resep extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2)
@@ -189,39 +257,39 @@ public class Resep extends javax.swing.JPanel {
                                 .addComponent(jLabel4)
                                 .addComponent(jLabel6))
                             .addGap(18, 18, 18)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputRegistrationId, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(inputObatName, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(inputDosis, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane2)))))
                 .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(inputRegistrationId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputObatName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputDosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
@@ -232,7 +300,7 @@ public class Resep extends javax.swing.JPanel {
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                 .addGap(10, 10, 10)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10))
@@ -241,63 +309,75 @@ public class Resep extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setRegistrationId(String id) {
+        inputRegistrationId.setText(id);
+    }
+    
     private void jPanel2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel2ComponentShown
         initTable();
     }//GEN-LAST:event_jPanel2ComponentShown
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         initTable();
+        initObat();
     }//GEN-LAST:event_formComponentShown
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-//        java.util.Date regDate = inputTanggal.getDate();
-//        String formattedRegDate = dateFormat.format(regDate);
-//        System.out.println(formattedRegDate);
-//
-//        String fullRegDate = formattedRegDate + " " + inputWaktu.getText();
-//
-//        try {
-//            int id = registrationModel.create(doctorId, patientId, fullRegDate);
-//
-//            JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
-//        } catch (Exception e) {
-//            System.out.println(e);
-//
-//            JOptionPane.showMessageDialog(null, e.getMessage());
-//        }
+        try {
+            String registrationId = inputRegistrationId.getText();
+            String obatName = (String) inputObatName.getSelectedItem();
+            String[] obatNameSplit = obatName.split("-");
+            int ObatId = Integer.parseInt(obatNameSplit[1]);
+
+            String name = obatNameSplit[0];
+            String dose = inputDosis.getText();
+            String note = inputKeterangan.getText();
+
+            resepModel.create(Integer.parseInt(registrationId), name, dose, note, ObatId);
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
         initTable();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-//        java.util.Date regDate = inputTanggal.getDate();
-//        String formattedRegDate = dateFormat.format(regDate);
-//        System.out.println(formattedRegDate);
-//
-//        String fullRegDate = formattedRegDate + " " + inputWaktu.getText();
-//
-//        try {
-//            int id = registrationModel.update(Integer.parseInt(selectedRegistrationId), doctorId, patientId, fullRegDate);
-//
-//            JOptionPane.showMessageDialog(null, "Registrasi Terupdate");
-//            resetButton();
-//        } catch (Exception e) {
-//            System.out.println(e);
-//
-//            JOptionPane.showMessageDialog(null, e.getMessage());
-//        }
+        try {
+            
+            String registrationId = inputRegistrationId.getText();
+            String obatName = (String) inputObatName.getSelectedItem();
+            String[] obatNameSplit = obatName.split("-");
+            int ObatId = Integer.parseInt(obatNameSplit[1]);
+
+            String name = obatNameSplit[0];
+            String dose = inputDosis.getText();
+            String note = inputKeterangan.getText();
+
+            resepModel.update(Integer.parseInt(selectedResepId), Integer.parseInt(registrationId), name, dose, note, ObatId);
+
+            resetButton();
+        } catch (Exception e) {
+            System.out.println(e);
+
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
         initTable();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-//        try {
-//            registrationModel.delete(Integer.parseInt(selectedRegistrationId));
-//
-//            JOptionPane.showMessageDialog(null, "Registrasi dihapus");
-//            resetButton();
-//        } catch (Exception e) {
-//            System.out.println(e);
-//            JOptionPane.showMessageDialog(null, e.getMessage());
-//        }
+        if (JOptionPane.showConfirmDialog(null, "Hapus Resep?") == 0) {
+            try {
+                String registrationId = inputRegistrationId.getText();
+                resepModel.delete(Integer.parseInt(selectedResepId), Integer.parseInt(registrationId));
+
+                JOptionPane.showMessageDialog(null, "Resep dihapus");
+                resetButton();
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
         initTable();
     }//GEN-LAST:event_btnHapusActionPerformed
 
@@ -306,18 +386,52 @@ public class Resep extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        PatientFilter patientFilter = new PatientFilter(this);
-//        patientFilter.setVisible(true);
-//        patientFilter.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        RegistrationFilter registrationFilter = new RegistrationFilter(this);
+        registrationFilter.setVisible(true);
+        registrationFilter.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void resepTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resepTableMouseClicked
+        System.out.println("jTable1MouseClicked");
+        int row = resepTable.rowAtPoint(evt.getPoint());
+        int col = resepTable.columnAtPoint(evt.getPoint());
+
+        System.out.println(row);
+        System.out.println(col);
+
+        selectedResepId = resepTable.getValueAt(row, 0).toString();
+        inputRegistrationId.setText(resepTable.getValueAt(row, 6).toString());
+        String selectedObat = resepTable.getValueAt(row, 1).toString();
+        
+        System.out.println(inputObatName.getItemCount());
+        
+        for (int i = 0; i < inputObatName.getItemCount(); i++) {
+            String[] obatName = inputObatName.getItemAt(i).toString().split("-");
+            System.out.println(obatName[0]);
+            System.out.println(selectedObat);
+            if (obatName[0].equals(selectedObat)) {
+                System.out.println("equal");
+                inputObatName.setSelectedIndex(i);
+            }
+        }
+        
+        inputDosis.setText(resepTable.getValueAt(row, 2).toString());
+        inputKeterangan.setText(resepTable.getValueAt(row, 7).toString());
+        
+        btnEdit.setEnabled(true);
+        btnHapus.setEnabled(true);
+    }//GEN-LAST:event_resepTableMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
+    private javax.swing.JTextField inputDosis;
+    private javax.swing.JTextArea inputKeterangan;
+    private javax.swing.JComboBox<String> inputObatName;
+    private javax.swing.JTextField inputRegistrationId;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -327,9 +441,6 @@ public class Resep extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable resepTable;
     // End of variables declaration//GEN-END:variables
 }
