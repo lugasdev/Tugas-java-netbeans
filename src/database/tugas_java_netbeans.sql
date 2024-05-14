@@ -1,6 +1,4 @@
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -12,12 +10,12 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `anamnesa`;
 CREATE TABLE `anamnesa` (
-  `id` int(11) NOT NULL,
-  `registration_id` int(11) NOT NULL,
-  `height` int(11) NOT NULL,
-  `weight` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `registration_id` int NOT NULL,
+  `height` int NOT NULL,
+  `weight` int NOT NULL,
   `blood_pressure` varchar(10) NOT NULL,
-  `temperature` int(11) NOT NULL,
+  `temperature` int NOT NULL,
   `is_smoking` tinyint(1) NOT NULL DEFAULT '0',
   `is_alcohol` tinyint(1) NOT NULL DEFAULT '0',
   `disease_history` text,
@@ -31,7 +29,7 @@ INSERT INTO `anamnesa` (`id`, `registration_id`, `height`, `weight`, `blood_pres
 
 DROP TABLE IF EXISTS `doctors`;
 CREATE TABLE `doctors` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(150) DEFAULT NULL,
   `clinic` varchar(100) DEFAULT NULL,
   `stat` tinyint(1) NOT NULL,
@@ -47,8 +45,8 @@ INSERT INTO `doctors` (`id`, `name`, `clinic`, `stat`, `created_at`) VALUES
 
 DROP TABLE IF EXISTS `medical_records`;
 CREATE TABLE `medical_records` (
-  `id` int(11) NOT NULL,
-  `registration_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `registration_id` int NOT NULL,
   `physical` text NOT NULL,
   `diagnosis` text NOT NULL,
   `therapy` text NOT NULL,
@@ -61,10 +59,10 @@ INSERT INTO `medical_records` (`id`, `registration_id`, `physical`, `diagnosis`,
 
 DROP TABLE IF EXISTS `medicines`;
 CREATE TABLE `medicines` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `medicines` (`id`, `name`, `created_at`) VALUES
 (1, 'Antihistamin', '2024-04-27 17:06:11'),
@@ -72,7 +70,8 @@ INSERT INTO `medicines` (`id`, `name`, `created_at`) VALUES
 (3, 'Antasida', '2024-04-27 17:06:39'),
 (4, 'Antipiretik', '2024-04-27 17:06:39'),
 (5, 'Paracetamol', '2024-04-27 17:07:06'),
-(6, 'Metformin', '2024-04-27 17:07:06');
+(6, 'Metformin', '2024-04-27 17:07:06'),
+(7, 'Antibiotik', '2024-05-14 22:34:51');
 
 DROP TABLE IF EXISTS `pasien_tugas`;
 CREATE TABLE `pasien_tugas` (
@@ -81,7 +80,7 @@ CREATE TABLE `pasien_tugas` (
   `alamat` text NOT NULL,
   `goldar` char(3) NOT NULL,
   `jk` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `pasien_tugas` (`id`, `nama`, `alamat`, `goldar`, `jk`) VALUES
 ('2463252', 'Veronica Pokemon', 'asdas\n21312', 'O', 'Perempuan'),
@@ -89,7 +88,7 @@ INSERT INTO `pasien_tugas` (`id`, `nama`, `alamat`, `goldar`, `jk`) VALUES
 
 DROP TABLE IF EXISTS `patients`;
 CREATE TABLE `patients` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `identity_number` varchar(100) NOT NULL,
   `name` varchar(150) NOT NULL,
   `gender` tinyint(1) NOT NULL,
@@ -111,13 +110,14 @@ INSERT INTO `patients` (`id`, `identity_number`, `name`, `gender`, `date_of_birt
 (9, '624623647237', 'Eci Dita', 1, '1990-02-11', 'sad sadqwe\nasdas', '085725008001', '2024-04-16 14:31:00', 'A +'),
 (10, '111211', 'Go Lang', 1, '1995-02-16', 'asd sadqwe\nadsad', '085725008014', '2024-04-27 17:17:17', 'A -'),
 (11, '12312', 'wahyu', 1, '1990-02-26', 'sad jaktim', '085725008014', '2024-05-02 21:44:32', 'A -'),
-(14, '212121', 'Malam Hari Saja', 2, '1984-07-17', 'alamat 17 jul 84', '13126351273', '2024-05-03 23:52:09', 'B +');
+(14, '212121', 'Malam Hari Saja', 2, '1984-07-17', 'alamat 17 jul 84', '13126351273', '2024-05-03 23:52:09', 'B +'),
+(15, '1232131231', 'saman', 1, '1986-03-11', 'jaktim', '085724123123', '2024-05-14 21:36:11', 'A +');
 
 DROP TABLE IF EXISTS `prescriptions`;
 CREATE TABLE `prescriptions` (
-  `id` int(11) NOT NULL,
-  `registration_id` int(11) DEFAULT NULL,
-  `medicine_id` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `registration_id` int DEFAULT NULL,
+  `medicine_id` int DEFAULT NULL,
   `name` varchar(150) DEFAULT NULL,
   `dose` varchar(100) DEFAULT NULL,
   `note` text NOT NULL,
@@ -125,15 +125,16 @@ CREATE TABLE `prescriptions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `prescriptions` (`id`, `registration_id`, `medicine_id`, `name`, `dose`, `note`, `created_at`) VALUES
-(1, 0, NULL, 'paracetamol', '3x1 setelah makan', 'dikonsumsi 1 minggu', '2024-04-09 10:46:01'),
-(5, 0, NULL, 'antibiotik', '2x1', 'sebelum makan, dikonsumsi sampai habis', '2024-04-09 10:51:01'),
-(6, 11, 6, 'Metformin', '1x1', 'setelah sarapan', '2024-05-02 22:02:15');
+(1, 7, 1, 'Antihistamin', '3x1 setelah makan ', 'dikonsumsi 1 minggu x', '2024-04-09 10:46:01'),
+(5, 7, 7, 'antibiotik', '2x1', 'sebelum makan, dikonsumsi sampai habis', '2024-04-09 10:51:01'),
+(6, 11, 6, 'Metformin', '1x1', 'setelah sarapan', '2024-05-02 22:02:15'),
+(7, 7, 4, 'Antipiretik', '2x1', 'setelah sarapan dan makan malam', '2024-05-14 22:55:51');
 
 DROP TABLE IF EXISTS `registrations`;
 CREATE TABLE `registrations` (
-  `id` int(11) NOT NULL,
-  `doctor_id` int(11) NOT NULL,
-  `patient_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `doctor_id` int NOT NULL,
+  `patient_id` int NOT NULL,
   `registration_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   `stat` tinyint(1) NOT NULL DEFAULT '0'
@@ -149,11 +150,12 @@ INSERT INTO `registrations` (`id`, `doctor_id`, `patient_id`, `registration_at`,
 (10, 5, 10, '2024-04-27 18:00:00', '2024-04-27 17:17:18', 0),
 (11, 4, 11, '2024-05-02 21:42:00', '2024-05-02 21:44:33', 2),
 (12, 4, 14, '2024-06-30 20:52:00', '2024-05-03 23:52:09', 0),
-(13, 5, 2, '2024-05-08 15:00:00', '2024-05-07 22:30:06', 0);
+(13, 5, 2, '2024-05-08 15:00:00', '2024-05-07 22:30:06', 0),
+(14, 5, 15, '2024-05-15 10:30:00', '2024-05-14 21:36:11', 0);
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `username` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL,
   `created_at` datetime DEFAULT NULL
@@ -198,28 +200,28 @@ ALTER TABLE `users`
 
 
 ALTER TABLE `anamnesa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 ALTER TABLE `doctors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 ALTER TABLE `medical_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `medicines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 ALTER TABLE `prescriptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `registrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 
 ALTER TABLE `anamnesa`
@@ -229,13 +231,12 @@ ALTER TABLE `medical_records`
   ADD CONSTRAINT `fk_medical_records_registrations1` FOREIGN KEY (`registration_id`) REFERENCES `registrations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `prescriptions`
-  ADD CONSTRAINT `fk_prescriptions_medicines1` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_prescriptions_medicines1` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`),
   ADD CONSTRAINT `fk_prescriptions_registrations1` FOREIGN KEY (`registration_id`) REFERENCES `registrations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `registrations`
   ADD CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`),
   ADD CONSTRAINT `registrations_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
