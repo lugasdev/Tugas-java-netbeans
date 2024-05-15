@@ -47,4 +47,53 @@ public class PemeriksaanModel {
 
         return id;
     }
+    
+    public ResultSet get() throws Exception {
+        String query = "select * from medical_records";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            System.out.println("get medical_records done");
+
+            ResultSet rs = stmt.executeQuery();
+            return rs;
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+    public boolean update(int id, int registrationId, String physical, String diagnosis, String therapy) throws Exception {
+        String query = "UPDATE `medical_records` SET `registration_id` = ?, `physical` = ?, `diagnosis` = ?, `therapy` = ? WHERE `id` = ?";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, registrationId);
+            stmt.setString(2, physical);
+            stmt.setString(3, diagnosis);
+            stmt.setString(4, therapy);
+            stmt.setInt(5, id);
+
+            stmt.executeUpdate();
+
+            System.out.println("registration updated");
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
+        return true;
+    }
+    
+    public boolean delete(int id) throws Exception {
+        try {
+            String query = "DELETE from medical_records where id = ?";
+
+            PreparedStatement stat = conn.prepareStatement(query);
+            stat.setInt(1, id);
+
+            stat.execute();
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+        return true;
+    }
+
 }

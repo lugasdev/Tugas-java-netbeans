@@ -17,6 +17,7 @@ public class RegistrationFilter extends javax.swing.JFrame {
     RegistrationModel registrationModel = new RegistrationModel();
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     pages.transaction.Resep transactionResep;
+    pages.transaction.Pemeriksaan transactionPemeriksaan;
     public String callbackTo = "";
 
     /**
@@ -33,6 +34,14 @@ public class RegistrationFilter extends javax.swing.JFrame {
         
         this.transactionResep = parent;
         this.callbackTo = "transaction-resep";
+    }
+    
+    public RegistrationFilter(pages.transaction.Pemeriksaan parent) {
+        initComponents();
+        initDateFilter();
+        
+        this.transactionPemeriksaan = parent;
+        this.callbackTo = "transaction-pemeriksaan";
     }
     
     private void initDateFilter() {
@@ -216,6 +225,10 @@ public class RegistrationFilter extends javax.swing.JFrame {
             switch (callbackTo) {
                 case "transaction-resep":
                     transactionResep.setRegistrationId(id);
+                    this.dispose();
+                    break;
+                case "transaction-pemeriksaan":
+                    transactionPemeriksaan.setRegistrationId(id);
                     this.dispose();
                     break;
                 default:

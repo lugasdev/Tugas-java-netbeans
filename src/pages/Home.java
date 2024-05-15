@@ -24,6 +24,7 @@ public class Home extends javax.swing.JFrame {
     pages.master.Obat masterObat = new pages.master.Obat();
     pages.transaction.Registrasi transactionRegistration = new pages.transaction.Registrasi();
     pages.transaction.Resep transactionResep = new pages.transaction.Resep();
+    pages.transaction.Pemeriksaan transactionPemeriksaan = new pages.transaction.Pemeriksaan();
 
     boolean subMasterPanelVisible = false;
     boolean subTransactionPanelVisible = false;
@@ -101,6 +102,11 @@ public class Home extends javax.swing.JFrame {
                 System.out.println("show transaksi resep page");
                 body.add(transactionResep, "card2");
                 transactionResep.setVisible(true);
+                break;
+            case "transaction-pemeriksaan":
+                System.out.println("show transaksi pemeriksaan page");
+                body.add(transactionPemeriksaan, "card2");
+                transactionPemeriksaan.setVisible(true);
                 break;
             default:
                 System.out.println("show default page");
@@ -525,7 +531,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMaster2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        changePage("transaction-pemeriksaan");
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -605,7 +611,7 @@ public class Home extends javax.swing.JFrame {
         transactionRegistration.setVisible(false);
         masterObat.setVisible(false);
         transactionResep.setVisible(false);
-
+        transactionPemeriksaan.setVisible(false);
     }
 
 //    private void btnMasterActionPerformed(java.awt.event.ActionEvent evt) {
